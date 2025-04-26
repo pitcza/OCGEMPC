@@ -10,13 +10,17 @@ import { MakersComponent } from './makers/makers.component';
 import { LoanApplicationComponent } from './loan-application/loan-application.component';
 import { InsuranceComponent } from './insurance/insurance.component';
 
+import { ApplicationListComponent } from './loan-application/application-list/application-list.component';
+import { ViewApplicationComponent } from './loan-application/view-application/view-application.component';
 
 @NgModule({
   declarations: [
     DashboardComponent,
     MakersComponent,
     LoanApplicationComponent,
-    InsuranceComponent
+    InsuranceComponent,
+    ApplicationListComponent,
+    ViewApplicationComponent
   ],
   imports: [
     CommonModule,

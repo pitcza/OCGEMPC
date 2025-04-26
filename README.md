@@ -2,9 +2,15 @@
 
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.0.
 
-## Development server
+Install Angular CLI on your device.
 
-For dependencies
+```bash
+npm install -g @angular/cli
+```
+
+## After cloning OCGEMPC
+
+For dependencies:
 
 ```bash
 npm install
@@ -25,8 +31,6 @@ To generate a new component, run:
 ```bash
 ng generate component component-name
 ```
-
-!! If nasa loob ng isang tab yung gagawan ng another html/component, doon sa folder na yon kayo mag generate component.
 
 For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
 

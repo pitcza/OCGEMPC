@@ -1,1 +1,46 @@
-/* You can add global styles to this file, and also import other style files */
+:root {
+    --primary: #508D4E;
+    --primary-hover: #447d42;
+    --dark: #1A5319;
+
+    --bg-color: #FFFFFF;
+    --bg-dark: #EFEFEF;
+
+    --red: #CA2311;
+    --red-hover: #9F1606;
+    --red-bg: #8E382F;
+
+    --gray: #7F7F7F;
+    --gray-hover: #616161;
+    --white: #FBFBFB;
+    --white-hover: #DCDCDC;
+    --black: #2f2f2f;
+
+    --input-color: #dddddd;
+    --input-hover: #D3D3D3;
+    --input-label: #222222;
+
+    --main-transition: all 0.3s ease-in-out;
+    --color-transition: background-color 0.3s ease-in-out;
+
+    --main-shadow: rgba(0, 0, 0, 0.2) 0px 3px 6px;
+    --table-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    --modal-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    --btn-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.3);
+    --btn-shadow-active: 0px 1px 2px 0px rgba(0, 0, 0, 0.2);
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    list-style-type: none;
+    text-decoration: none;
+    font-family: 'Montserrat';
+}
+
+body {
+    background-color: var(--bg-color);
+    font-family: 'Montserrat';
+    font-size: 15px;
+}

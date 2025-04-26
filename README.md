@@ -4,6 +4,12 @@ This project was generated using [Angular CLI](https://github.com/angular/angula
 
 ## Development server
 
+For dependencies
+
+```bash
+npm install
+```
+
 To start a local development server, run:
 
 ```bash
@@ -14,11 +20,13 @@ Once the server is running, open your browser and navigate to `http://localhost:
 
 ## Code scaffolding
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+To generate a new component, run:
 
 ```bash
 ng generate component component-name
 ```
+
+!! If nasa loob ng isang tab yung gagawan ng another html/component, doon sa folder na yon kayo mag generate component.
 
 For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
 
@@ -36,23 +44,6 @@ ng build
 
 This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
 
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
 ## Additional Resources
 

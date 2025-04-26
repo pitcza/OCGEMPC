@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-main',
@@ -15,7 +16,21 @@ export class MainComponent {
   }
 
   logoutUser() {
-    this.router.navigate(['/login']); 
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'You will be logged out of the system.',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#CA2311',
+      cancelButtonColor: '#7F7F7F',
+      confirmButtonText: 'Logout',
+      cancelButtonText: 'Cancel'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // logout function po
+        this.router.navigate(['/login']);
+      }
+    });
   }
 
   // dropdown

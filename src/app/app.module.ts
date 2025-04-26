@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
+import { MaterialModule } from './material/material.module';
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
 import { MainModule } from './main/main.module';
@@ -23,6 +24,7 @@ import { MainModule } from './main/main.module';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    MaterialModule,
     MainModule
   ],
   providers: [

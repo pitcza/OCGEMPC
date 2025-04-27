@@ -7,8 +7,8 @@
         </div>
 
         <button class="menu-icon-button" (click)="toggleSidebar()">
-            <i *ngIf="!isSidebarToggled" class='bx bx-chevrons-left'></i>
-            <i *ngIf="isSidebarToggled" class='bx bx-chevrons-right'></i>
+            <i *ngIf="!isSidebarToggled" class="lni lni-angle-double-left"></i>
+            <i *ngIf="isSidebarToggled" class="lni lni-angle-double-right"></i>
         </button>
       </div>
   
@@ -16,25 +16,25 @@
         <ul class="tabs">
           <li class="tab first">
             <a class="tablink" routerLink="dashboard" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
-              <span class="tab-link-icon"> <i class='bx bxs-dashboard'></i> </span>
+              <span class="tab-link-icon"> <i class="lni lni-dashboard-square-1"></i> </span>
               <span class="tab-link-name"> Dashboard </span>
             </a>
           </li>
           <li class="tab">
             <a class="tablink" routerLink="makers" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
-              <span class="tab-link-icon"> <i class='bx bxs-user-account'></i> </span>
+              <span class="tab-link-icon"> <i class="lni lni-user-multiple-4"></i> </span>
               <span class="tab-link-name"> Makers </span>
             </a>
           </li>
           <li class="tab">
             <a class="tablink" routerLink="loan" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:false}">
-              <span class="tab-link-icon"> <i class='bx bxs-id-card'></i> </span>
+              <span class="tab-link-icon"> <i class="lni lni-file-plus-circle"></i></span>
               <span class="tab-link-name"> Loan Application </span>
             </a>
           </li>
           <li class="tab">
             <a class="tablink" routerLink="insurance" routerLinkActive="active-link" [routerLinkActiveOptions]="{exact:true}">
-              <span class="tab-link-icon"> <i class='bx bxs-spreadsheet'></i> </span>
+              <span class="tab-link-icon"> <i class="lni lni-file-pencil"></i> </span>
               <span class="tab-link-name"> Insurance </span>
             </a>
           </li>

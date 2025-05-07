@@ -1,0 +1,159 @@
+.container {
+    .middle-content {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 15px;
+        margin: 15px 30px 15px auto;
+        width: auto;
+    }
+
+    select {
+        padding: 6px 12px;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+        background-color: #f8f8f8;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+  
+    .search-wrapper {
+        display: flex;
+        align-items: center;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        overflow: hidden;
+        background-color: #f8f8f8;
+  
+        input[type="text"] {
+          border: none;
+          padding: 6px 10px;
+          background-color: transparent;
+          outline: none;
+          width: 160px;
+        }
+  
+        button {
+          background-color: var(--primary);
+          border: none;
+          padding: 6px 10px;
+          color: white;
+          cursor: pointer;
+  
+          i {
+            font-size: 16px;
+          }
+        }
+    }
+    
+    .table {
+        th:nth-child(1),
+        td:nth-child(1),
+        th:nth-child(3),
+        td:nth-child(3) {
+            min-width: 150px;
+            max-width: 150px;
+        }
+    
+        th:nth-child(5),
+        td:nth-child(5) {
+            min-width: 200px;
+            max-width: 200px;
+        }
+    }
+
+    .for-nodata {
+        text-align: center;
+        
+        td:nth-child(1) {
+            min-width: 100%;
+            max-width: 100%;
+        }
+    }
+}
+
+.pagination-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 15px;
+    padding: 15px;
+    width: 100%;
+    border-radius: 5px;
+    background-color: white;
+    box-shadow: var(--table-shadow);
+
+    .items-per-page {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+
+        select {
+            padding: 3px 5px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #f8f8f8;
+            outline: none;
+            cursor: pointer;
+            transition: 0.3s;
+
+            &:hover {
+                background-color: #ddd;
+            }
+              
+            &:focus {
+                background-color: var(--primary);
+                border: 1px solid #ccc;
+                color: white;
+                font-weight: 600;
+            }
+        }
+
+        option {
+            background-color: white;
+            color: black;
+        }
+    }
+
+    .pagination-info {
+        color: var(--black);
+        opacity: 0.9;
+    }
+
+    .pagination {
+        display: flex;
+        gap: 5px;
+
+        button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3px 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #f8f8f8;
+            cursor: pointer;
+            transition: 0.3s;
+    
+            i {
+                font-size: 20px;
+                padding: 0;
+            }
+
+            &:hover {
+                background-color: #ddd;
+            }
+              
+            &:disabled {
+                background-color: var(--white-hover);
+                cursor: not-allowed;
+            }
+              
+            &.active {
+                background-color: var(--primary);
+                color: white;
+                font-weight: bold;
+            }
+        }
+    }
+}

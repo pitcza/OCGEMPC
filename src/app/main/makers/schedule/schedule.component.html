@@ -1,0 +1,50 @@
+<div class="main-overlay">
+    <div class="modal-container">
+        <div class="modal-head">
+            <div class="modal-title">
+                <h1>Amortization Schedule</h1>
+            </div>
+            <button class="exit-button" (click)="closeModal()"> &times; </button>
+        </div>
+
+        <div class="modal-body">
+            <div class="table">
+                <div class="table-header">
+                  <table>
+                    <thead>
+                      <tr>
+                        <th>Month</th>
+                        <th>Principal</th>
+                        <th>Principal Amortization</th>
+                        <th>Monthly Interest</th>
+                        <th>Total Amortization</th>
+                        <th>By Monthly Amortization</th>
+                        <th>Monthly Balance</th>
+                        <th>Amount Deducted</th>
+                        <th>Date Deducted</th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              
+                <div class="table-body">
+                  <table>
+                    <tbody>
+                      <tr *ngFor="let row of amortizationData">
+                        <td>{{ row.month }}</td>
+                        <td>{{ row.principal | number:'1.0-2' }}</td>
+                        <td>{{ row.principalAmortization | number:'1.0-2' }}</td>
+                        <td>{{ row.monthlyInterest | number:'1.0-2' }}</td>
+                        <td>{{ row.totalAmortization | number:'1.0-2' }}</td>
+                        <td>{{ row.biMonthlyAmortization | number:'1.0-2' }}</td>
+                        <td>{{ row.monthlyBalance | number:'1.0-2' }}</td>
+                        <td>{{ row.amountDeducted | number:'1.0-2' }}</td>
+                        <td>{{ row.dateDeducted }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>              
+        </div>
+    </div>
+</div>

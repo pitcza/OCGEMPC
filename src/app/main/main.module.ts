@@ -13,6 +13,10 @@ import { InsuranceComponent } from './insurance/insurance.component';
 import { ApplicationListComponent } from './loan-application/application-list/application-list.component';
 import { ViewApplicationComponent } from './loan-application/view-application/view-application.component';
 
+import { DetailsComponent } from './makers/details/details.component';
+import { ScheduleComponent } from './makers/schedule/schedule.component';
+
+
 @NgModule({
   declarations: [
     DashboardComponent,
@@ -20,7 +24,9 @@ import { ViewApplicationComponent } from './loan-application/view-application/vi
     LoanApplicationComponent,
     InsuranceComponent,
     ApplicationListComponent,
-    ViewApplicationComponent
+    ViewApplicationComponent,
+    DetailsComponent,
+    ScheduleComponent
   ],
   imports: [
     CommonModule,

@@ -8,6 +8,8 @@ import { MatDialogRef } from '@angular/material/dialog';
   styleUrl: './add-application.component.scss'
 })
 export class AddApplicationComponent {
+  isCoMakersFormVisible = false;
+  
   constructor(
     private dialogRef: MatDialogRef<AddApplicationComponent>
   ) {}
@@ -17,6 +19,14 @@ export class AddApplicationComponent {
     if (!/^\d$/.test(event.key) && !allowedKeys.includes(event.key)) {
       event.preventDefault();
     }
+  }
+
+  showCoMakersForm(): void {
+    this.isCoMakersFormVisible = true;
+  }
+
+  showMakersForm(): void {
+    this.isCoMakersFormVisible = false;
   }
 
   closeModal(): void {

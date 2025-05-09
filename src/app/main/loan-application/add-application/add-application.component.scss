@@ -82,9 +82,12 @@
 
 .modal-body {
     form {
-        display: flex;
-        flex-direction: column;
-        gap: 25px;
+        .makers-form,
+        .comakers-form {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
 
         h2 {
             font-size: 20px;
@@ -215,9 +218,15 @@
     // SUBMIT, CANCEL, AND DANGER BUTTON
     .buttons {
         display: flex;
-        justify-content: flex-end;
+        justify-content: space-between;
         gap: 15px;
         padding: 10px 0;
+
+        .right {
+            display: flex;
+            gap: 15px;
+            padding: 10px 0;
+        }
     
         button {
             font-family: 'Montserrat';

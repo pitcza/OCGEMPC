@@ -1,43 +1,57 @@
-<!DOCTYPE html>
-<html>
-<head>
+<main class="main">
+    <head>
     <link rel="stylesheet" href="Dashboard.css"> 
 </head>
-<body>
-    <p class="header">DASHBOARD</p>
-<div class="dashboard">
-    <div class="widget">
-        <span>total</span>
-        <span>120</span>
+    <h1 class="header">DASHBOARD</h1>
+    
+
+    <div class="dashboard">
+        <div class="widget">
+            <p>TOTAL APPLICATIONS THIS MONTH</p>
+            <h2>120</h2>
+        </div>
+        <div class="widget">
+            <p>TOTAL LOAN AMOUNT THIS MONTH</p>
+            <h2>P 50,000</h2>
+        </div>
+        <div class="widget">
+            <p>ACTIVE LOANS</p>
+            <h2>300</h2>
+        </div>
+        <div class="widget">
+            <p>FULLY PAID LOANS</p>
+            <h2>80</h2>
+        </div>
     </div>
-    <div class="widget">
-        <span>total</span>
-        <span>120</span>
-    </div>
-    <div class="widget">
-        <span>total</span>
-        <span>120</span>
-    </div>
-    <div class="widget">
-        <span>total</span>
-        <span>120</span>
-    </div>
-    </div>
+
     <div class="dashboard_2">
         <div class="widget">
-            <span>total</span>
-            <span>details</span>
+            <h3>Loan Applications by Month</h3>
+            <canvas id="barChart"></canvas>
         </div>
         <div class="widget">
-            <span>total</span>
-            <span>details</span>
+            <h3>Loan Status Overview</h3>
+            <canvas id="pieChart"></canvas>
         </div>
     </div>
+
     <div class="dashboard_3">
-        <div class="widget">
-            <span>total</span>
-            <span>details</span>
-        </div>
+        <h3>Recent Payments</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Payment ID</th>
+                    <th>Borrower Name</th>
+                    <th>Amount Paid</th>
+                    <th>Date Paid</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr><td>1001</td><td>Lara Jane Acar</td><td>P 10,000.00</td><td>04/20/2025</td><td>Paid</td></tr>
+                <tr><td>1002</td><td>Dominique Robles</td><td>P 10,000.00</td><td>04/20/2025</td><td>Paid</td></tr>
+                <tr><td>1003</td><td>Czarina Arellano</td><td>P 10,000.00</td><td>04/20/2025</td><td>Paid</td></tr>
+            </tbody>
+        </table>
     </div>
-</body>
-</html>
+</main>

@@ -6,6 +6,8 @@
     --bg-color: #FFFFFF;
     --bg-dark: #EFEFEF;
 
+    --gray: #7c7777;
+
     --main-transition: all 0.3s ease-in-out;
     --color-transition: background-color 0.3s ease-in-out;
 
@@ -271,13 +273,6 @@ body {
     }
 }
 
-// all container 
-.container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-}
-
 // header ng all
 .header {
     display: flex;
@@ -392,8 +387,6 @@ body {
         }
     }
 }
-
-
 
 // table ng main pages
 .table {

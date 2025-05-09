@@ -6,12 +6,20 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { MakersComponent } from './makers/makers.component';
 import { LoanApplicationComponent } from './loan-application/loan-application.component';
 import { InsuranceComponent } from './insurance/insurance.component';
+import { ApplicationListComponent } from './loan-application/application-list/application-list.component';
+import { ForReleasingComponent } from './loan-application/for-releasing/for-releasing.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'makers', component: MakersComponent },
-  { path: 'loan', component: LoanApplicationComponent },
+  { path: 'loan', component: LoanApplicationComponent,
+    children: [
+      { path: 'list', component: ApplicationListComponent },
+      { path: 'release', component: ForReleasingComponent },
+      { path: '', redirectTo: 'list', pathMatch: 'full' }, 
+    ],
+  },
   { path: 'insurance', component: InsuranceComponent },
 ];
 

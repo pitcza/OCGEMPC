@@ -7,14 +7,18 @@ import { MainComponent } from './main.component';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MakersComponent } from './makers/makers.component';
-import { LoanApplicationComponent } from './loan-application/loan-application.component';
-import { InsuranceComponent } from './insurance/insurance.component';
 
+import { LoanApplicationComponent } from './loan-application/loan-application.component';
 import { ApplicationListComponent } from './loan-application/application-list/application-list.component';
+
+import { ForReleasingComponent } from './loan-application/for-releasing/for-releasing.component';
 import { ViewApplicationComponent } from './loan-application/view-application/view-application.component';
+
+import { InsuranceComponent } from './insurance/insurance.component';
 
 import { DetailsComponent } from './makers/details/details.component';
 import { ScheduleComponent } from './makers/schedule/schedule.component';
+import { AddApplicationComponent } from './loan-application/add-application/add-application.component';
 
 
 @NgModule({
@@ -26,7 +30,9 @@ import { ScheduleComponent } from './makers/schedule/schedule.component';
     ApplicationListComponent,
     ViewApplicationComponent,
     DetailsComponent,
-    ScheduleComponent
+    ScheduleComponent,
+    ForReleasingComponent,
+    AddApplicationComponent
   ],
   imports: [
     CommonModule,

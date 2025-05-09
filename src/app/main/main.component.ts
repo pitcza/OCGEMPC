@@ -33,19 +33,6 @@ export class MainComponent {
     });
   }
 
-  // dropdown
-  dropdownVisible = false;
-
-  toggleDropdown(event: Event) {
-    event.stopPropagation();
-    this.dropdownVisible = !this.dropdownVisible;
-  }
-
-  @HostListener('document:click')
-  closeDropdown() {
-    this.dropdownVisible = false;
-  }
-
   // SIDEBAR
   isSidebarCollapsed = false;
   isSidebarOverlay = false;

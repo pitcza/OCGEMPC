@@ -24,7 +24,7 @@
     gap: 20px;
     background-color: var(--bg-color);
     padding: 20px;
-    box-shadow: var(--main-shadow);
+    box-shadow: var(--table-shadow);
     border-radius: 5px;
     border: 1px solid var(--bg-dark);
 
@@ -60,6 +60,14 @@
                 }
             }
         }
+    }
+
+    .table-content {
+        background-color: var(--bg-color);
+        padding: 20px;
+        box-shadow: var(--table-shadow);
+        border-radius: 5px;
+        border: 1px solid var(--bg-dark);
     }
 }
 

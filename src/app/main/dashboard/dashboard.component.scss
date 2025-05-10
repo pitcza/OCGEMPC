@@ -1,0 +1,177 @@
+.header {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1.5rem;
+  color: #333;
+}
+
+.dashboard,
+.dashboard_2 {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 30px;
+  justify-content: space-between;
+}
+
+.widget {
+  flex: 1 1 calc(25% - 1.5rem);
+  min-width: 200px;
+  padding: 1.5rem;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  align-items: center;
+  justify-content: center;
+  background: white;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  &:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+  }
+}
+
+.widget p {
+  opacity: 0.7;
+  font-size: 0.9em;
+  text-align: center;
+  margin-bottom: 0.5rem;
+}
+
+.widget h2 {
+  font-weight: 600;
+  font-size: 1.8em;
+  color: #508d4e;
+  text-align: center;
+  margin: 0;
+}
+
+.dashboard_2 .widget {
+  flex: 1 1 48%;
+  height: 350px;
+  position: relative;
+  padding-top: 2.5rem;
+  
+  p {
+    position: absolute;
+    top: 1rem;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    font-weight: 600;
+    font-size: 1.1em;
+    color: #333;
+  }
+}
+
+.dashboard_3 {
+  margin-top: 30px;
+
+  
+  .widget {
+    width: 100%;
+    padding: 1.5rem;
+    border-radius: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    background: white;
+    
+    h3 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      color: #333;
+      text-align: left;
+      width: 100%;
+      font-size: 1.3rem;
+    }
+  }
+
+  text-align: center;
+}
+
+.dashboard_3 .h3{
+  margin-top: 40px;
+  text-align: center;
+
+}
+
+/* Table styling */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+
+th, td {
+  padding: 1rem;
+  text-align: left;
+}
+
+th {
+  background-color: #508d4e;
+  color: white;
+  font-weight: 600;
+  position: sticky;
+  top: 0;
+}
+
+tr:nth-child(even) {
+  background-color: #f8f8f8;
+}
+
+tr:hover {
+  background-color: #f0f7ff;
+}
+
+/* Status badge styling */
+.status-badge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  
+  &.paid {
+    background-color: #e6f7e6;
+    color: #508d4e;
+  }
+  
+  &.pending {
+    background-color: #fff8e6;
+    color: #d49a00;
+  }
+  
+  &.overdue {
+    background-color: #ffe6e6;
+    color: #cd5c5c;
+  }
+  
+  &.denied {
+    background-color: #f0f0f0;
+    color: #808080;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 1200px) {
+  .dashboard .widget {
+    flex: 1 1 calc(50% - 1.5rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .dashboard .widget,
+  .dashboard_2 .widget {
+    flex: 1 1 100%;
+  }
+  
+  .dashboard_2 .widget {
+    height: 300px;
+  }
+}

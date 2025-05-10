@@ -1,43 +1,63 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <link rel="stylesheet" href="Dashboard.css"> 
-</head>
-<body>
-    <p class="header">DASHBOARD</p>
+<h1 class="header">DASHBOARD</h1>
+
 <div class="dashboard">
     <div class="widget">
-        <span>total</span>
-        <span>120</span>
+        <p>Total Applications this Month</p>
+        <h2>{{totalApplications}}</h2>
     </div>
     <div class="widget">
-        <span>total</span>
-        <span>120</span>
+        <p>Total Loan Applications this Month</p>
+        <h2>{{totalLoanAmount}}</h2>
     </div>
     <div class="widget">
-        <span>total</span>
-        <span>120</span>
+        <p>Active Loans</p>
+        <h2>{{activeLoans}}</h2>
     </div>
     <div class="widget">
-        <span>total</span>
-        <span>120</span>
+        <p>Fully Paid Loans</p>
+        <h2>{{fullyPaidLoans}}</h2>
     </div>
+</div>
+
+<div class="dashboard_2">
+    <div class="widget">
+        <p>Loan Applications by Month</p>
+        <canvas id="barChart"></canvas>
     </div>
-    <div class="dashboard_2">
-        <div class="widget">
-            <span>total</span>
-            <span>details</span>
+    <div class="widget">
+        <p>Loan Status Overview</p>
+        <canvas id="pieChart"></canvas>
+    </div>
+</div>
+
+<div class="dashboard_3">
+    <div class="widget">
+        <h3>Recent Payments</h3>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Payment ID</th>
+                        <th>Borrower Name</th>
+                        <th>Amount Paid</th>
+                        <th>Date Paid</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let payment of recentPayments">
+                        <td>{{payment.id}}</td>
+                        <td>{{payment.borrower}}</td>
+                        <td>{{payment.amount}}</td>
+                        <td>{{payment.date}}</td>
+                        <td>
+                            <span class="status-badge" [ngClass]="payment.status.toLowerCase()">
+                                {{payment.status}}
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="widget">
-            <span>total</span>
-            <span>details</span>
-        </div>
     </div>
-    <div class="dashboard_3">
-        <div class="widget">
-            <span>total</span>
-            <span>details</span>
-        </div>
-    </div>
-</body>
-</html>
+</div>

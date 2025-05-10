@@ -3,10 +3,13 @@ import { RouterModule, Routes } from '@angular/router';
 
 import { LoginComponent } from './login/login.component';
 import { MainComponent } from './main/main.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'dashboard', component: MainComponent },
+  { path: 'forgot-password', component: ForgotPasswordComponent },  
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'main', component: MainComponent, children: [{ path: '', loadChildren: ()=>import('./main/main.module').then((m)=>m.MainModule) }] },
 ];
 

@@ -1,0 +1,52 @@
+.insurance-container {
+  padding: 20px;
+  font-family: 'Montserrat', sans-serif;
+
+  .insurance-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+
+    .logo {
+      height: 60px;
+    }
+
+    .title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #000;
+    }
+  }
+
+  .insurance-card {
+    padding: 20px;
+    border: 1px solid #A6A0A0;
+    border-radius: 8px;
+
+    .toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: space-between;
+      margin-bottom: 20px;
+
+      .download-button {
+        background-color: #508D4E;
+        color: white;
+      }
+
+      .dropdown, .searchbar {
+        min-width: 200px;
+      }
+    }
+
+    table {
+      width: 100%;
+      th {
+        background-color: #508D4E;
+        color: white;
+      }
+    }
+  }
+}

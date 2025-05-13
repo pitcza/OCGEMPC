@@ -2,13 +2,217 @@
     <div class="modal-container">
         <div class="modal-head">
             <div class="modal-title">
-                <h1>Sample</h1>
+                <!-- <h1>Loan Application Details</h1> -->
             </div>
             <button class="exit-button" (click)="closeModal()"> &times; </button>
         </div>
 
         <div class="modal-body">
-            <h3> sample modal </h3>
+            <form >
+                <div class="makers-form">
+                    <h2>Applicant Maker's Information</h2>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="label">First Name</label>
+                            <input type="text" class="text-field" name="first_name" value="Sample Values" disabled readonly>
+                        </div>
+                        <div class="input-group">
+                            <label class="label">Middle Name</label>
+                            <input type="text" class="text-field" name="middle_name" value="Martinez" disabled readonly>
+                        </div>
+                        <div class="input-group">
+                            <label class="label">Last Name</label>
+                            <input type="text" class="text-field" name="last_name" value="Dela Cruz" disabled readonly>
+                        </div>
+                        <div class="input-group-short">
+                            <label class="label">Ext Name</label>
+                            <input type="text" class="text-field" name="ext_name" value="Jr." disabled readonly>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="label" for="text-field">Residence Address</label>
+                            <input type="text" class="text-field" name="address" value="Lot No., Street Address, City, Province, Postal Code" disabled readonly>
+                        </div>
+                        <div class="input-group-short">
+                            <label class="label" for="text-field">Contact Number</label>
+                            <input type="text" class="text-field" name="phone_num" pattern="[0-9]*" maxlength="11" value="09XXXXXXXXX" disabled readonly (keypress)="validatePhoneNumberInput($event)">
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="label" for="text-field">Date of Birth</label>
+                            <input type="date" class="text-field" name="birthdate" disabled readonly>
+                        </div>
+                        <div class="input-group-short">
+                            <label class="label" for="text-field">Age</label>
+                            <input type="text" class="text-field" name="age" value="ex. 23" disabled readonly>
+                        </div>
+                        <div class="input-group">
+                            <label class="label" for="text-field">Dept./Office</label>
+                            <input type="text" class="text-field" name="dept" value="Office" disabled readonly>
+                        </div>
+                        <div class="input-group">
+                            <label class="label" for="text-field">Position</label>
+                            <input type="text" class="text-field" name="position" value="Position" disabled readonly>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="label" for="text-field">Salary (per month)</label>
+                            <input type="number" class="text-field" name="salary" value="ex. 18,000" disabled readonly>
+                        </div>
+                        <div class="input-group">
+                            <label class="label" for="text-field">Employment Status</label>
+                            <input type="text" class="text-field" name="ee_status" value="ex. Worker" disabled readonly>
+                        </div>
+                        <div class="input-group">
+                            <label class="label" for="text-field">Years as Coop Member</label>
+                            <input type="text" class="text-field" name="years_coop" value="ex. 2 years" disabled readonly>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="label" for="text-field">Amount of shares</label>
+                            <input type="number" class="text-field" name="share_amaont" value="ex. 18,000" disabled readonly>
+                        </div>
+                        <div class="input-group">
+                            <label class="label" for="text-field">Amount of saving</label>
+                            <input type="number" class="text-field" name="saving_amount" value="ex. 18,000" disabled readonly>
+                        </div>
+                        <div class="input-group">
+                            <label class="label" for="text-field">Type of Loan</label>
+                            <select class="text-field" name="loan_type" disabled readonly>
+                                <option selected value="Educational">Educational</option>
+                                <option value="Sample">Sample</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label class="label" for="text-field">Amount of loan applied</label>
+                            <input type="number" class="text-field" name="applied_amount" value="ex. 60,000" disabled readonly>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="label" for="text-field">Loan Term</label>
+                            <input type="number" class="text-field" name="loan_term" value="ex. 24 months" disabled readonly>
+                        </div>
+                        <div class="input-group">
+                            <label class="label" for="text-field">Purpose of Loan</label>
+                            <input type="number" class="text-field" name="loan_purpose" value="ex. Education expenses" disabled readonly>
+                        </div>
+                        <div class="input-group">
+                            <label class="label" for="text-field">Repayment Frequency</label>
+                            <select class="text-field" name="repayment_freq" disabled readonly>
+                                <option selected value="Monthly">Monthly</option>
+                                <option value="Sample">Sample</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="comakers-form">
+                    <h2>Co-Maker 1 Information</h2>
+                    <!-- loop niyo na lang kung ilang co-maker hehe -->
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="label">First Name</label>
+                            <input type="text" class="text-field" name="co_first_name" disabled readonly>
+                        </div>
+                        <div class="input-group">
+                            <label class="label">Middle Name</label>
+                            <input type="text" class="text-field" name="co_middle_name" disabled readonly>
+                        </div>
+                        <div class="input-group">
+                            <label class="label">Last Name</label>
+                            <input type="text" class="text-field" name="co_last_name" disabled readonly>
+                        </div>
+                        <div class="input-group-short">
+                            <label class="label">Ext Name</label>
+                            <input type="text" class="text-field" name="co_ext_name" disabled readonly>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="label" for="text-field">Residence Address</label>
+                            <input type="text" class="text-field" name="co_address" disabled readonly>
+                        </div>
+                        <div class="input-group-short">
+                            <label class="label" for="text-field">Contact Number</label>
+                            <input type="text" class="text-field" name="co_phone_num" pattern="[0-9]*" maxlength="11" disabled readonly (keypress)="validatePhoneNumberInput($event)">
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="label" for="text-field">Date of Birth</label>
+                            <input type="date" class="text-field" name="co_birthdate" disabled readonly>
+                        </div>
+                        <div class="input-group-short">
+                            <label class="label" for="text-field">Age</label>
+                            <input type="text" class="text-field" name="co_age" disabled readonly>
+                        </div>
+                        <div class="input-group">
+                            <label class="label" for="text-field">Dept./Office</label>
+                            <input type="text" class="text-field" name="co_dept" disabled readonly>
+                        </div>
+                        <div class="input-group">
+                            <label class="label" for="text-field">Position</label>
+                            <input type="text" class="text-field" name="co_position" disabled readonly>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="label" for="text-field">Salary (per month)</label>
+                            <input type="number" class="text-field" name="co_salary" disabled readonly>
+                        </div>
+                        <div class="input-group">
+                            <label class="label" for="text-field">Employment Status</label>
+                            <input type="text" class="text-field" name="co_ee_status" disabled readonly>
+                        </div>
+                        <div class="input-group">
+                            <label class="label" for="text-field">Years as Coop Member</label>
+                            <input type="text" class="text-field" name="co_years_coop" disabled readonly>
+                        </div>
+                    </div>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="label" for="text-field">Amount of shares</label>
+                            <input type="number" class="text-field" name="co_share_amaont" disabled readonly>
+                        </div>
+                        <div class="input-group">
+                            <label class="label" for="text-field">Amount of saving</label>
+                            <input type="number" class="text-field" name="co_saving_amount" disabled readonly>
+                        </div>
+                    </div>
+
+                    <div class="buttons">
+                        <div class="left">
+                            <input class="submit-btn" type="button" value="Generate Excel">
+                        </div>
+                        <div class="right pending" *ngIf="status === 'pending'">
+                            <input class="danger-btn" type="button" value="Decline">
+                            <input class="submit-btn" type="button" value="Approve">
+                        </div>
+                        <div class="right approved" *ngIf="status === 'approved'">
+                            <input class="danger-btn" type="button" value="Set Schedule" (click)="setSchedule()">
+                        </div>
+                        <div class="right for-release" *ngIf="status === 'for release'">
+                            <!-- no buttons -->
+                        </div>
+                    </div>
+                </div>
+            </form>
         </div>
     </div>
 </div>

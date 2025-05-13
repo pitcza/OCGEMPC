@@ -24,8 +24,9 @@
                     <td>{{ user.contact }}</td>
                     <td>{{ user.status }}</td>
                     <td class="actions">
-                    <button class="action green-action" >Approve</button>
-                    <button class="action red-action">Schedule</button>
+                        <button class="action green-action"(click)="approve(user)" >Approve</button>
+                        <button class="action red-action" (click)="decline(user)">Decline</button>
+                        <button class="action gray-action" (click)="viewLoan()">Details</button>
                     </td>
                 </tr>
             </tbody>

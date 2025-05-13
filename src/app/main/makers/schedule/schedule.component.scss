@@ -76,3 +76,145 @@
     width: 100%;
     padding: 20px 30px;
 }
+
+
+// header ng all
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+
+    .title {
+        h2 {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--black);
+        }
+    }
+
+    // date range
+    .right-header {
+        display: flex;
+        gap: 15px;
+        
+        .date-input {
+            display: flex;
+            align-items: center;
+            background-color: var(--primary); // Dark blue background
+            color: white;
+            border-radius: 5px;
+        
+            label {
+              font-weight: 500;
+              padding: 6px 15px;
+            }
+        
+            input {
+              border: 2px solid var(--primary);
+              outline: none;
+              padding: 6px;
+              border-radius: 5px;
+              color: #333;
+            }
+        }
+    }
+}
+
+// table ng main pages
+.table {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: white;
+    padding: 20px;
+    box-shadow: var(--main-shadow);
+    border-radius: 5px;
+
+    table {
+        th, td {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
+}
+
+.table-header {
+    background: white;
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: var(--table-shadow);
+    animation: var(--popIn);
+  
+    table {
+      width: 100%;
+      border-collapse: collapse;
+  
+        thead {
+            background: var(--primary);
+            color: white;
+            
+            tr {
+                display: flex;
+                width: 100%;
+            }
+    
+            th {
+                flex: 1;
+                padding: 12px;
+                text-align: center;
+                font-weight: 600;
+            }
+        }
+    }
+}
+  
+.table-body {
+    background: white;
+    border-radius: 5px;
+    overflow: hidden;
+    animation: var(--popIn);
+  
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    
+        tbody {
+            display: block;
+            width: 100%;
+    
+            tr {
+                display: flex;
+                width: 100%;
+                transition: var(--main-transition);
+
+                &:hover {
+                    background-color: var(--bg-color);
+                }
+            }
+    
+            td {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex: 1;
+                padding: 12px;
+                border-bottom: 1px solid #ddd;
+                text-align: center;
+            }
+
+            tr:first-child td {
+                padding-top: 15px;
+            }
+
+            tr:last-child td {
+                padding-bottom: 15px;
+            }
+
+            tr:last-child td {
+                border-bottom: none;
+            }
+        }
+    }
+}

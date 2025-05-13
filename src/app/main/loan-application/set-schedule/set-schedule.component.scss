@@ -15,7 +15,7 @@
     display: flex;
     flex-direction: column;
     background: var(--bg-color);
-    width: 1000px;
+    width: 500px;
     box-shadow: var(--modal-shadow);
     max-height: 85%;
     border-radius: 5px;
@@ -28,11 +28,12 @@
     padding: 10px 30px;
     border-top-right-radius: 4px;
     border-top-left-radius: 4px;
-    background-color: white;
+    background-color: var(--primary);
+    box-shadow: var(--main-shadow);
     z-index: 1;
 
     h1 {
-        color: var(--primary);
+        color: var(--bg-color);
         font-size: 24px;
         font-weight: 600;
         text-transform: uppercase;
@@ -47,11 +48,11 @@
         font-size: 40px;
         font-weight: 700;
         cursor: pointer;
-        color: var(--primary);
+        color: var(--bg-color);
     }
     
     .exit-button:hover {
-        color: var(--primary-hover);
+        color: var(--bg-dark);
     }
 }
 
@@ -76,7 +77,7 @@
 .modal-body {
     overflow-y: auto;
     width: 100%;
-    padding: 20px 30px;
+    padding: 30px;
 }
 
 .modal-body {
@@ -86,13 +87,11 @@
             display: flex;
             flex-direction: column;
             gap: 25px;
-            margin-bottom: 30px;
         }
 
         h2 {
             font-size: 20px;
             font-weight: 500;
-            text-transform: uppercase;
         }
     
         .input-row .input-group {
@@ -203,7 +202,6 @@
                 color: black;
                 background-color: white;
                 padding: 0 4px;
-                z-index: 3;
             }
     
             .up-label {
@@ -221,7 +219,6 @@
         display: flex;
         justify-content: space-between;
         gap: 15px;
-        padding: 10px 0;
 
         .right {
             display: flex;

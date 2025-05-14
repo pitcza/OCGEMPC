@@ -64,8 +64,33 @@ export class ApplicationListComponent {
       confirmButtonText: 'Yes, decline it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        user.status = 'Declined';
-        Swal.fire('Declined!', `${user.name} has been declined.`, 'error');
+        // Prompt for remarks
+        Swal.fire({
+          title: 'Decline Remarks',
+          input: 'textarea',
+          inputLabel: 'Please provide a reason for declining:',
+          inputPlaceholder: 'Enter your remarks here...',
+          inputAttributes: {
+            'aria-label': 'Type your message here'
+          },
+          showCancelButton: true,
+          confirmButtonText: 'Submit',
+          cancelButtonColor: '#7c7777',
+          confirmButtonColor: '#be1010',
+          preConfirm: (remarks) => {
+            if (!remarks) {
+              Swal.showValidationMessage('Remarks are required to proceed.');
+            }
+            return remarks;
+          }
+        }).then((remarksResult) => {
+          if (remarksResult.isConfirmed) {
+            const remarks = remarksResult.value;
+            user.status = 'Declined';
+            user.remarks = remarks; // Optional: store remarks
+            Swal.fire('Declined!', `${user.name} has been declined.`, 'error');
+          }
+        });
       }
     });
   }

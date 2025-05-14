@@ -11,9 +11,9 @@
                 <tr>
                     <th>Borrower Name</th>
                     <th>Address</th>
-                    <th>Amount Borrowed</th>
-                    <th>Date Scheduled</th>
-                    <th> </th>
+                    <th>Contact</th>
+                    <th>Remarks</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
 
@@ -21,10 +21,11 @@
                 <tr *ngFor="let user of paginatedUsers">
                     <td>{{ user.name }}</td>
                     <td>{{ user.address }}</td>
-                    <td>{{ user.amount }}</td>
-                    <td>{{ user.schedule }}</td>
+                    <td>{{ user.contact }}</td>
+                    <td>{{ user.remarks }}</td>
                     <td class="actions">
                         <button class="action gray-action" (click)="viewLoan()">Details</button>
+                        <button class="action red-action">Delete</button>
                     </td>
                 </tr>
             </tbody>

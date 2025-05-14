@@ -29,6 +29,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { SetScheduleComponent } from './loan-application/set-schedule/set-schedule.component';
+import { DeclinedListComponent } from './loan-application/declined-list/declined-list.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { SetScheduleComponent } from './loan-application/set-schedule/set-schedu
     ScheduleComponent,
     ForReleasingComponent,
     AddApplicationComponent,
-    SetScheduleComponent
+    SetScheduleComponent,
+    DeclinedListComponent
   ],
   imports: [
     CommonModule,

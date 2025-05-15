@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { ViewApplicationComponent } from '../view-application/view-application.component';
+import Swal from 'sweetalert2';
+import { SetScheduleComponent } from '../set-schedule/set-schedule.component';
 
 @Component({
   selector: 'app-application-list',
@@ -13,8 +16,86 @@ export class ApplicationListComponent {
   itemsPerPage = 10;
   currentPage = 1;
 
+  viewLoan() {
+    this.dialog.open(ViewApplicationComponent);
+  }
+
   constructor(private dialog: MatDialog) {}
 
+  approve(user: any) {
+    Swal.fire({
+      title: 'Approve Application',
+      text: `Are you sure you want to approve this application?`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#508D4E',
+      cancelButtonColor: '#7c7777',
+      confirmButtonText: 'Yes, approve it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        user.status = 'Approved';
+        Swal.fire({
+          title: 'Application Approved',
+          text: `${user.name} has been approved.`,
+          icon: 'success',
+          confirmButtonColor: '#508D4E',
+          confirmButtonText: 'SET SCHEDULE'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.setSchedule();
+          }
+        });
+      }
+    });
+  }
+
+  setSchedule() {
+    this.dialog.open(SetScheduleComponent);
+  }
+
+  decline(user: any) {
+    Swal.fire({
+      title: 'Decline Application',
+      text: `Are you sure you want to decline this application?`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#be1010',
+      cancelButtonColor: '#7c7777',
+      confirmButtonText: 'Yes, decline it!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        // Prompt for remarks
+        Swal.fire({
+          title: 'Decline Remarks',
+          input: 'textarea',
+          inputLabel: 'Please provide a reason for declining:',
+          inputPlaceholder: 'Enter your remarks here...',
+          inputAttributes: {
+            'aria-label': 'Type your message here'
+          },
+          showCancelButton: true,
+          confirmButtonText: 'Submit',
+          cancelButtonColor: '#7c7777',
+          confirmButtonColor: '#be1010',
+          preConfirm: (remarks) => {
+            if (!remarks) {
+              Swal.showValidationMessage('Remarks are required to proceed.');
+            }
+            return remarks;
+          }
+        }).then((remarksResult) => {
+          if (remarksResult.isConfirmed) {
+            const remarks = remarksResult.value;
+            user.status = 'Declined';
+            user.remarks = remarks; // Optional: store remarks
+            Swal.fire('Declined!', `${user.name} has been declined.`, 'error');
+          }
+        });
+      }
+    });
+  }
+
+  // sample data
   users = [
     { name: 'Andrea Louise Castillo', address: '421 Magnolia St., Pasig City, Metro Manila', contact: '0917-234-7789', status: 'Pending' },
     { name: 'John Michael Santos', address: '12 Kalayaan Ave., Quezon City', contact: '0918-555-1234', status: 'Pending' },

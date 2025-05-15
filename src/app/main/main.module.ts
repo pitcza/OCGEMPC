@@ -28,6 +28,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
+import { SetScheduleComponent } from './loan-application/set-schedule/set-schedule.component';
+import { DeclinedListComponent } from './loan-application/declined-list/declined-list.component';
+import { ActivityLogComponent } from './activity-log/activity-log.component';
 
 
 @NgModule({
@@ -41,7 +44,10 @@ import { MatIconModule } from '@angular/material/icon';
     DetailsComponent,
     ScheduleComponent,
     ForReleasingComponent,
-    AddApplicationComponent
+    AddApplicationComponent,
+    SetScheduleComponent,
+    DeclinedListComponent,
+    ActivityLogComponent
   ],
   imports: [
     CommonModule,

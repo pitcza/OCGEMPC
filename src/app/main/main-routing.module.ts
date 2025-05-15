@@ -8,6 +8,8 @@ import { LoanApplicationComponent } from './loan-application/loan-application.co
 import { InsuranceComponent } from './insurance/insurance.component';
 import { ApplicationListComponent } from './loan-application/application-list/application-list.component';
 import { ForReleasingComponent } from './loan-application/for-releasing/for-releasing.component';
+import { DeclinedListComponent } from './loan-application/declined-list/declined-list.component';
+import { ActivityLogComponent } from './activity-log/activity-log.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -17,10 +19,12 @@ const routes: Routes = [
     children: [
       { path: 'list', component: ApplicationListComponent },
       { path: 'release', component: ForReleasingComponent },
+      { path: 'declined', component: DeclinedListComponent },
       { path: '', redirectTo: 'list', pathMatch: 'full' }, 
     ],
   },
   { path: 'insurance', component: InsuranceComponent },
+  { path: 'logs', component: ActivityLogComponent },
 ];
 
 @NgModule({

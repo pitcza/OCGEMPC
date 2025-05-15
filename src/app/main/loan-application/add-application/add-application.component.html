@@ -10,7 +10,7 @@
         <div class="modal-body">
             <form >
                 <div class="makers-form" *ngIf="!isCoMakersFormVisible">
-                    <h2>Makers' Information</h2>
+                    <h2>Applicant Maker's Information</h2>
 
                     <div class="input-row">
                         <div class="input-group">
@@ -88,8 +88,10 @@
                         <div class="input-group">
                             <label class="label" for="text-field">Type of Loan</label>
                             <select class="text-field" name="loan_type">
-                                <option selected value="Educational">Educational</option>
-                                <option value="Sample">Sample</option>
+                                <option selected value="">Select Type</option>
+                                <option value="Educational">Educational</option>
+                                <option value="Livelihood">Livelihood</option>
+                                <option value="Madical">Madical</option>
                             </select>
                         </div>
                         <div class="input-group">
@@ -126,7 +128,7 @@
                 </div>
 
                 <div class="comakers-form" *ngIf="isCoMakersFormVisible">
-                    <h2>Co-Makers' Information</h2>
+                    <h2>Co-Maker's Information</h2>
 
                     <div class="input-row">
                         <div class="input-group">

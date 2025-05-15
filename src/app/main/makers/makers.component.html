@@ -1,88 +1,86 @@
 <div class="container">
-    <div class="header">
-      <h2>LIST OF MAKERS ACCOUNT</h2>
-    </div>
-    <div class="table">
-      <div class="button-group">
-        <div class="middle-content">
-          <select [(ngModel)]="selectedMaker" (change)="applyFilters()">
-            <option value="all">All Maker</option>
-            <option value="officer">OCGEMPC officer/BOD</option>
-            <option value="member">Member</option>
-            <option value="non-member">Non-member</option>
-          </select>
-  
-          <div class="search-wrapper">
-            <input type="text" [(ngModel)]="searchQuery" (input)="applyFilters()" placeholder="Search..." />
-            <button><i class="bx bx-search-alt"></i></button>
-          </div>
+  <div class="table">
+    <div class="button-group">
+      <div class="header">
+        <h2 class="title">LIST OF MAKERS ACCOUNT</h2>
+      </div>
+
+      <div class="middle-content">
+        <select [(ngModel)]="selectedMaker" (change)="applyFilters()">
+          <option value="all">All Maker</option>
+          <option value="officer">OCGEMPC officer/BOD</option>
+          <option value="member">Member</option>
+          <option value="non-member">Non-member</option>
+        </select>
+
+        <div class="search-wrapper">
+          <input type="text" [(ngModel)]="searchQuery" (input)="applyFilters()" placeholder="Search..." />
+          <button><i class="bx bx-search-alt"></i></button>
         </div>
       </div>
-  
-      <div class="table">
-        <div class="table-header">
-          <table>
-            <thead>
-              <tr>
-                <th>Full name</th>
-                <th>Address</th>
-                <th>Contact No.</th>
-                <th>Birthday</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-          </table>
-        </div>
-  
-        <div class="table-body">
-          <table>
-            <tbody>
-              <tr *ngFor="let user of filteredUsers">
-                <td>{{ user.name }}</td>
-                <td>{{ user.address }}</td>
-                <td>{{ user.contact }}</td>
-                <td>{{ user.birthdate }}</td>
-                <td class="actions">
-                  <button class="action green-action" (click)="viewDetails(user)">Details</button>
-                  <button class="action red-action" (click)="viewSchedule(user)">Schedule</button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+    </div>
 
-        <!-- Pagination Section -->
-        <div class="pagination-container">
-            <div class="items-per-page">
-                <label for="itemsPerPage">Show:</label>
-                <select id="itemsPerPage" [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange()">
-                    <option *ngFor="let option of [5, 10, 25, 50]" [value]="option">{{ option }}</option>
-                </select>
-                <span>entries</span>
-            </div>
-  
-            <div class="pagination-info">
-                Showing {{ startIndex + 1 }} to {{ endIndex }} of {{ totalItems }} entries
-            </div>
-  
-            <div class="pagination">
-                <button (click)="goToPreviousPage()" [disabled]="currentPage === 1">
-                    <i class="bx bx-chevron-left"></i>
-                </button>
-  
-            <button
-                *ngFor="let page of totalPagesArray"
-                (click)="goToPage(page)"
-                [class.active]="page === currentPage">
-                {{ page }}
-            </button>
-  
-            <button (click)="goToNextPage()" [disabled]="currentPage === totalPages">
-                <i class="bx bx-chevron-right"></i>
-            </button>
-        </div>
-     </div>
+    <div class="table-header">
+      <table>
+        <thead>
+          <tr>
+            <th>Full name</th>
+            <th>Address</th>
+            <th>Contact No.</th>
+            <th>Birthday</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+      </table>
+    </div>
+
+    <div class="table-body">
+      <table>
+<tbody>
+  <tr *ngFor="let user of filteredUsers" (click)="viewDetails(user)">
+    <td>{{ user.name }}</td>
+    <td>{{ user.address }}</td>
+    <td>{{ user.contact }}</td>
+    <td>{{ user.birthdate }}</td>
+    <td class="actions">
+      <button class="action red-action" (click)="viewSchedule(user); $event.stopPropagation()">Schedule</button>
+    </td>
+  </tr>
+</tbody>
+
+      </table>
+    </div>
+
+   
+  </div>
+   <div class="pagination-container">
+      <div class="items-per-page">
+        <label for="itemsPerPage">Show:</label>
+        <select id="itemsPerPage" [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange()">
+          <option *ngFor="let option of [5, 10, 25, 50]" [value]="option">{{ option }}</option>
+        </select>
+        <span>entries</span>
+      </div>
+
+      <div class="pagination-info">
+        Showing {{ startIndex + 1 }} to {{ endIndex }} of {{ totalItems }} entries
+      </div>
+
+      <div class="pagination">
+        <button (click)="goToPreviousPage()" [disabled]="currentPage === 1">
+          <i class="bx bx-chevron-left"></i>
+        </button>
+
+        <button
+          *ngFor="let page of totalPagesArray"
+          (click)="goToPage(page)"
+          [class.active]="page === currentPage">
+          {{ page }}
+        </button>
+
+        <button (click)="goToNextPage()" [disabled]="currentPage === totalPages">
+          <i class="bx bx-chevron-right"></i>
+        </button>
       </div>
     </div>
 </div>
-  

@@ -1,0 +1,33 @@
+<div class="main-overlay">
+    <div class="modal-container">
+        <div class="modal-head">
+            <div class="modal-title">
+                <h1>Set Schedule</h1>
+            </div>
+            <button class="exit-button" (click)="closeModal()"> &times; </button>
+        </div>
+
+        <div class="modal-body">
+            <form (ngSubmit)="onSubmit()">
+                <div class="makers-form">
+                    <h2>Set schedule for <br>(Applicant Maker's Full Name)</h2>
+
+                    <div class="input-row">
+                        <div class="input-group">
+                            <label class="label" for="text-field">Set Date</label>
+                            <input type="date" class="text-field" [(ngModel)]="selectedDate" required name="schedule">
+                        </div>
+                    </div>
+
+                    <div class="buttons">
+                        <div class="left">
+                        </div>
+                        <div class="right">
+                            <input class="submit-btn" type="submit" value="Set Schedule">
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

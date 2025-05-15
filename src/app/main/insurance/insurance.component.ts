@@ -8,6 +8,28 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrl: './insurance.component.scss'
 })
 export class InsuranceComponent {
+onItemsPerPageChange() {
+throw new Error('Method not implemented.');
+}
+startIndex: any;
+endIndex: any;
+totalItems: any;
+itemsPerPage: any;
+goToPreviousPage() {
+throw new Error('Method not implemented.');
+}
+goToPage(_t67: any) {
+throw new Error('Method not implemented.');
+}
+totalPages: any;
+goToNextPage() {
+throw new Error('Method not implemented.');
+}
+searchQuery: any;
+currentPage: any;
+applyFilters() {
+throw new Error('Method not implemented.');
+}
 
     displayedColumns: string[] = [
   'certificateNo',

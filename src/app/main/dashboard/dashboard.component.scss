@@ -1,8 +1,9 @@
 .header {
-  font-size: 1.5rem;
-  font-weight: bold;
-  margin-bottom: 1.5rem;
-  color: #333;
+      font-size: 30px;
+      font-weight: 700;
+      color: #1f2937;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
 }
 
 .dashboard,
@@ -68,40 +69,42 @@
 }
 
 .dashboard_3 {
-  margin-top: 30px;
-}
-
-.dashboard_3 .widget {
   width: 100%;
-  overflow-x: auto;
-}
+  padding: 2rem 0; // top-bottom only, or use 1rem sides if you still want spacing
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 
-table {
-  width: 100%;
-  border-collapse: collapse;
-  font-size: 0.9rem;
-}
+  .widget {
+    width: 100%;
+  }
 
-th, td {
-  padding: 1rem;
-  text-align: left;
-}
+  .table-container {
+    width: 100%;
+    overflow-x: auto;
+  }
 
-th {
-  background-color: #508d4e;
-  color: white;
-  font-weight: 600;
-  position: sticky;
-  top: 0;
-}
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.9rem;
+  }
 
-tr:nth-child(even) {
-  background-color: #f8f8f8;
-}
+  th,
+  td {
+    padding: 0.75rem 1rem;
+    text-align: left;
+  }
 
-tr:hover {
-  background-color: #f0f7ff;
-}
+  th {
+    background-color: #508d4e;
+    color: white;
+  }
+
+  tr:nth-child(even) {
+    background-color: #f4f4f4;
+  }
+
 
 /* Status badge styling */
 .status-badge {
@@ -147,4 +150,5 @@ tr:hover {
   .dashboard_2 .widget {
     height: 300px;
   }
+}
 }

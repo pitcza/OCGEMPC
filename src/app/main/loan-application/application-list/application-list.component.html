@@ -1,55 +1,97 @@
 <div class="main-table">
-    <div class="table-head">
-        <div class="search-wrapper">
-            <input type="text" placeholder="Search..." [(ngModel)]="searchQuery" (input)="applyFilters()" />
-            <button><i class="bx bx-search-alt"></i></button>
-        </div>
+
+
+  <div class="table-content">
+      <div class="table-head">
+    <div class="search-wrapper">
+      <input
+        type="text"
+        placeholder="Search..."
+        [(ngModel)]="searchQuery"
+        (input)="applyFilters()"
+        aria-label="Search users"
+      />
+      <button aria-label="Search">
+        <i class="bx bx-search-alt"></i>
+      </button>
     </div>
-    <div class="table-content">
-        <table>
-            <thead>
-                <tr>
-                    <th>Full name</th>
-                    <th>Address</th>
-                    <th>Contact No.</th>
-                    <th>Status</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
+  </div>
+  <div class="table-header">
+    <table>
+      <thead>
+        <tr>
+          <th>Full name</th>
+          <th>Address</th>
+          <th>Contact No.</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let user of paginatedUsers"
+          (click)="viewLoan()"
+          tabindex="0"
+          role="row"
+          aria-label="User row"
+        >
+          <td>{{ user.name }}</td>
+          <td>{{ user.address }}</td>
+          <td>{{ user.contact }}</td>
+          <td>{{ user.status }}</td>
+          <td class="actions">
+            <button
+              class="action green-action"
+              (click)="approve(user); $event.stopPropagation()"
+              aria-label="Approve user"
+            >
+              Approve
+            </button>
+            <button
+              class="action red-action"
+              (click)="decline(user); $event.stopPropagation()"
+              aria-label="Decline user"
+            >
+              Decline
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
 
-            <tbody>
-                <tr *ngFor="let user of paginatedUsers">
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.address }}</td>
-                    <td>{{ user.contact }}</td>
-                    <td>{{ user.status }}</td>
-                    <td class="actions">
-                        <button class="action green-action"(click)="approve(user)" >Approve</button>
-                        <button class="action red-action" (click)="decline(user)">Decline</button>
-                        <button class="action gray-action" (click)="viewLoan()">Details</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+  </div>
+      <!-- Pagination -->
+    <div class="pagination-container">
+      <div class="items-per-page">
+        <label for="itemsPerPage">Show:</label>
+        <select
+          id="itemsPerPage"
+          [(ngModel)]="itemsPerPage"
+          (change)="onItemsPerPageChange()"
+          aria-label="Select number of items per page"
+        >
+          <option *ngFor="let option of [5, 10, 25, 50]" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+        <span>entries</span>
+      </div>
 
-        <!-- Pagination Section -->
-        <div class="pagination-container">
-            <div class="items-per-page">
-                <label for="itemsPerPage">Show:</label>
-                <select id="itemsPerPage" [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange()">
-                    <option *ngFor="let option of [5, 10, 25, 50]" [value]="option">{{ option }}</option>
-                </select>
-                <span>entries</span>
-            </div>
+      <div class="pagination-info">
+        Showing {{ startIndex + 1 }} to {{ endIndex }} of {{ totalItems }}
+        entries
+      </div>
 
-            <div class="pagination-info">
-                Showing {{ startIndex + 1 }} to {{ endIndex }} of {{ totalItems }} entries
-            </div>
+      <div class="pagination">
+        <button
+          (click)="goToPreviousPage()"
+          [disabled]="currentPage === 1"
+          aria-label="Previous page"
+        >
+          <i class="bx bx-chevron-left"></i>
+        </button>
 
-            <div class="pagination">
-                <button (click)="goToPreviousPage()" [disabled]="currentPage === 1">
-                    <i class="bx bx-chevron-left"></i>
-                </button>
 
             <button
                 *ngFor="let page of totalPagesArray"
@@ -58,10 +100,13 @@
                 {{ page }}
             </button>
 
-            <button (click)="goToNextPage()" [disabled]="currentPage === totalPages">
-                <i class="bx bx-chevron-right"></i>
-            </button>
-        </div>
-        </div>
+        <button
+          (click)="goToNextPage()"
+          [disabled]="currentPage === totalPages"
+          aria-label="Next page"
+        >
+          <i class="bx bx-chevron-right"></i>
+        </button>
+      </div>
     </div>
 </div>

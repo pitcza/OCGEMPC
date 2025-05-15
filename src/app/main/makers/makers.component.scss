@@ -125,7 +125,7 @@
             transition: var(--main-transition);
 
             &:hover {
-              background-color: var(--bg-color);
+          background-color: #f0fdf4;
             }
 
             td {
@@ -196,10 +196,12 @@
     text-align: center;
     justify-content: center;
 
-    .title h2 {
-      font-size: 22px;
-      font-weight: bold;
-      color: var(--black);
+    .title {
+      font-size: 30px;
+      font-weight: 700;
+      color: #1f2937;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
     }
 
     .right-header {

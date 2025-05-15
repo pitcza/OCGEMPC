@@ -135,6 +135,7 @@ table {
       display: flex;
       justify-content: center;
       align-items: center;
+            cursor: pointer;
 
       // match min-width per column
       &:nth-child(1),

@@ -85,10 +85,11 @@ table {
       display: flex;
       width: 100%;
     }
+
     .table-header{
-    border-radius: 5px;
-    overflow: hidden; 
-    border: 1px solid #ccc;
+      border-radius: 5px;
+      overflow: hidden; 
+      border: 1px solid #ccc;
     }
 
     th {
@@ -170,7 +171,7 @@ table {
 
       &:hover,
       &:focus {
-          background-color: #f0fdf4;
+        background-color: var(--primary-hover);
         outline: none;
       }
     }

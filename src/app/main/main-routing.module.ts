@@ -9,6 +9,7 @@ import { InsuranceComponent } from './insurance/insurance.component';
 import { ApplicationListComponent } from './loan-application/application-list/application-list.component';
 import { ForReleasingComponent } from './loan-application/for-releasing/for-releasing.component';
 import { DeclinedListComponent } from './loan-application/declined-list/declined-list.component';
+import { ActivityLogComponent } from './activity-log/activity-log.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -23,6 +24,7 @@ const routes: Routes = [
     ],
   },
   { path: 'insurance', component: InsuranceComponent },
+  { path: 'logs', component: ActivityLogComponent },
 ];
 
 @NgModule({

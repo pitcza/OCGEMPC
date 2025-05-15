@@ -4,12 +4,12 @@ import { ViewApplicationComponent } from '../view-application/view-application.c
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-for-releasing',
+  selector: 'app-declined-list',
   standalone: false,
-  templateUrl: './for-releasing.component.html',
-  styleUrl: './for-releasing.component.scss'
+  templateUrl: './declined-list.component.html',
+  styleUrl: './declined-list.component.scss'
 })
-export class ForReleasingComponent {
+export class DeclinedListComponent {
   selectedMaker = 'all';
   searchQuery = '';
   itemsPerPage = 10;
@@ -23,13 +23,13 @@ export class ForReleasingComponent {
 
   // sample data
   users = [
-    { name: 'Andrea Louise Castillo', address: '421 Magnolia St., Pasig City, Metro Manila', amount: '11,000', schedule: 'May 16, 2025', status: 'for release' },
-    { name: 'John Michael Santos', address: '12 Kalayaan Ave., Quezon City', amount: '11,000', schedule: 'May 16, 2025', status: 'for release' },
-    { name: 'Maria Isabella Reyes', address: '89 D. Tuazon St., Manila', amount: '11,000', schedule:  'May 16, 2025', status: 'for release' },
-    { name: 'Carlos Emmanuel Cruz', address: '5 Boni Ave., Mandaluyong City', amount: '11,000', schedule: 'May 16, 2025', status: 'for release' },
-    { name: 'Katrina Mae De Leon', address: '76 Lopez Jaena St., San Juan', amount: '11,000', schedule: 'May 16, 2025', status: 'for release' },
-    { name: 'Katrina Mae De Leon', address: '76 Lopez Jaena St., San Juan', amount: '11,000', schedule: 'May 16, 2025', status: 'for release' },
-    { name: 'Katrina Mae De Leon', address: '76 Lopez Jaena St., San Juan', amount: '11,000', schedule: 'May 16, 2025', status: 'for release' }
+    { name: 'Andrea Louise Castillo', address: '421 Magnolia St., Pasig City, Metro Manila', contact: '0987-123-1234', remarks: 'Sample Remarks' },
+    { name: 'John Michael Santos', address: '12 Kalayaan Ave., Quezon City', contact: '0987-123-1234', remarks: 'Sample Remarks' },
+    { name: 'Maria Isabella Reyes', address: '89 D. Tuazon St., Manila', contact: '0987-123-1234', remarks:  'Sample Remarks' },
+    { name: 'Carlos Emmanuel Cruz', address: '5 Boni Ave., Mandaluyong City', contact: '0987-123-1234', remarks: 'Sample Remarks' },
+    { name: 'Katrina Mae De Leon', address: '76 Lopez Jaena St., San Juan', contact: '0987-123-1234', remarks: 'Sample Remarks' },
+    { name: 'Katrina Mae De Leon', address: '76 Lopez Jaena St., San Juan', contact: '0987-123-1234', remarks: 'Sample Remarks' },
+    { name: 'Katrina Mae De Leon', address: '76 Lopez Jaena St., San Juan', contact: '0987-123-1234', remarks: 'Sample Remarks' }
   ];
 
   filteredUsers = [...this.users];

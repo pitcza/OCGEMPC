@@ -1,115 +1,131 @@
-.container {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+.loan-application-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
 }
 
 .header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-    h2 {
-        font-weight: 400;
-    }
+  .title {
+    font-size: 24px;
+    font-weight: 700;
+  }
 }
 
 .button-group {
+  display: flex;
+  gap: 12px;
+
+  .btn {
     display: flex;
-    gap: 10px;
     align-items: center;
+    justify-content: center;
+    font-weight: 600;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: var(--color-transition);
+    box-shadow: var(--btn-shadow);
 
-    .btn {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-weight: 600;
-        padding: 10px 25px;
-        width: auto;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-        box-shadow: var(--btn-shadow);
+    &:active {
+      transform: translateY(0.1em);
+      box-shadow: var(--btn-shadow-active);
+    }
 
-        &:active {
-            transform: translateY(0.1em);
-            box-shadow: var(--btn-shadow-active);
-        }
-    
-        &.primary {
-            background: var(--primary);
-            color: white;
-            transition: var(--color-transition);
+    &.primary {
+      background-color: var(--primary);
+      color: #fff;
 
-            &:hover {
-                background-color: var(--primary-hover);
-            }
-        }
+      &:hover {
+        background-color: var(--primary-hover);
+      }
+    }
 
-        &.green {
-            background-color: var(--green);
-            color: white;
-            transition: var(--color-transition);
+    &.green {
+      background-color: var(--green);
+      color: #fff;
 
-            &:hover {
-                background-color: var(--green-hover);
-            }
-        }
+      &:hover {
+        background-color: var(--green-hover);
+      }
+    }
 
-        &.red {
-            background-color: var(--red);
-            color: white;
-            transition: var(--color-transition);
+    &.red {
+      background-color: var(--red);
+      color: #fff;
 
-            &:hover {
-                background-color: var(--red-hover);
-            }
-        }
+      &:hover {
+        background-color: var(--red-hover);
+      }
+    }
 
-        &.gray {
-            background-color: var(--gray);
-            color: white;
-            transition: var(--color-transition);
+    &.gray {
+      background-color: var(--gray);
+      color: #fff;
 
-            &:hover {
-                background-color: var(--gray-hover);
-            }
-        }
-    } 
+      &:hover {
+        background-color: var(--gray-hover);
+      }
+    }
+  }
 }
 
 .tabs {
-    display: flex;
-    
-    .tab {
-      font-size: 16px;
-      flex: 1;
-      text-align: center;
-      padding: 10px;
-      font-weight: 300;
-      color: var(--gray);
-      cursor: pointer;
-      background: transparent;
-      border-bottom: 2px solid var(--gray);
-      opacity: 0.5;
-      transition: var(--main-transition);
-      
-      &:hover {
-        background: var(--white);
-      }
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
 
-      &:active {
-        background-color: var(--white-hover);
-      }
-      
-      &.active {
-        opacity: 1;
-        font-weight: 600;
-        background: white;
-        color: var(--primary);
-        border-bottom: 3px solid var(--primary);
-      }
+  .tab {
+    flex: 1;
+    text-align: center;
+    padding: 12px 0;
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--gray);
+    background: none;
+    border: none;
+    border-bottom: 2px solid var(--gray);
+    opacity: 0.6;
+    cursor: pointer;
+    transition: var(--main-transition);
+
+    &:hover {
+      background-color: var(--white);
     }
-}  
+
+    &:active {
+      background-color: var(--white-hover);
+    }
+
+    &.active {
+      color: var(--primary);
+      font-weight: 700;
+      opacity: 1;
+      border-bottom: 3px solid var(--primary);
+      background-color: white;
+    }
+  }
+}
+
+/* Responsive Enhancements */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .tabs {
+    flex-direction: column;
+
+    .tab {
+      width: 100%;
+    }
+  }
+}

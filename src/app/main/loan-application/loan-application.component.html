@@ -1,18 +1,19 @@
 <!-- <p>loan-application works!</p>
 <button (click)="viewApplication()"> View Application </button> -->
-
-<div class="container">
-    <div class="header">
-        <h2 class="title">LOAN APPLICATION</h2>
-        <div class="button-group">
-            <button class="btn primary" (click)="addApplication()"> Add Loan Application </button>
-        </div>
+<div class="loan-application-container">
+  <div class="header">
+    <h2 class="title">Loan Application</h2>
+    <div class="button-group">
+      <button class="btn primary" (click)="addApplication()">Add Loan Application</button>
     </div>
+  </div>
 
-    <div class="tabs">
-        <div class="tab" routerLinkActive="active" [routerLink]="['list']">APPLICATION LIST</div>
-        <div class="tab" routerLinkActive="active" [routerLink]="['release']">FOR RELEASING</div>
-    </div>
+  <nav class="tabs">
+    <button class="tab" routerLinkActive="active" [routerLink]="['list']">Application List</button>
+    <button class="tab" routerLinkActive="active" [routerLink]="['release']">For Releasing</button>
+    <button class="tab" routerLinkActive="active" [routerLink]="['declined']">Declined List</button>
+  </nav>
 
-    <router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>
+

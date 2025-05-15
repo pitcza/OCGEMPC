@@ -1,50 +1,48 @@
-<div class="main-overlay">
-    <div class="modal-container">
-        <div class="modal-head">
-            <div class="modal-title">
-                <h1>Amortization Schedule</h1>
-            </div>
-            <button class="exit-button" (click)="closeModal()"> &times; </button>
-        </div>
+<div class="main-overlay" role="dialog" aria-modal="true" aria-labelledby="amortizationTitle">
+  <div class="modal-container">
+    <header class="modal-head">
+      <h1 id="amortizationTitle" class="modal-title">Amortization Schedule</h1>
+      <button
+        class="exit-button"
+        (click)="closeModal()"
+        aria-label="Close modal"
+        type="button"
+      >
+        &times;
+      </button>
+    </header>
 
-        <div class="modal-body">
-            <div class="table">
-                <div class="table-header">
-                  <table>
-                    <thead>
-                      <tr>
-                        <th>Month</th>
-                        <th>Principal</th>
-                        <th>Principal Amortization</th>
-                        <th>Monthly Interest</th>
-                        <th>Total Amortization</th>
-                        <th>By Monthly Amortization</th>
-                        <th>Monthly Balance</th>
-                        <th>Amount Deducted</th>
-                        <th>Date Deducted</th>
-                      </tr>
-                    </thead>
-                  </table>
-                </div>
-              
-                <div class="table-body">
-                  <table>
-                    <tbody>
-                      <tr *ngFor="let row of amortizationData">
-                        <td>{{ row.month }}</td>
-                        <td>{{ row.principal | number:'1.0-2' }}</td>
-                        <td>{{ row.principalAmortization | number:'1.0-2' }}</td>
-                        <td>{{ row.monthlyInterest | number:'1.0-2' }}</td>
-                        <td>{{ row.totalAmortization | number:'1.0-2' }}</td>
-                        <td>{{ row.biMonthlyAmortization | number:'1.0-2' }}</td>
-                        <td>{{ row.monthlyBalance | number:'1.0-2' }}</td>
-                        <td>{{ row.amountDeducted | number:'1.0-2' }}</td>
-                        <td>{{ row.dateDeducted }}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>              
-        </div>
-    </div>
+    <section class="modal-body">
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th scope="col">Month</th>
+              <th scope="col">Principal</th>
+              <th scope="col">Principal Amortization</th>
+              <th scope="col">Monthly Interest</th>
+              <th scope="col">Total Amortization</th>
+              <th scope="col">Bi-Monthly Amortization</th>
+              <th scope="col">Monthly Balance</th>
+              <th scope="col">Amount Deducted</th>
+              <th scope="col">Date Deducted</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of amortizationData">
+              <td>{{ row.month }}</td>
+              <td>{{ row.principal | number: '1.2-2' }}</td>
+              <td>{{ row.principalAmortization | number: '1.2-2' }}</td>
+              <td>{{ row.monthlyInterest | number: '1.2-2' }}</td>
+              <td>{{ row.totalAmortization | number: '1.2-2' }}</td>
+              <td>{{ row.biMonthlyAmortization | number: '1.2-2' }}</td>
+              <td>{{ row.monthlyBalance | number: '1.2-2' }}</td>
+              <td>{{ row.amountDeducted | number: '1.2-2' }}</td>
+              <td>{{ row.dateDeducted }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+  </div>
 </div>

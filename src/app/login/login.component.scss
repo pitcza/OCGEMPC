@@ -38,7 +38,7 @@
 
 .input-group input.form-input {
   width: 100%;
-  padding: 10px 12px 10px 75px; /* Left space for icon */
+  padding: 10px 12px 10px 45px; /* Left space for icon */
   padding-right: 40px; /* Right space for eye icon */
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -47,7 +47,6 @@
   vertical-align: middle;
 }
 
-
 .input-group .icon {
   position: absolute;
   top: 50%;
@@ -55,7 +54,7 @@
   color: #888;
   width: 20px;
   height: 20px;
-  left: 20px;
+  left: 12px;
   pointer-events: none;
 }
 
@@ -69,8 +68,7 @@
 .input-group .eye-icon {
   position: absolute;
   top: 50%;
-  left: 20px;
-  right: auto;
+  right: 12px;
   transform: translateY(-50%);
   cursor: pointer;
   color: #888;
@@ -78,7 +76,6 @@
   align-items: center;
   justify-content: center;
 }
-
 
 .error {
   color: red;

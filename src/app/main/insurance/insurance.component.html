@@ -1,1 +1,111 @@
-<p>insurance works!</p>
+<div class="coverage-panel my-4">
+  <header class="coverage-header">
+    <h2 class="title m-0">INSURANCE</h2>
+  </header>
+
+  <div class="coverage-card shadow p-3">
+    <div class="coverage-toolbar">
+        <button class="btn-download">Download Report Sheet</button>
+      <div class="coverage-dropdown">
+        <select id="billingStatement" class="form-select">
+          <option value="0000001">Billing Statement No. 0000001</option>
+          <!-- Add more options here -->
+        </select>
+              <div class="table-head">
+        <div class="search-wrapper">
+          <input
+            type="text"
+            placeholder="Search..."
+            [(ngModel)]="searchQuery"
+            (input)="applyFilters()"
+            aria-label="Search users"
+          />
+          <button aria-label="Search">
+            <i class="bx bx-search-alt"></i>
+          </button>
+        </div>
+    </div>
+      </div>
+
+    </div>
+
+    <div class="table-responsive">
+      <table class="table-striped table-hover align-middle">
+        <thead class="table-header">
+          <tr>
+            <th>Certificate No.</th>
+            <th>Full Name</th>
+            <th>Age</th>
+            <th>Status</th>
+            <th>Effective Date</th>
+            <th>Expiry Date</th>
+            <th>Term</th>
+            <th>Sum Insured</th>
+            <th>Gross Premium</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let element of dataSource.filteredData">
+            <td>{{ element.certificateNo }}</td>
+            <td>{{ element.fullName }}</td>
+            <td>{{ element.age }}</td>
+            <td>{{ element.status }}</td>
+            <td>{{ element.effectiveDate }}</td>
+            <td>{{ element.expiryDate }}</td>
+            <td>{{ element.term }}</td>
+            <td>{{ element.sumInsured }}</td>
+            <td>{{ element.grossPremium }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  
+    <!-- Pagination -->
+    <div class="pagination-container">
+      <div class="items-per-page">
+        <label for="itemsPerPage">Show:</label>
+        <select
+          id="itemsPerPage"
+          [(ngModel)]="itemsPerPage"
+          (change)="onItemsPerPageChange()"
+          aria-label="Select number of items per page"
+        >
+          <option *ngFor="let option of [5, 10, 25, 50]" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+        <span>entries</span>
+      </div>
+
+      <div class="pagination-info">
+        Showing {{ startIndex + 1 }} to {{ endIndex }} of {{ totalItems }}
+        entries
+      </div>
+
+      <div class="pagination">
+        <button
+          (click)="goToPreviousPage()"
+          [disabled]="currentPage === 1"
+          aria-label="Previous page"
+        >
+          <i class="bx bx-chevron-left"></i>
+        </button>
+
+        <button
+          *ngFor="let page of totalPages"
+          (click)="goToPage(page)"
+          [class.active]="page === currentPage">
+          {{ page }}
+        </button>
+
+        <button
+          (click)="goToNextPage()"
+          [disabled]="currentPage === totalPages"
+          aria-label="Next page"
+        >
+          <i class="bx bx-chevron-right"></i>
+        </button>
+      </div>
+    </div>
+</div>

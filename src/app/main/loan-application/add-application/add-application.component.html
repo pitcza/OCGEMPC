@@ -1,5 +1,6 @@
 <div class="main-overlay">
     <div class="modal-container">
+        <!-- Header Section -->
         <div class="modal-head">
             <div class="modal-title">
                 <h1>Loan Application Form</h1>
@@ -7,204 +8,239 @@
             <button class="exit-button" (click)="closeModal()"> &times; </button>
         </div>
 
+        <!-- Form Body -->
         <div class="modal-body">
-            <form >
+            <form>
+                <!-- Applicant Information Section -->
                 <div class="makers-form" *ngIf="!isCoMakersFormVisible">
                     <h2>Applicant Maker's Information</h2>
 
-                    <div class="input-row">
-                        <div class="input-group">
-                            <label class="label">First Name</label>
-                            <input type="text" class="text-field" name="first_name" placeholder="Juan">
+                    <!-- Personal Information -->
+                    <div class="section-group">
+                        <h3>Personal Details</h3>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="label">First Name</label>
+                                <input type="text" class="text-field" name="first_name" placeholder="Juan">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Middle Name</label>
+                                <input type="text" class="text-field" name="middle_name" placeholder="Martinez">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Last Name</label>
+                                <input type="text" class="text-field" name="last_name" placeholder="Dela Cruz">
+                            </div>
+                            <div class="input-group-short">
+                                <label class="label">Ext Name</label>
+                                <input type="text" class="text-field" name="ext_name" placeholder="Jr.">
+                            </div>
                         </div>
-                        <div class="input-group">
-                            <label class="label">Middle Name</label>
-                            <input type="text" class="text-field" name="middle_name" placeholder="Martinez">
+
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="label">Residence Address</label>
+                                <input type="text" class="text-field" name="address" placeholder="Lot No., Street Address, City, Province, Postal Code">
+                            </div>
+                            <div class="input-group-short">
+                                <label class="label">Contact Number</label>
+                                <input type="text" class="text-field" name="phone_num" pattern="[0-9]*" maxlength="11" placeholder="09XXXXXXXXX" (keypress)="validatePhoneNumberInput($event)">
+                            </div>
                         </div>
-                        <div class="input-group">
-                            <label class="label">Last Name</label>
-                            <input type="text" class="text-field" name="last_name" placeholder="Dela Cruz">
-                        </div>
-                        <div class="input-group-short">
-                            <label class="label">Ext Name</label>
-                            <input type="text" class="text-field" name="ext_name" placeholder="Jr.">
+
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="label">Date of Birth</label>
+                                <input type="date" class="text-field" name="birthdate">
+                            </div>
+                            <div class="input-group-short">
+                                <label class="label">Age</label>
+                                <input type="number" class="text-field" name="age" placeholder="ex. 23">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="input-row">
-                        <div class="input-group">
-                            <label class="label" for="text-field">Residence Address</label>
-                            <input type="text" class="text-field" name="address" placeholder="Lot No., Street Address, City, Province, Postal Code">
-                        </div>
-                        <div class="input-group-short">
-                            <label class="label" for="text-field">Contact Number</label>
-                            <input type="text" class="text-field" name="phone_num" pattern="[0-9]*" maxlength="11" placeholder="09XXXXXXXXX" (keypress)="validatePhoneNumberInput($event)">
-                        </div>
-                    </div>
-
-                    <div class="input-row">
-                        <div class="input-group">
-                            <label class="label" for="text-field">Date of Birth</label>
-                            <input type="date" class="text-field" name="birthdate">
-                        </div>
-                        <div class="input-group-short">
-                            <label class="label" for="text-field">Age</label>
-                            <input type="number" class="text-field" name="age" placeholder="ex. 23">
-                        </div>
-                        <div class="input-group">
-                            <label class="label" for="text-field">Dept./Office</label>
-                            <input type="text" class="text-field" name="dept" placeholder="Office">
-                        </div>
-                        <div class="input-group">
-                            <label class="label" for="text-field">Position</label>
-                            <input type="text" class="text-field" name="position" placeholder="Position">
+                    <!-- Employment Information -->
+                    <div class="section-group">
+                        <h3>Employment Details</h3>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="label">Dept./Office</label>
+                                <input type="text" class="text-field" name="dept" placeholder="Office">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Position</label>
+                                <input type="text" class="text-field" name="position" placeholder="Position">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Salary (per month)</label>
+                                <input type="number" class="text-field" name="salary" placeholder="ex. 18,000">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Employment Status</label>
+                                <input type="text" class="text-field" name="ee_status" placeholder="ex. Worker">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="input-row">
-                        <div class="input-group">
-                            <label class="label" for="text-field">Salary (per month)</label>
-                            <input type="number" class="text-field" name="salary" placeholder="ex. 18,000">
-                        </div>
-                        <div class="input-group">
-                            <label class="label" for="text-field">Employment Status</label>
-                            <input type="text" class="text-field" name="ee_status" placeholder="ex. Worker">
-                        </div>
-                        <div class="input-group">
-                            <label class="label" for="text-field">Years as Coop Member</label>
-                            <input type="text" class="text-field" name="years_coop" placeholder="ex. 2 years">
-                        </div>
-                    </div>
-
-                    <div class="input-row">
-                        <div class="input-group">
-                            <label class="label" for="text-field">Amount of shares</label>
-                            <input type="number" class="text-field" name="share_amaont" placeholder="ex. 18,000">
-                        </div>
-                        <div class="input-group">
-                            <label class="label" for="text-field">Amount of saving</label>
-                            <input type="number" class="text-field" name="saving_amount" placeholder="ex. 18,000">
-                        </div>
-                        <div class="input-group">
-                            <label class="label" for="text-field">Type of Loan</label>
-                            <select class="text-field" name="loan_type">
-                                <option selected value="">Select Type</option>
-                                <option value="Educational">Educational</option>
-                                <option value="Livelihood">Livelihood</option>
-                                <option value="Madical">Madical</option>
-                            </select>
-                        </div>
-                        <div class="input-group">
-                            <label class="label" for="text-field">Amount of loan applied</label>
-                            <input type="number" class="text-field" name="applied_amount" placeholder="ex. 60,000">
+                    <!-- Cooperative Membership -->
+                    <div class="section-group">
+                        <h3>Cooperative Membership</h3>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="label">Years as Coop Member</label>
+                                <input type="text" class="text-field" name="years_coop" placeholder="ex. 2 years">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Amount of shares</label>
+                                <input type="number" class="text-field" name="share_amaont" placeholder="ex. 18,000">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Amount of saving</label>
+                                <input type="number" class="text-field" name="saving_amount" placeholder="ex. 18,000">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="input-row">
-                        <div class="input-group">
-                            <label class="label" for="text-field">Loan Term</label>
-                            <input type="number" class="text-field" name="loan_term" placeholder="ex. 24 months">
+                    <!-- Loan Details -->
+                    <div class="section-group">
+                        <h3>Loan Information</h3>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="label">Type of Loan</label>
+                                <select class="text-field" name="loan_type">
+                                    <option selected value="">Select Type</option>
+                                    <option value="Educational">Educational</option>
+                                    <option value="Livelihood">Livelihood</option>
+                                    <option value="Medical">Medical</option>
+                                </select>
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Amount of loan applied</label>
+                                <input type="number" class="text-field" name="applied_amount" placeholder="ex. 60,000">
+                            </div>
                         </div>
-                        <div class="input-group">
-                            <label class="label" for="text-field">Purpose of Loan</label>
-                            <input type="text" class="text-field" name="loan_purpose" placeholder="ex. Education expenses">
-                        </div>
-                        <div class="input-group">
-                            <label class="label" for="text-field">Repayment Frequency</label>
-                            <select class="text-field" name="repayment_freq">
-                                <option selected value="Monthly">Monthly</option>
-                                <option value="Sample">Sample</option>
-                            </select>
+
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="label">Loan Term</label>
+                                <input type="number" class="text-field" name="loan_term" placeholder="ex. 24 months">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Purpose of Loan</label>
+                                <input type="text" class="text-field" name="loan_purpose" placeholder="ex. Education expenses">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Repayment Frequency</label>
+                                <select class="text-field" name="repayment_freq">
+                                    <option selected value="Monthly">Monthly</option>
+                                    <option value="Sample">Sample</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Navigation Buttons -->
                     <div class="buttons">
-                        <div class="left">
-                        </div>
+                        <div class="left"></div>
                         <div class="right">
                             <input class="submit-btn" type="button" value="Next" (click)="showCoMakersForm()">
                         </div>
                     </div>
                 </div>
 
+                <!-- Co-Maker Information Section -->
                 <div class="comakers-form" *ngIf="isCoMakersFormVisible">
                     <h2>Co-Maker's Information</h2>
 
-                    <div class="input-row">
-                        <div class="input-group">
-                            <label class="label">First Name</label>
-                            <input type="text" class="text-field" name="co_first_name" placeholder="Juan">
+                    <!-- Personal Information -->
+                    <div class="section-group">
+                        <h3>Personal Details</h3>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="label">First Name</label>
+                                <input type="text" class="text-field" name="co_first_name" placeholder="Juan">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Middle Name</label>
+                                <input type="text" class="text-field" name="co_middle_name" placeholder="Martinez">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Last Name</label>
+                                <input type="text" class="text-field" name="co_last_name" placeholder="Dela Cruz">
+                            </div>
+                            <div class="input-group-short">
+                                <label class="label">Ext Name</label>
+                                <input type="text" class="text-field" name="co_ext_name" placeholder="Jr.">
+                            </div>
                         </div>
-                        <div class="input-group">
-                            <label class="label">Middle Name</label>
-                            <input type="text" class="text-field" name="co_middle_name" placeholder="Martinez">
+
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="label">Residence Address</label>
+                                <input type="text" class="text-field" name="co_address" placeholder="Lot No., Street Address, City, Province, Postal Code">
+                            </div>
+                            <div class="input-group-short">
+                                <label class="label">Contact Number</label>
+                                <input type="text" class="text-field" name="co_phone_num" pattern="[0-9]*" maxlength="11" placeholder="09XXXXXXXXX" (keypress)="validatePhoneNumberInput($event)">
+                            </div>
                         </div>
-                        <div class="input-group">
-                            <label class="label">Last Name</label>
-                            <input type="text" class="text-field" name="co_last_name" placeholder="Dela Cruz">
-                        </div>
-                        <div class="input-group-short">
-                            <label class="label">Ext Name</label>
-                            <input type="text" class="text-field" name="co_ext_name" placeholder="Jr.">
+
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="label">Date of Birth</label>
+                                <input type="date" class="text-field" name="co_birthdate">
+                            </div>
+                            <div class="input-group-short">
+                                <label class="label">Age</label>
+                                <input type="text" class="text-field" name="co_age" placeholder="ex. 23">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="input-row">
-                        <div class="input-group">
-                            <label class="label" for="text-field">Residence Address</label>
-                            <input type="text" class="text-field" name="co_address" placeholder="Lot No., Street Address, City, Province, Postal Code">
-                        </div>
-                        <div class="input-group-short">
-                            <label class="label" for="text-field">Contact Number</label>
-                            <input type="text" class="text-field" name="co_phone_num" pattern="[0-9]*" maxlength="11" placeholder="09XXXXXXXXX" (keypress)="validatePhoneNumberInput($event)">
-                        </div>
-                    </div>
-
-                    <div class="input-row">
-                        <div class="input-group">
-                            <label class="label" for="text-field">Date of Birth</label>
-                            <input type="date" class="text-field" name="co_birthdate">
-                        </div>
-                        <div class="input-group-short">
-                            <label class="label" for="text-field">Age</label>
-                            <input type="text" class="text-field" name="co_age" placeholder="ex. 23">
-                        </div>
-                        <div class="input-group">
-                            <label class="label" for="text-field">Dept./Office</label>
-                            <input type="text" class="text-field" name="co_dept" placeholder="Office">
-                        </div>
-                        <div class="input-group">
-                            <label class="label" for="text-field">Position</label>
-                            <input type="text" class="text-field" name="co_position" placeholder="Position">
+                    <!-- Employment Information -->
+                    <div class="section-group">
+                        <h3>Employment Details</h3>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="label">Dept./Office</label>
+                                <input type="text" class="text-field" name="co_dept" placeholder="Office">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Position</label>
+                                <input type="text" class="text-field" name="co_position" placeholder="Position">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Salary (per month)</label>
+                                <input type="number" class="text-field" name="co_salary" placeholder="ex. 18,000">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Employment Status</label>
+                                <input type="text" class="text-field" name="co_ee_status" placeholder="ex. Worker">
+                            </div>
                         </div>
                     </div>
 
-                    <div class="input-row">
-                        <div class="input-group">
-                            <label class="label" for="text-field">Salary (per month)</label>
-                            <input type="number" class="text-field" name="co_salary" placeholder="ex. 18,000">
-                        </div>
-                        <div class="input-group">
-                            <label class="label" for="text-field">Employment Status</label>
-                            <input type="text" class="text-field" name="co_ee_status" placeholder="ex. Worker">
-                        </div>
-                        <div class="input-group">
-                            <label class="label" for="text-field">Years as Coop Member</label>
-                            <input type="text" class="text-field" name="co_years_coop" placeholder="ex. 2 years">
-                        </div>
-                    </div>
-
-                    <div class="input-row">
-                        <div class="input-group">
-                            <label class="label" for="text-field">Amount of shares</label>
-                            <input type="number" class="text-field" name="co_share_amaont" placeholder="ex. 18,000">
-                        </div>
-                        <div class="input-group">
-                            <label class="label" for="text-field">Amount of saving</label>
-                            <input type="number" class="text-field" name="co_saving_amount" placeholder="ex. 18,000">
+                    <!-- Cooperative Membership -->
+                    <div class="section-group">
+                        <h3>Cooperative Membership</h3>
+                        <div class="input-row">
+                            <div class="input-group">
+                                <label class="label">Years as Coop Member</label>
+                                <input type="text" class="text-field" name="co_years_coop" placeholder="ex. 2 years">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Amount of shares</label>
+                                <input type="number" class="text-field" name="co_share_amaont" placeholder="ex. 18,000">
+                            </div>
+                            <div class="input-group">
+                                <label class="label">Amount of saving</label>
+                                <input type="number" class="text-field" name="co_saving_amount" placeholder="ex. 18,000">
+                            </div>
                         </div>
                     </div>
 
+                    <!-- Navigation Buttons -->
                     <div class="buttons">
                         <div class="left">
                             <input class="cancel-btn" type="button" value="Back" (click)="showMakersForm()">

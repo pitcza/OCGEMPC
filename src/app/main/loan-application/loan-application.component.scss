@@ -15,22 +15,24 @@
   text-transform: uppercase;
 }
 
-&.gray,
-&.green,
-&.red {
-  color: #fff;
-}
+.status {
+  &.gray,
+  &.green,
+  &.red {
+    color: #fff;
+  }
 
-&.green {
-  background-color: var(--green);
-}
+  &.green {
+    background-color: var(--green);
+  }
 
-&.red {
-  background-color: var(--red);
-}
+  &.red {
+    background-color: var(--red);
+  }
 
-&.gray {
-  background-color: var(--gray);
+  &.gray {
+    background-color: var(--gray);
+  }
 }
 
 .tabs {

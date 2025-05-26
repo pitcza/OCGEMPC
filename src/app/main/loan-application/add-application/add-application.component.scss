@@ -81,6 +81,12 @@
 }
 
 .modal-body {
+    .section-group {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+    
     form {
         .makers-form,
         .comakers-form {

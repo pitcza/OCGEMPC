@@ -8,66 +8,76 @@
     </div>
 
     <div class="modal-body">
-      <div class="form-grid">
-        <div class="form-group">
-          <label>Full Name</label>
-          <div class="input-box">Andrea Louise Castillo</div>
-        </div>
-        <div class="form-group">
-          <label>Residence Address</label>
-          <div class="input-box">421 Magnolia St., Pasig City, Metro Manila</div>
-        </div>
-        <div class="form-group">
-          <label>Contact Number</label>
-          <div class="input-box">0917-234-7789</div>
-        </div>
-        <div class="form-group">
-          <label>Date of Birth</label>
-          <div class="input-box">March 15, 1991</div>
-        </div>
-        <div class="form-group">
-          <label>Age</label>
-          <div class="input-box">39</div>
-        </div>
-        <div class="form-group">
-          <label>Dept/Office</label>
-          <div class="input-box">Sample Department</div>
-        </div>
-        <div class="form-group">
-          <label>Position</label>
-          <div class="input-box">Sample Position</div>
-        </div>
-        <div class="form-group">
-          <label>Salary/Month</label>
-          <div class="input-box">Sample Salary</div>
-        </div>
-        <div class="form-group">
-          <label>Employment Status</label>
-          <div class="input-box">Sample Status</div>
-        </div>
-        <div class="form-group">
-          <label>Years as Coop</label>
-          <div class="input-box">Sample Years</div>
-        </div>
-        <div class="form-group">
-          <label>Type of Loan</label>
-          <div class="input-box">Sample Type of Loan</div>
-        </div>
-        <div class="form-group">
-          <label>Amount of Loan Applied</label>
-          <div class="input-box">Sample Loan Amount</div>
-        </div>
-        <div class="form-group">
-          <label>Loan Term</label>
-          <div class="input-box">Sample Loan Term</div>
-        </div>
-        <div class="form-group full-width">
-          <label>Purpose of Loan</label>
-          <div class="input-box">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna.
+      <ng-container *ngIf="loading">
+        <div class="loading">Loading...</div>
+      </ng-container>
+      <ng-container *ngIf="error && !loading">
+        <div class="error">{{ error }}</div>
+      </ng-container>
+      <ng-container *ngIf="!loading && !error && makerDetails">
+        <div class="form-grid">
+          <div class="form-group">
+            <label>Full Name</label>
+            <div class="input-box">
+              {{ makerDetails.first_name }} {{ makerDetails.middle_name }} {{ makerDetails.last_name }} {{ makerDetails.ext_name }}
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Residence Address</label>
+            <div class="input-box">{{ makerDetails.address }}</div>
+          </div>
+          <div class="form-group">
+            <label>Contact Number</label>
+            <div class="input-box">{{ makerDetails.phone_num }}</div>
+          </div>
+          <div class="form-group">
+            <label>Date of Birth</label>
+            <div class="input-box">{{ makerDetails.birthdate | date:'longDate' }}</div>
+          </div>
+          <div class="form-group">
+            <label>Age</label>
+            <div class="input-box">{{ makerDetails.age }}</div>
+          </div>
+          <div class="form-group">
+            <label>Dept/Office</label>
+            <div class="input-box">{{ makerDetails.dept }}</div>
+          </div>
+          <div class="form-group">
+            <label>Position</label>
+            <div class="input-box">{{ makerDetails.position }}</div>
+          </div>
+          <div class="form-group">
+            <label>Salary/Month</label>
+            <div class="input-box">{{ makerDetails.salary }}</div>
+          </div>
+          <div class="form-group">
+            <label>Employment Status</label>
+            <div class="input-box">{{ makerDetails.ee_status }}</div>
+          </div>
+          <div class="form-group">
+            <label>Years as Coop</label>
+            <div class="input-box">{{ makerDetails.years_coop }}</div>
+          </div>
+          <div class="form-group">
+            <label>Type of Loan</label>
+            <div class="input-box">{{ makerDetails.type_of_loan }}</div>
+          </div>
+          <div class="form-group">
+            <label>Amount of Loan Applied</label>
+            <div class="input-box">{{ makerDetails.loan_amount }}</div>
+          </div>
+          <div class="form-group">
+            <label>Loan Term</label>
+            <div class="input-box">{{ makerDetails.loan_term }}</div>
+          </div>
+          <div class="form-group full-width">
+            <label>Purpose of Loan</label>
+            <div class="input-box">
+              {{ makerDetails.purpose_of_loan }}
+            </div>
           </div>
         </div>
-      </div>
+      </ng-container>
     </div>
   </div>
 </div>

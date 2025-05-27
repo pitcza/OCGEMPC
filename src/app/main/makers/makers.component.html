@@ -38,9 +38,9 @@
       <table>
 <tbody>
   <tr *ngFor="let user of filteredUsers" (click)="viewDetails(user)">
-    <td>{{ user.name }}</td>
+    <td>{{ getFullName(user) }}</td>
     <td>{{ user.address }}</td>
-    <td>{{ user.contact }}</td>
+    <td>{{ user.phone_num }}</td>
     <td>{{ user.birthdate }}</td>
     <td class="actions">
       <button class="action red-action" (click)="viewSchedule(user); $event.stopPropagation()">Schedule</button>
@@ -51,7 +51,7 @@
       </table>
     </div>
 
-   
+
   </div>
    <div class="pagination-container">
       <div class="items-per-page">

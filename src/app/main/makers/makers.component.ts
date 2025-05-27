@@ -1,8 +1,28 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
 import { DetailsComponent } from './details/details.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 
+interface MakerUser {
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  ext_name: string;
+  address: string;
+  phone_num: string;
+  birthdate: string;
+  makerType: string;
+  age: number;
+  dept: string;
+  position: string;
+  salary: GLfloat;
+  ee_status: string;
+  years_coop: string;
+  share_amount: GLfloat;
+  saving_amount: GLfloat;
+  // Add other fields as needed
+}
 @Component({
   selector: 'app-makers',
   standalone: false,
@@ -14,63 +34,31 @@ export class MakersComponent {
   searchQuery = '';
   itemsPerPage = 10;
   currentPage = 1;
+  users: MakerUser[] = [];
+  filteredUsers: MakerUser[] = [];
 
-  users = [
-    {
-      name: 'Andrea Louise Castillo',
-      address: '421 Magnolia St., Pasig City, Metro Manila',
-      contact: '0917-234-7789',
-      birthdate: 'March 15, 1991',
-      makerType: 'officer'
-    },
-    {
-      name: 'John Michael Santos',
-      address: '12 Kalayaan Ave., Quezon City',
-      contact: '0918-555-1234',
-      birthdate: 'July 22, 1988',
-      makerType: 'member'
-    },
-    {
-      name: 'Maria Isabella Reyes',
-      address: '89 D. Tuazon St., Manila',
-      contact: '0927-321-4567',
-      birthdate: 'October 3, 1995',
-      makerType: 'non-member'
-    },
-    {
-      name: 'Carlos Emmanuel Cruz',
-      address: '5 Boni Ave., Mandaluyong City',
-      contact: '0906-789-6543',
-      birthdate: 'January 17, 1985',
-      makerType: 'officer'
-    },
-    {
-      name: 'Katrina Mae De Leon',
-      address: '76 Lopez Jaena St., San Juan',
-      contact: '0919-234-9876',
-      birthdate: 'May 9, 1993',
-      makerType: 'member'
-    },
-    {
-      name: 'Katrina Mae De Leon',
-      address: '76 Lopez Jaena St., San Juan',
-      contact: '0919-234-9876',
-      birthdate: 'May 9, 1993',
-      makerType: 'member'
-    },
-    {
-      name: 'Katrina Mae De Leon',
-      address: '76 Lopez Jaena St., San Juan',
-      contact: '0919-234-9876',
-      birthdate: 'May 9, 1993',
-      makerType: 'member'
-    }
-  ];
+  constructor(
+    private dialog: MatDialog,
+    private http: HttpClient
+  ) {}
 
-  filteredUsers = [...this.users];
-
-  constructor(private dialog: MatDialog) {}
-
+    ngOnInit(): void {
+    this.fetchUsers();
+  }
+  fetchUsers(): void {
+    // Replace 'your-api-route' with your actual API endpoint
+    this.http.get<MakerUser[]>('http://localhost:3000/api/makers').subscribe({
+      next: (data) => {
+        this.users = data;
+        this.filteredUsers = [...this.users];
+      },
+      error: (err) => {
+        // Handle error (optional: show notification)
+        this.users = [];
+        this.filteredUsers = [];
+      }
+    });
+  }
   get totalItems() {
     return this.filteredUsers.length;
   }
@@ -96,7 +84,7 @@ export class MakersComponent {
   applyFilters() {
     this.filteredUsers = this.users.filter(user => {
       const matchesMaker = this.selectedMaker === 'all' || user.makerType === this.selectedMaker;
-      const matchesSearch = user.name.toLowerCase().includes(this.searchQuery.toLowerCase());
+      const matchesSearch = user.first_name.toLowerCase().includes(this.searchQuery.toLowerCase()) || user.last_name.toLowerCase().includes(this.searchQuery.toLowerCase());
       return matchesMaker && matchesSearch;
     });
     this.currentPage = 1; // reset to first page when filters change
@@ -129,4 +117,8 @@ export class MakersComponent {
       data: user
     });
   }
+
+   getFullName(user: any): string {
+  return [user.first_name, user.last_name].filter(Boolean).join(' ');
+}
 }

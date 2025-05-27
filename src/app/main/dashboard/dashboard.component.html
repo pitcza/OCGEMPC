@@ -7,7 +7,7 @@
     </div>
     <div class="widget">
         <p>Total Loan Applications this Month</p>
-        <h2>{{totalLoanAmount}}</h2>
+        <h2>{{formattedTotalLoanAmount}}</h2>
     </div>
     <div class="widget">
         <p>Active Loans</p>
@@ -47,7 +47,7 @@
                 <tbody>
                     <tr *ngFor="let payment of recentPayments">
                         <td>{{payment.id}}</td>
-                        <td>{{payment.borrower}}</td>
+                        <td>{{getFullName(payment)}}</td>
                         <td>{{payment.amount}}</td>
                         <td>{{payment.date}}</td>
                         <td>

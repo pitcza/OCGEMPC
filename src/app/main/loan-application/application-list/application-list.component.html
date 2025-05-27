@@ -25,7 +25,7 @@
             <th>Address</th>
             <th>Contact No.</th>
             <th>Status</th>
-            <th>Action</th>
+            <th *ngIf="userRole === 'Loan Officer' || userRole === 'Superadmin'">Action</th>
           </tr>
         </thead>
         <tbody>
@@ -40,7 +40,7 @@
             <td>{{ user.address }}</td>
             <td>{{ user.contact }}</td>
             <td>{{ user.status }}</td>
-            <td class="actions">
+            <td class="actions" *ngIf="userRole === 'Loan Officer' || userRole === 'Superadmin'">
               <button
                 class="action green-action"
                 (click)="approve(user); $event.stopPropagation()"

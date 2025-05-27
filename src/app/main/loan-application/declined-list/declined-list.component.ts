@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ViewApplicationComponent } from '../view-application/view-application.component';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../../services/auth.services';
 
 @Component({
   selector: 'app-declined-list',
@@ -14,12 +15,15 @@ export class DeclinedListComponent {
   searchQuery = '';
   itemsPerPage = 10;
   currentPage = 1;
+  userRole: string | null = null;
 
   viewLoan() {
     this.dialog.open(ViewApplicationComponent);
   }
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private authService: AuthService) {
+    this.userRole = this.authService.cookieService.get('roleName');
+  }
 
   // sample data
   users = [

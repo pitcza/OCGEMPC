@@ -3,7 +3,7 @@
 <div class="loan-application-container">
   <div class="header">
     <h2 class="title">LOAN APPLICATION</h2>
-    <div class="button-group">
+    <div class="button-group" *ngIf="userRole === 'Loan Officer' || userRole === 'Superadmin'">
       <button class="btn primary" (click)="addApplication()">Add Loan Application</button>
     </div>
   </div>

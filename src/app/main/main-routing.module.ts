@@ -21,7 +21,9 @@ const routes: Routes = [
     canActivate: [AuthGuard],  },
   { path: 'makers',
     component: MakersComponent,
-    canActivate: [AuthGuard] },
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['Loan Officer', 'Superadmin'] },
+  },
   { path: 'loan', component: LoanApplicationComponent,
     children: [
       { path: 'list',
@@ -29,16 +31,23 @@ const routes: Routes = [
         canActivate: [AuthGuard] },
       { path: 'release',
         component: ForReleasingComponent,
-        canActivate: [AuthGuard, RoleGuard],
-        data: { roles: ['Loan Officer', 'Superadmin'] } },
+        canActivate: [AuthGuard] },
       { path: 'declined',
         component: DeclinedListComponent,
         canActivate: [AuthGuard] },
       { path: '', redirectTo: 'list', pathMatch: 'full' },
     ],
   },
-  { path: 'insurance', component: InsuranceComponent, canActivate: [AuthGuard] },
-  { path: 'logs', component: ActivityLogComponent, canActivate: [AuthGuard] },
+  { path: 'insurance',
+    component: InsuranceComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['Loan Officer', 'Superadmin'] }
+  },
+  { path: 'logs',
+    component: ActivityLogComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['Superadmin'] }
+   },
   { path: 'unauthorized', component: UnauthorizedComponent },
 ];
 

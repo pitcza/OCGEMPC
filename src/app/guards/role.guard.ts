@@ -17,7 +17,7 @@ export class RoleGuard implements CanActivate {
     }
 
     // Optionally redirect to unauthorized page
-    this.router.navigate(['/login']);
+    this.router.navigate(['/unauthorized']);
     return false;
   }
 }

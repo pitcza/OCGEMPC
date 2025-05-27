@@ -1,7 +1,8 @@
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-import { AuthService } from '../services/auth.services'
+import { AuthService } from '../services/auth.services';
+
 @Component({
   selector: 'app-main',
   standalone: false,
@@ -9,11 +10,13 @@ import { AuthService } from '../services/auth.services'
   styleUrl: './main.component.scss'
 })
 export class MainComponent {
+  userRole: string | null = null;
   constructor(
     private router: Router,
     private authService: AuthService,
   ) {
     this.checkScreenWidth();
+    this.userRole = this.authService.cookieService.get('roleName');
   }
 
   logoutUser() {

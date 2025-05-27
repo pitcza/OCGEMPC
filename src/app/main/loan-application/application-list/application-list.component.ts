@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ViewApplicationComponent } from '../view-application/view-application.component';
 import Swal from 'sweetalert2';
 import { SetScheduleComponent } from '../set-schedule/set-schedule.component';
+import { AuthService } from '../../../services/auth.services';
 
 @Component({
   selector: 'app-application-list',
@@ -15,12 +16,15 @@ export class ApplicationListComponent {
   searchQuery = '';
   itemsPerPage = 10;
   currentPage = 1;
+  userRole: string | null = null;
 
   viewLoan() {
     this.dialog.open(ViewApplicationComponent);
   }
 
-  constructor(private dialog: MatDialog) {}
+  constructor(private dialog: MatDialog, private authService: AuthService,) {
+    this.userRole = this.authService.cookieService.get('roleName');
+  }
 
   approve(user: any) {
     Swal.fire({

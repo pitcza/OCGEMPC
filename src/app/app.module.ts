@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule, provideHttpClient, withFetch } from '@angular/common/http';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'; 
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -26,12 +26,12 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     RouterModule,
     HttpClientModule,
     FormsModule,
-    ReactiveFormsModule, 
+    ReactiveFormsModule,
     MaterialModule,
     MainModule,
     LoginComponent,
     ForgotPasswordComponent,
-    CommonModule, 
+    CommonModule,
   ],
 
   providers: [

@@ -1,7 +1,7 @@
 import { Component, HostListener } from '@angular/core';
 import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
-
+import { AuthService } from '../services/auth.services'
 @Component({
   selector: 'app-main',
   standalone: false,
@@ -11,6 +11,7 @@ import Swal from 'sweetalert2';
 export class MainComponent {
   constructor(
     private router: Router,
+    private authService: AuthService,
   ) {
     this.checkScreenWidth();
   }
@@ -27,8 +28,17 @@ export class MainComponent {
       cancelButtonText: 'Cancel'
     }).then((result) => {
       if (result.isConfirmed) {
-        // logout function po
-        this.router.navigate(['/login']);
+
+        // Call the AuthService to perform logout (API + cleanup)
+        this.authService.performLogout().subscribe({
+          next: () => {
+            // The AuthService.logout() will handle redirect
+          },
+          error: (err) => {
+            // Even if API fails, ensure local logout
+            this.authService.logout();
+          }
+        });
       }
     });
   }

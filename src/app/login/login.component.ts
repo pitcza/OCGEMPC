@@ -1,21 +1,28 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { CommonModule } from '@angular/common';  
-import { RouterModule } from '@angular/router';
-import { HttpClient, HttpClientModule } from '@angular/common/http';  // <-- import HttpClient
+import { CommonModule } from '@angular/common';
+import { RouterModule, Router } from '@angular/router';
+import { HttpClient, HttpClientModule } from '@angular/common/http';
+import { AuthService } from '../services/auth.services';
+import { LoginResponse } from '../models/login-response.model';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
-  imports: [ReactiveFormsModule, CommonModule, RouterModule, HttpClientModule]  // <-- add HttpClientModule here
+  imports: [ReactiveFormsModule, CommonModule, RouterModule]
 })
 
 export class LoginComponent {
   loginForm: FormGroup;
 
-  constructor(private fb: FormBuilder, private http: HttpClient) {  // <-- inject HttpClient
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private authService: AuthService,
+    private router: Router
+  ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
@@ -33,19 +40,29 @@ export class LoginComponent {
     return '';
   }
 
-  showPassword = false; 
+  showPassword = false;
 
   togglePassword() {
     this.showPassword = !this.showPassword;
   }
 
-  onSubmit() {
+  // onSubmit() {
+  //   if (this.loginForm.valid) {
+  //     console.log('Login Form Submitted', this.loginForm.value);
+  //   }
+  // }
+     onSubmit() {
     if (this.loginForm.valid) {
-      console.log('Login Form Submitted', this.loginForm.value);
-
-      this.http.get('http://localhost:4000/api/data').subscribe({
+      this.http.post<LoginResponse>('http://localhost:3000/api/login', this.loginForm.value).subscribe({
         next: (response) => {
-          console.log('API response:', response);
+          this.authService.setAccessToken(response.accessToken);
+          this.authService.setRefreshToken(response.refreshToken);
+          this.authService.setRoleName(response.roleName);
+
+          // Optionally store user info if needed
+          // this.authService.setUser(response.user);
+
+          this.router.navigate(['main/dashboard']);
         },
         error: (error) => {
           console.error('API call error:', error);

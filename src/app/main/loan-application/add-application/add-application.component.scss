@@ -50,7 +50,7 @@
         cursor: pointer;
         color: var(--bg-color);
     }
-    
+
     .exit-button:hover {
         color: var(--bg-dark);
     }
@@ -81,6 +81,11 @@
 }
 
 .modal-body {
+  .section-group {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
     form {
         .makers-form,
         .comakers-form {
@@ -94,26 +99,26 @@
             font-weight: 500;
             text-transform: uppercase;
         }
-    
+
         .input-row .input-group {
             flex-basis: 100%;
         }
-    
+
         .input-row .input-group-short {
             flex-basis: 48%;
         }
-    
+
         .input-row .input-group-shorter {
             flex-basis: 30%;
         }
-    
+
         .input-row {
             position: relative;
             display: flex;
             justify-content: space-between;
             align-items: flex-end;
             gap: 25px;
-    
+
             .text-field {
                 font-family: 'Montserrat';
                 color: black;
@@ -135,16 +140,16 @@
                     background-color: var(--black);
                 }
             }
-    
+
             .text-field:hover, .textarea-field:hover, .file-field:hover {
                 background-color: var(--bg-dark);
             }
-    
+
             .text-field:focus, .textarea-field:focus, .file-field:focus {
                 background-color: var(--bg-color);
                 border: 1px solid var(--primary);
             }
-    
+
             .textarea-field {
                 font-family: 'Montserrat';
                 width: 100%;
@@ -160,7 +165,7 @@
                 transition: all 0.5s ease-in-out;
                 background-color: var(--input-color);
             }
-    
+
             .file-field {
                 font-family: 'Montserrat';
                 width: 100%;
@@ -175,7 +180,7 @@
                 transition: all 0.5s ease-in-out;
                 background-color: var(--input-color);
             }
-    
+
             input[type="file"]::file-selector-button {
                 color: white;
                 left: 0;
@@ -194,7 +199,7 @@
                 border-bottom-left-radius: 4px;
                 transition: background-color 200ms;
             }
-    
+
             .label {
                 position: absolute;
                 margin-top: -6px;
@@ -204,7 +209,7 @@
                 background-color: white;
                 padding: 0 4px;
             }
-    
+
             .up-label {
                 position: absolute;
                 margin-top: -13px;
@@ -214,7 +219,7 @@
             }
         }
     }
-    
+
     // SUBMIT, CANCEL, AND DANGER BUTTON
     .buttons {
         display: flex;
@@ -227,11 +232,11 @@
             gap: 15px;
             padding: 10px 0;
         }
-    
+
         button {
             font-family: 'Montserrat';
         }
-    
+
         .submit-btn {
             background-color: var(--primary);
             width: auto;
@@ -252,7 +257,7 @@
             &:hover {
                 background-color: var(--primary-hover);
             }
-    
+
             &[disabled] {
                 background-color: var(--gray-hover);
                 cursor: default;
@@ -262,7 +267,7 @@
                 }
             }
         }
-    
+
         .cancel-btn {
             width: auto;
             height: 40px;
@@ -284,7 +289,7 @@
                 background-color: var(--white-hover);
             }
         }
-    
+
         .danger-btn {
             background-color: var(--red);
             width: auto;

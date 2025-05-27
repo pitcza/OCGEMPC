@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { MainComponent } from './main.component';
+import { AuthGuard } from '../guards/auth.guard';
+import { RoleGuard } from '../guards/role.guard';
 
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { MakersComponent } from './makers/makers.component';
@@ -10,21 +12,34 @@ import { ApplicationListComponent } from './loan-application/application-list/ap
 import { ForReleasingComponent } from './loan-application/for-releasing/for-releasing.component';
 import { DeclinedListComponent } from './loan-application/declined-list/declined-list.component';
 import { ActivityLogComponent } from './activity-log/activity-log.component';
+import { UnauthorizedComponent } from '../unauthorized/unauthorized.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
-  { path: 'dashboard', component: DashboardComponent },
-  { path: 'makers', component: MakersComponent },
+  { path: 'dashboard',
+    component: DashboardComponent,
+    canActivate: [AuthGuard],  },
+  { path: 'makers',
+    component: MakersComponent,
+    canActivate: [AuthGuard] },
   { path: 'loan', component: LoanApplicationComponent,
     children: [
-      { path: 'list', component: ApplicationListComponent },
-      { path: 'release', component: ForReleasingComponent },
-      { path: 'declined', component: DeclinedListComponent },
-      { path: '', redirectTo: 'list', pathMatch: 'full' }, 
+      { path: 'list',
+        component: ApplicationListComponent,
+        canActivate: [AuthGuard] },
+      { path: 'release',
+        component: ForReleasingComponent,
+        canActivate: [AuthGuard, RoleGuard],
+        data: { roles: ['Loan Officer', 'Superadmin'] } },
+      { path: 'declined',
+        component: DeclinedListComponent,
+        canActivate: [AuthGuard] },
+      { path: '', redirectTo: 'list', pathMatch: 'full' },
     ],
   },
-  { path: 'insurance', component: InsuranceComponent },
-  { path: 'logs', component: ActivityLogComponent },
+  { path: 'insurance', component: InsuranceComponent, canActivate: [AuthGuard] },
+  { path: 'logs', component: ActivityLogComponent, canActivate: [AuthGuard] },
+  { path: 'unauthorized', component: UnauthorizedComponent },
 ];
 
 @NgModule({

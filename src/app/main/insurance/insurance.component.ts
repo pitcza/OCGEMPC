@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
+import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../environments/environment';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-insurance',
@@ -7,7 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
   templateUrl: './insurance.component.html',
   styleUrl: './insurance.component.scss'
 })
-export class InsuranceComponent {
+export class InsuranceComponent implements OnInit {
 onItemsPerPageChange() {
 throw new Error('Method not implemented.');
 }
@@ -15,6 +18,31 @@ startIndex: any;
 endIndex: any;
 totalItems: any;
 itemsPerPage: any;
+
+insurances: any[] = [];
+filteredInsurances: any[] = [];
+
+  constructor(
+    private http: HttpClient,
+  ) {}
+
+   ngOnInit() {
+    this.fetchInsurances();
+  }
+
+    fetchInsurances() {
+      this.http.get<any[]>(`${environment.baseUrl}/api/insurances`).subscribe({
+        next: (data) => {
+          // Filter for pending loans
+          this.insurances = data;
+          this.filteredInsurances = [...this.insurances];
+        },
+        error: (err) => {
+          Swal.fire('Error', 'Failed to fetch loans from server.', 'error');
+        }
+      });
+    }
+
 goToPreviousPage() {
 throw new Error('Method not implemented.');
 }
@@ -67,6 +95,7 @@ dataSource = new MatTableDataSource([
     grossPremium: '683'
   }
 ]);
+
 
 }
 

@@ -64,7 +64,7 @@ export class ApplicationListComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         // Call the approve API
-        this.http.post(`http://localhost:3000/api/approve-loan/${loan.id}`, {}).subscribe({
+        this.http.post(`${environment.baseUrl}/api/approve-loan/${loan.id}`, {}).subscribe({
           next: () => {
             Swal.fire({
               title: 'Application Approved',
@@ -125,7 +125,7 @@ export class ApplicationListComponent implements OnInit {
           if (remarksResult.isConfirmed) {
             const remarks = remarksResult.value;
             // Call the decline API
-            this.http.post(`http://localhost:3000/api/decline-loan/${loan.id}`, { remarks }).subscribe({
+            this.http.post(`${environment.baseUrl}/api/decline-loan/${loan.id}`, { remarks }).subscribe({
               next: () => {
                 Swal.fire('Declined!', `${loan.name} has been declined.`, 'error');
                 this.fetchLoans(); // Refresh the list

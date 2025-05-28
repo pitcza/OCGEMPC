@@ -30,28 +30,28 @@
         </thead>
         <tbody>
           <tr
-            *ngFor="let user of paginatedUsers"
+            *ngFor="let loan of paginatedUsers"
             (click)="viewLoan()"
             tabindex="0"
             role="row"
             aria-label="User row"
           >
-            <td>{{ user.name }}</td>
-            <td>{{ user.address }}</td>
-            <td>{{ user.contact }}</td>
-            <td>{{ user.status }}</td>
+            <td>{{ loan.name }}</td>
+            <td>{{ loan.address }}</td>
+            <td>{{ loan.phone_num }}</td>
+            <td>{{ loan.loan_status }}</td>
             <td class="actions" *ngIf="userRole === 'Loan Officer' || userRole === 'Superadmin'">
               <button
                 class="action green-action"
-                (click)="approve(user); $event.stopPropagation()"
-                aria-label="Approve user"
+                (click)="approve(loan); $event.stopPropagation()"
+                aria-label="Approve loan"
               >
                 Approve
               </button>
               <button
                 class="action red-action"
-                (click)="decline(user); $event.stopPropagation()"
-                aria-label="Decline user"
+                (click)="decline(loan); $event.stopPropagation()"
+                aria-label="Decline loan"
               >
                 Decline
               </button>

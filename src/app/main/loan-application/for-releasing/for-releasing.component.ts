@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ViewApplicationComponent } from '../view-application/view-application.component';
 import Swal from 'sweetalert2';
+import { AuthService } from '../../../services/auth.services';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-for-releasing',
@@ -9,33 +11,40 @@ import Swal from 'sweetalert2';
   templateUrl: './for-releasing.component.html',
   styleUrl: './for-releasing.component.scss'
 })
-export class ForReleasingComponent {
+export class ForReleasingComponent implements OnInit {
   selectedMaker = 'all';
   searchQuery = '';
   itemsPerPage = 10;
   currentPage = 1;
 
-  viewLoan() {
+  loans: any[] = [];
+  filteredLoans: any[] = [];
+
+  constructor(private dialog: MatDialog, private http: HttpClient) {}
+
+  ngOnInit() {
+      this.fetchLoans();
+    }
+
+  fetchLoans() {
+    this.http.get<any[]>('http://localhost:3000/api/loans').subscribe({
+      next: (data) => {
+        // Filter for pending loans
+        this.loans = data.filter(loan => loan.loan_status && loan.loan_status.toLowerCase() === 'approved');
+        this.filteredLoans = [...this.loans];
+      },
+      error: (err) => {
+        Swal.fire('Error', 'Failed to fetch loans from server.', 'error');
+      }
+    });
+  }
+    viewLoan() {
     this.dialog.open(ViewApplicationComponent);
   }
 
-  constructor(private dialog: MatDialog) {}
-
-  // sample data
-  users = [
-    { name: 'Andrea Louise Castillo', address: '421 Magnolia St., Pasig City, Metro Manila', amount: '11,000', schedule: 'May 16, 2025', status: 'for release' },
-    { name: 'John Michael Santos', address: '12 Kalayaan Ave., Quezon City', amount: '11,000', schedule: 'May 16, 2025', status: 'for release' },
-    { name: 'Maria Isabella Reyes', address: '89 D. Tuazon St., Manila', amount: '11,000', schedule:  'May 16, 2025', status: 'for release' },
-    { name: 'Carlos Emmanuel Cruz', address: '5 Boni Ave., Mandaluyong City', amount: '11,000', schedule: 'May 16, 2025', status: 'for release' },
-    { name: 'Katrina Mae De Leon', address: '76 Lopez Jaena St., San Juan', amount: '11,000', schedule: 'May 16, 2025', status: 'for release' },
-    { name: 'Katrina Mae De Leon', address: '76 Lopez Jaena St., San Juan', amount: '11,000', schedule: 'May 16, 2025', status: 'for release' },
-    { name: 'Katrina Mae De Leon', address: '76 Lopez Jaena St., San Juan', amount: '11,000', schedule: 'May 16, 2025', status: 'for release' }
-  ];
-
-  filteredUsers = [...this.users];
 
   get totalItems() {
-    return this.filteredUsers.length;
+    return this.filteredLoans.length;
   }
 
   get startIndex() {
@@ -55,13 +64,13 @@ export class ForReleasingComponent {
   }
 
   get paginatedUsers() {
-    return this.filteredUsers.slice(this.startIndex, this.endIndex);
+    return this.filteredLoans.slice(this.startIndex, this.endIndex);
   }
 
   applyFilters() {
     const query = this.searchQuery.toLowerCase();
-    this.filteredUsers = this.users.filter(user =>
-      user.name.toLowerCase().includes(query)
+    this.filteredLoans = this.loans.filter(loan =>
+      loan.name.toLowerCase().includes(query)
     );
     this.currentPage = 1;
   }

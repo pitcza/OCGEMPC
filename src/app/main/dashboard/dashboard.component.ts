@@ -14,7 +14,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   barChart: any;
   pieChart: any;
 
-  totalApplications: number = 0;
+  loanCount: number = 0;
   totalLoanAmount: number = 0;
   activeLoans: number = 0;
   fullyPaidLoans: number = 0;
@@ -35,10 +35,19 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     // Wait for the DOM to be ready
-    this.dashboardApi.getTotalApplications().subscribe(val => this.totalApplications = val);
-    this.dashboardApi.getTotalLoanAmountThisMonth().subscribe(val => this.totalLoanAmount = val);
-    this.dashboardApi.getActiveLoans().subscribe(val => this.activeLoans = val);
-    this.dashboardApi.getFullyPaidLoans().subscribe(val => this.fullyPaidLoans = val);
+    this.dashboardApi.getTotalApplications().subscribe(val => {
+      // If val is not a number, default to 0
+      this.loanCount = typeof val === 'number' ? val : 0;
+    });
+    this.dashboardApi.getTotalLoanAmountThisMonth().subscribe(val => {
+      this.totalLoanAmount = typeof val === 'number' ? val : 0;
+    });
+    this.dashboardApi.getActiveLoans().subscribe(val => {
+      this.activeLoans = typeof val === "number" ? val : 0;
+    });
+    this.dashboardApi.getFullyPaidLoans().subscribe(val => {
+     this.fullyPaidLoans = typeof val === 'number' ? val : 0;
+    });
     this.dashboardApi.getLoanApplicationsByMonth().subscribe(val => this.loanApplicationsByMonth = val);
     this.dashboardApi.getLoanStatusOverview().subscribe(val => this.loanStatusOverview = val);
     this.dashboardApi.getRecentPayments().subscribe(val => this.recentPayments = val);
@@ -201,4 +210,11 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   return [payment.first_name, payment.last_name].filter(Boolean).join(' ');
 }
 
+  get loanApplicationsByMonthArray(): [string, number][] {
+    return Object.entries(this.loanApplicationsByMonth);
+  }
+
+  get loanStatusOverviewArray(): [string, number][] {
+    return Object.entries(this.loanStatusOverview);
+  }
 }

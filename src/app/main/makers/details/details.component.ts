@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss'
 })
-export class DetailsComponent {
+export class DetailsComponent implements OnInit{
   makerDetails: any = null;
   loading = true;
   error: string | null = null;

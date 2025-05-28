@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './schedule.component.html',
   styleUrl: './schedule.component.scss'
 })
-export class ScheduleComponent {
+export class ScheduleComponent implements OnInit {
   amortizationData: any[] = [];
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,

@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ViewApplicationComponent } from '../view-application/view-application.component';
 import Swal from 'sweetalert2';
 import { AuthService } from '../../../services/auth.services';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-declined-list',
@@ -10,36 +11,49 @@ import { AuthService } from '../../../services/auth.services';
   templateUrl: './declined-list.component.html',
   styleUrl: './declined-list.component.scss'
 })
-export class DeclinedListComponent {
+export class DeclinedListComponent implements OnInit {
   selectedMaker = 'all';
   searchQuery = '';
   itemsPerPage = 10;
   currentPage = 1;
   userRole: string | null = null;
 
-  viewLoan() {
-    this.dialog.open(ViewApplicationComponent);
-  }
+  loans: any[] = [];
+  filteredLoans: any[] = [];
 
-  constructor(private dialog: MatDialog, private authService: AuthService) {
+
+  constructor(
+    private dialog: MatDialog,
+    private authService: AuthService,
+    private http: HttpClient,
+  ) {
     this.userRole = this.authService.cookieService.get('roleName');
   }
 
-  // sample data
-  users = [
-    { name: 'Andrea Louise Castillo', address: '421 Magnolia St., Pasig City, Metro Manila', contact: '0987-123-1234', remarks: 'Sample Remarks' },
-    { name: 'John Michael Santos', address: '12 Kalayaan Ave., Quezon City', contact: '0987-123-1234', remarks: 'Sample Remarks' },
-    { name: 'Maria Isabella Reyes', address: '89 D. Tuazon St., Manila', contact: '0987-123-1234', remarks:  'Sample Remarks' },
-    { name: 'Carlos Emmanuel Cruz', address: '5 Boni Ave., Mandaluyong City', contact: '0987-123-1234', remarks: 'Sample Remarks' },
-    { name: 'Katrina Mae De Leon', address: '76 Lopez Jaena St., San Juan', contact: '0987-123-1234', remarks: 'Sample Remarks' },
-    { name: 'Katrina Mae De Leon', address: '76 Lopez Jaena St., San Juan', contact: '0987-123-1234', remarks: 'Sample Remarks' },
-    { name: 'Katrina Mae De Leon', address: '76 Lopez Jaena St., San Juan', contact: '0987-123-1234', remarks: 'Sample Remarks' }
-  ];
+    ngOnInit() {
+      this.fetchLoans();
+    }
 
-  filteredUsers = [...this.users];
+    fetchLoans() {
+      this.http.get<any[]>('http://localhost:3000/api/loans').subscribe({
+        next: (data) => {
+          // Filter for pending loans
+          this.loans = data.filter(loan => loan.loan_status && loan.loan_status.toLowerCase() === 'declined');
+          this.filteredLoans = [...this.loans];
+        },
+        error: (err) => {
+          Swal.fire('Error', 'Failed to fetch loans from server.', 'error');
+        }
+      });
+    }
+
+   viewLoan() {
+    this.dialog.open(ViewApplicationComponent);
+  }
+
 
   get totalItems() {
-    return this.filteredUsers.length;
+    return this.filteredLoans.length;
   }
 
   get startIndex() {
@@ -59,13 +73,13 @@ export class DeclinedListComponent {
   }
 
   get paginatedUsers() {
-    return this.filteredUsers.slice(this.startIndex, this.endIndex);
+    return this.filteredLoans.slice(this.startIndex, this.endIndex);
   }
 
   applyFilters() {
     const query = this.searchQuery.toLowerCase();
-    this.filteredUsers = this.users.filter(user =>
-      user.name.toLowerCase().includes(query)
+    this.filteredLoans = this.loans.filter(loan =>
+      loan.name.toLowerCase().includes(query)
     );
     this.currentPage = 1;
   }

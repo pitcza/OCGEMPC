@@ -1,9 +1,10 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ViewApplicationComponent } from '../view-application/view-application.component';
 import Swal from 'sweetalert2';
 import { SetScheduleComponent } from '../set-schedule/set-schedule.component';
 import { AuthService } from '../../../services/auth.services';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-application-list',
@@ -11,22 +12,46 @@ import { AuthService } from '../../../services/auth.services';
   templateUrl: './application-list.component.html',
   styleUrl: './application-list.component.scss'
 })
-export class ApplicationListComponent {
+export class ApplicationListComponent implements OnInit {
   selectedMaker = 'all';
   searchQuery = '';
   itemsPerPage = 10;
   currentPage = 1;
   userRole: string | null = null;
 
-  viewLoan() {
-    this.dialog.open(ViewApplicationComponent);
-  }
+  loans: any[] = [];
+  filteredLoans: any[] = [];
 
-  constructor(private dialog: MatDialog, private authService: AuthService,) {
+  constructor(
+    private dialog: MatDialog,
+    private authService: AuthService,
+    private http: HttpClient,
+  ) {
     this.userRole = this.authService.cookieService.get('roleName');
   }
 
-  approve(user: any) {
+  ngOnInit() {
+    this.fetchLoans();
+  }
+
+  fetchLoans() {
+    this.http.get<any[]>('http://localhost:3000/api/loans').subscribe({
+      next: (data) => {
+        // Filter for pending loans
+        this.loans = data.filter(loan => loan.loan_status && loan.loan_status.toLowerCase() === 'pending');
+        this.filteredLoans = [...this.loans];
+      },
+      error: (err) => {
+        Swal.fire('Error', 'Failed to fetch loans from server.', 'error');
+      }
+    });
+  }
+
+    viewLoan() {
+    this.dialog.open(ViewApplicationComponent);
+  }
+
+ approve(loan: any) {
     Swal.fire({
       title: 'Approve Application',
       text: `Are you sure you want to approve this application?`,
@@ -37,16 +62,24 @@ export class ApplicationListComponent {
       confirmButtonText: 'Yes, approve it!'
     }).then((result) => {
       if (result.isConfirmed) {
-        user.status = 'Approved';
-        Swal.fire({
-          title: 'Application Approved',
-          text: `${user.name} has been approved.`,
-          icon: 'success',
-          confirmButtonColor: '#508D4E',
-          confirmButtonText: 'SET SCHEDULE'
-        }).then((result) => {
-          if (result.isConfirmed) {
-            this.setSchedule();
+        // Call the approve API
+        this.http.post(`http://localhost:3000/api/approve-loan/${loan.id}`, {}).subscribe({
+          next: () => {
+            Swal.fire({
+              title: 'Application Approved',
+              text: `${loan.name} has been approved.`,
+              icon: 'success',
+              confirmButtonColor: '#508D4E',
+              confirmButtonText: 'SET SCHEDULE'
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.setSchedule();
+              }
+              this.fetchLoans(); // Refresh the list
+            });
+          },
+          error: () => {
+            Swal.fire('Error', 'Failed to approve the loan.', 'error');
           }
         });
       }
@@ -57,7 +90,7 @@ export class ApplicationListComponent {
     this.dialog.open(SetScheduleComponent);
   }
 
-  decline(user: any) {
+ decline(loan: any) {
     Swal.fire({
       title: 'Decline Application',
       text: `Are you sure you want to decline this application?`,
@@ -90,30 +123,25 @@ export class ApplicationListComponent {
         }).then((remarksResult) => {
           if (remarksResult.isConfirmed) {
             const remarks = remarksResult.value;
-            user.status = 'Declined';
-            user.remarks = remarks; // Optional: store remarks
-            Swal.fire('Declined!', `${user.name} has been declined.`, 'error');
+            // Call the decline API
+            this.http.post(`http://localhost:3000/api/decline-loan/${loan.id}`, { remarks }).subscribe({
+              next: () => {
+                Swal.fire('Declined!', `${loan.name} has been declined.`, 'error');
+                this.fetchLoans(); // Refresh the list
+              },
+              error: () => {
+                Swal.fire('Error', 'Failed to decline the loan.', 'error');
+              }
+            });
           }
         });
       }
     });
   }
 
-  // sample data
-  users = [
-    { name: 'Andrea Louise Castillo', address: '421 Magnolia St., Pasig City, Metro Manila', contact: '0917-234-7789', status: 'Pending' },
-    { name: 'John Michael Santos', address: '12 Kalayaan Ave., Quezon City', contact: '0918-555-1234', status: 'Pending' },
-    { name: 'Maria Isabella Reyes', address: '89 D. Tuazon St., Manila', contact: '0927-321-4567', status:  'Pending' },
-    { name: 'Carlos Emmanuel Cruz', address: '5 Boni Ave., Mandaluyong City', contact: '0906-789-6543', status: 'Pending' },
-    { name: 'Katrina Mae De Leon', address: '76 Lopez Jaena St., San Juan', contact: '0919-234-9876', status: 'Pending' },
-    { name: 'Katrina Mae De Leon', address: '76 Lopez Jaena St., San Juan', contact: '0919-234-9876', status: 'Pending' },
-    { name: 'Katrina Mae De Leon', address: '76 Lopez Jaena St., San Juan', contact: '0919-234-9876', status: 'Pending' }
-  ];
-
-  filteredUsers = [...this.users];
 
   get totalItems() {
-    return this.filteredUsers.length;
+    return this.filteredLoans.length;
   }
 
   get startIndex() {
@@ -133,13 +161,13 @@ export class ApplicationListComponent {
   }
 
   get paginatedUsers() {
-    return this.filteredUsers.slice(this.startIndex, this.endIndex);
+    return this.filteredLoans.slice(this.startIndex, this.endIndex);
   }
 
   applyFilters() {
     const query = this.searchQuery.toLowerCase();
-    this.filteredUsers = this.users.filter(user =>
-      user.name.toLowerCase().includes(query)
+    this.filteredLoans = this.loans.filter(loan =>
+      loan.name.toLowerCase().includes(query)
     );
     this.currentPage = 1;
   }

@@ -19,11 +19,11 @@
             </thead>
 
             <tbody>
-                <tr *ngFor="let user of paginatedUsers" (click)="viewLoan()">
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.address }}</td>
-                    <td>{{ user.contact }}</td>
-                    <td>{{ user.remarks }}</td>
+                <tr *ngFor="let loan of paginatedUsers" (click)="viewLoan()">
+                    <td>{{ loan.name }}</td>
+                    <td>{{ loan.address }}</td>
+                    <td>{{ loan.contact }}</td>
+                    <td>{{ loan.remarks }}</td>
                     <td class="actions" *ngIf="userRole === 'Loan Officer' || userRole === 'Superadmin'">
                         <button class="action red-action">Delete</button>
                     </td>

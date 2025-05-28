@@ -29,7 +29,7 @@ interface MakerUser {
   templateUrl: './makers.component.html',
   styleUrls: ['./makers.component.scss']
 })
-export class MakersComponent {
+export class MakersComponent implements OnInit {
   selectedMaker = 'all';
   searchQuery = '';
   itemsPerPage = 10;

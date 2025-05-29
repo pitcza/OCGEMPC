@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { DetailsComponent } from './details/details.component';
 import { ScheduleComponent } from './schedule/schedule.component';
+import { environment } from '../../../environments/environment';
 
 interface MakerUser {
   first_name: string;
@@ -47,7 +48,7 @@ export class MakersComponent implements OnInit {
   }
   fetchUsers(): void {
     // Replace 'your-api-route' with your actual API endpoint
-    this.http.get<MakerUser[]>('http://localhost:3000/api/makers').subscribe({
+    this.http.get<MakerUser[]>(`${environment.baseUrl}/api/makers`).subscribe({
       next: (data) => {
         this.users = data;
         this.filteredUsers = [...this.users];

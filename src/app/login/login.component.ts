@@ -5,7 +5,7 @@ import { RouterModule, Router } from '@angular/router';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { AuthService } from '../services/auth.services';
 import { LoginResponse } from '../models/login-response.model';
-
+import { environment } from '../../environments/environment';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -53,7 +53,7 @@ export class LoginComponent {
   // }
      onSubmit() {
     if (this.loginForm.valid) {
-      this.http.post<LoginResponse>('http://localhost:3000/api/login', this.loginForm.value).subscribe({
+      this.http.post<LoginResponse>(`${environment.baseUrl}/api/login`, this.loginForm.value).subscribe({
         next: (response) => {
           this.authService.setAccessToken(response.accessToken);
           this.authService.setRefreshToken(response.refreshToken);

@@ -4,6 +4,7 @@ import { ViewApplicationComponent } from '../view-application/view-application.c
 import Swal from 'sweetalert2';
 import { AuthService } from '../../../services/auth.services';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-declined-list',
@@ -35,7 +36,7 @@ export class DeclinedListComponent implements OnInit {
     }
 
     fetchLoans() {
-      this.http.get<any[]>('http://localhost:3000/api/loans').subscribe({
+      this.http.get<any[]>(`${environment.baseUrl}/api/loans`).subscribe({
         next: (data) => {
           // Filter for pending loans
           this.loans = data.filter(loan => loan.loan_status && loan.loan_status.toLowerCase() === 'declined');

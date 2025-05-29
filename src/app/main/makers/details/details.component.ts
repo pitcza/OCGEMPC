@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-details',
@@ -31,7 +32,7 @@ export class DetailsComponent implements OnInit{
 
   fetchMakerDetails(id: string | number): void {
     this.loading = true;
-    this.http.get<any>(`http://localhost:3000/api/maker/${id}`).subscribe({
+    this.http.get<any>(`${environment.baseUrl}/api/maker/${id}`).subscribe({
       next: (details) => {
         this.makerDetails = details;
         this.loading = false;

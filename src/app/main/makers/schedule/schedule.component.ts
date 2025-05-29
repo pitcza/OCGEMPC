@@ -19,7 +19,7 @@ export class ScheduleComponent {
   }
 
 
-  amortizationData = [
+ amortizationData = [
     {
       month: 'January',
       principal: 50000,
@@ -28,8 +28,10 @@ export class ScheduleComponent {
       totalAmortization: 4500,
       biMonthlyAmortization: 2250,
       monthlyBalance: 46000,
-      amountDeducted: 4500,
-      dateDeducted: '2025-01-30'
+      amountDeducted: null,
+      dateDeducted: '',
+      added: false,
+      amountDeductedInput: null
     },
     {
       month: 'February',
@@ -39,8 +41,10 @@ export class ScheduleComponent {
       totalAmortization: 4460,
       biMonthlyAmortization: 2230,
       monthlyBalance: 42000,
-      amountDeducted: 4460,
-      dateDeducted: '2025-02-28'
+      amountDeducted: null,
+      dateDeducted: '',
+      added: false,
+      amountDeductedInput: null
     },
     {
       month: 'March',
@@ -50,9 +54,54 @@ export class ScheduleComponent {
       totalAmortization: 4420,
       biMonthlyAmortization: 2210,
       monthlyBalance: 38000,
-      amountDeducted: 4420,
-      dateDeducted: '2025-03-30'
+      amountDeducted: null,
+      dateDeducted: '',
+      added: false,
+      amountDeductedInput: null
     }
-    // Add more entries as needed
   ];
+
+  addDeduction(index: number): void {
+    const entry = this.amortizationData[index];
+    entry.amountDeducted = entry.amountDeductedInput;
+    entry.dateDeducted = new Date().toISOString().split('T')[0]; // current date
+    entry.added = true;
+  }
+
+  exportToCSV(): void {
+  const headers = [
+    'Month',
+    'Principal',
+    'Principal Amortization',
+    'Monthly Interest',
+    'Total Amortization',
+    'Bi-Monthly Amortization',
+    'Monthly Balance',
+    'Amount Deducted',
+    'Date Deducted'
+  ];
+
+  const rows = this.amortizationData.map(row => [
+    row.month,
+    row.principal,
+    row.principalAmortization,
+    row.monthlyInterest,
+    row.totalAmortization,
+    row.biMonthlyAmortization,
+    row.monthlyBalance,
+    row.amountDeducted || row.amountDeductedInput || '',
+    row.dateDeducted || ''
+  ]);
+
+  const csvContent = [headers, ...rows]
+    .map(e => e.join(','))
+    .join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.setAttribute('href', url);
+    a.setAttribute('download', 'amortization_schedule.csv');
+    a.click();
+  }
 }

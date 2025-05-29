@@ -11,7 +11,7 @@
 .modal-container {
   background: var(--bg-color);
   width: 100%;
-  max-width: 1100px;
+  max-width: 1250px;
   max-height: 85%;
   display: flex;
   flex-direction: column;
@@ -72,6 +72,28 @@
   &::-webkit-scrollbar-track {
     background-color: var(--bg-color);
   }
+
+  .export-wrapper {
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: 15px;
+
+    .export-button {
+      background-color:  #508D4E;
+      color: white;
+      border: none;
+      padding: 10px 16px;
+      font-size: 14px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: 500;
+      transition: background-color 0.2s ease-in-out;
+
+      &:hover {
+        background-color: #2e7d32;
+      }
+    }
+  }
 }
 
 .table-wrapper {
@@ -115,6 +137,39 @@
           border-bottom: none;
         }
       }
+    }
+  }
+
+  .amount-deducted-cell {
+    width: 120px; 
+    input.amount-input {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+  }
+
+  .add-button {
+    background-color: #be1010;
+    color: #fff;
+    border: none;
+    padding: 8px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.2s ease-in-out;
+
+    &:hover:not(:disabled) {
+      background-color: #c62828;
+    }
+
+    &:disabled {
+      background-color: #ddd;
+      cursor: not-allowed;
+      color: #aaa;
     }
   }
 }

@@ -1,35 +1,46 @@
 <div class="main-table">
     <div class="table-content">
-         <div class="table-head">
-        <div class="search-wrapper">
-            <input type="text" placeholder="Search..." [(ngModel)]="searchQuery" (input)="applyFilters()" />
-            <button><i class="bx bx-search-alt"></i></button>
+        <div class="table-head">
+            <div class="export-wrapper">
+                <button class="export-button">Export</button>
+            </div>
+            <div class="search-wrapper">
+                <input
+                type="text"
+                placeholder="Search..."
+                [(ngModel)]="searchQuery"
+                (input)="applyFilters()"
+                aria-label="Search users"
+                />
+                <button aria-label="Search">
+                <i class="bx bx-search-alt"></i>
+                </button>
+            </div>
         </div>
-    </div>
-    <div class="table-header">
-        <table>
-            <thead>
-                <tr>
-                    <th>Borrower Name</th>
-                    <th>Address</th>
-                    <th>Contact</th>
-                    <th>Remarks</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
+        <div class="table-header">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Borrower Name</th>
+                        <th>Address</th>
+                        <th>Contact</th>
+                        <th>Remarks</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
 
-            <tbody>
-                <tr *ngFor="let user of paginatedUsers" (click)="viewLoan()">
-                    <td>{{ user.name }}</td>
-                    <td>{{ user.address }}</td>
-                    <td>{{ user.contact }}</td>
-                    <td>{{ user.remarks }}</td>
-                    <td class="actions">
-                        <button class="action red-action">Delete</button>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                <tbody>
+                    <tr *ngFor="let user of paginatedUsers" (click)="viewLoan()">
+                        <td>{{ user.name }}</td>
+                        <td>{{ user.address }}</td>
+                        <td>{{ user.contact }}</td>
+                        <td>{{ user.remarks }}</td>
+                        <td class="actions">
+                            <button class="action red-action">Delete</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
     

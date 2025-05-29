@@ -13,34 +13,56 @@
     </header>
 
     <section class="modal-body">
+      <div class="export-wrapper">
+        <button class="export-button" (click)="exportToCSV()">Export</button>
+      </div>
       <div class="table-wrapper">
         <table>
-          <thead>
-            <tr>
-              <th scope="col">Month</th>
-              <th scope="col">Principal</th>
-              <th scope="col">Principal Amortization</th>
-              <th scope="col">Monthly Interest</th>
-              <th scope="col">Total Amortization</th>
-              <th scope="col">Bi-Monthly Amortization</th>
-              <th scope="col">Monthly Balance</th>
-              <th scope="col">Amount Deducted</th>
-              <th scope="col">Date Deducted</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let row of amortizationData">
-              <td>{{ row.month }}</td>
-              <td>{{ row.principal | number: '1.2-2' }}</td>
-              <td>{{ row.principalAmortization | number: '1.2-2' }}</td>
-              <td>{{ row.monthlyInterest | number: '1.2-2' }}</td>
-              <td>{{ row.totalAmortization | number: '1.2-2' }}</td>
-              <td>{{ row.biMonthlyAmortization | number: '1.2-2' }}</td>
-              <td>{{ row.monthlyBalance | number: '1.2-2' }}</td>
-              <td>{{ row.amountDeducted | number: '1.2-2' }}</td>
-              <td>{{ row.dateDeducted }}</td>
-            </tr>
-          </tbody>
+        <thead>
+          <tr>
+            <th scope="col">Month</th>
+            <th scope="col">Principal</th>
+            <th scope="col">Principal Amortization</th>
+            <th scope="col">Monthly Interest</th>
+            <th scope="col">Total Amortization</th>
+            <th scope="col">Bi-Monthly Amortization</th>
+            <th scope="col">Monthly Balance</th>
+            <th scope="col">Amount Deducted</th>
+            <th scope="col">Date Deducted</th>
+            <th scope="col">Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let row of amortizationData; let i = index">
+            <td>{{ row.month }}</td>
+            <td>{{ row.principal | number: '1.2-2' }}</td>
+            <td>{{ row.principalAmortization | number: '1.2-2' }}</td>
+            <td>{{ row.monthlyInterest | number: '1.2-2' }}</td>
+            <td>{{ row.totalAmortization | number: '1.2-2' }}</td>
+            <td>{{ row.biMonthlyAmortization | number: '1.2-2' }}</td>
+            <td>{{ row.monthlyBalance | number: '1.2-2' }}</td>
+            <td class="amount-deducted-cell">
+              <input
+                class="amount-input"
+                type="number"
+                step="0.01"
+                [(ngModel)]="row.amountDeductedInput"
+                [disabled]="row.added"
+                placeholder="Enter amount"
+              />
+            </td>
+            <td>{{ row.dateDeducted }}</td>
+            <td>
+              <button
+                class="add-button"
+                (click)="addDeduction(i)"
+                [disabled]="row.added || !row.amountDeductedInput"
+              >
+                Add
+              </button>
+            </td>
+          </tr>
+        </tbody>
         </table>
       </div>
     </section>

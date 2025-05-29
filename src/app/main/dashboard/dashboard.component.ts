@@ -134,18 +134,18 @@ export class DashboardComponent implements OnInit {
     if (!pieCanvas) return;
     
     // Define status type to avoid TS errors
-    type LoanStatus = 'Active' | 'Paid' | 'Overdue' | 'Denied';
+    type LoanStatus = 'Current' | 'Paid' | 'Overdue' | 'Skipped';
     
     // Count loans by status with proper typing
     const statusCounts: Record<LoanStatus, number> = {
-      'Active': this.activeLoans,
+      'Current': this.activeLoans,
       'Paid': this.fullyPaidLoans,
       'Overdue': 0,
-      'Denied': 0
+      'Skipped': 0
     };
     
     // Loan status data
-    const statuses: LoanStatus[] = ['Active', 'Paid', 'Overdue', 'Denied'];
+    const statuses: LoanStatus[] = ['Current', 'Paid', 'Overdue', 'Skipped'];
     const statusData = statuses.map(status => statusCounts[status]);
     
     this.pieChart = new Chart(pieCanvas, {

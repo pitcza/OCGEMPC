@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <div class="table-header">
+    <div class="table-content">
       <table>
         <thead>
           <tr>
@@ -31,56 +31,53 @@
             <th>Action</th>
           </tr>
         </thead>
+
+        <tbody>
+          <tr *ngIf="filteredUsers.length === 0">
+            <td colspan="5" style="text-align: center; padding: 20px;">No maker accounts found at the moment.</td>
+          </tr>
+          
+          <tr *ngFor="let user of filteredUsers" (click)="viewDetails(user)">
+            <td>{{ user.name }}</td>
+            <td>{{ user.address }}</td>
+            <td>{{ user.contact }}</td>
+            <td>{{ user.birthdate }}</td>
+            <td class="actions">
+              <button class="action red-action" (click)="viewSchedule(user); $event.stopPropagation()">Schedule</button>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
-
-    <div class="table-body">
-      <table>
-<tbody>
-  <tr *ngFor="let user of filteredUsers" (click)="viewDetails(user)">
-    <td>{{ user.name }}</td>
-    <td>{{ user.address }}</td>
-    <td>{{ user.contact }}</td>
-    <td>{{ user.birthdate }}</td>
-    <td class="actions">
-      <button class="action red-action" (click)="viewSchedule(user); $event.stopPropagation()">Schedule</button>
-    </td>
-  </tr>
-</tbody>
-
-      </table>
-    </div>
-
-   
   </div>
-   <div class="pagination-container">
-      <div class="items-per-page">
-        <label for="itemsPerPage">Show:</label>
-        <select id="itemsPerPage" [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange()">
-          <option *ngFor="let option of [5, 10, 25, 50]" [value]="option">{{ option }}</option>
-        </select>
-        <span>entries</span>
-      </div>
-
-      <div class="pagination-info">
-        Showing {{ startIndex + 1 }} to {{ endIndex }} of {{ totalItems }} entries
-      </div>
-
-      <div class="pagination">
-        <button (click)="goToPreviousPage()" [disabled]="currentPage === 1">
-          <i class="bx bx-chevron-left"></i>
-        </button>
-
-        <button
-          *ngFor="let page of totalPagesArray"
-          (click)="goToPage(page)"
-          [class.active]="page === currentPage">
-          {{ page }}
-        </button>
-
-        <button (click)="goToNextPage()" [disabled]="currentPage === totalPages">
-          <i class="bx bx-chevron-right"></i>
-        </button>
-      </div>
+  <div class="pagination-container">
+    <div class="items-per-page">
+      <label for="itemsPerPage">Show:</label>
+      <select id="itemsPerPage" [(ngModel)]="itemsPerPage" (change)="onItemsPerPageChange()">
+        <option *ngFor="let option of [5, 10, 25, 50]" [value]="option">{{ option }}</option>
+      </select>
+      <span>entries</span>
     </div>
+
+    <div class="pagination-info">
+      Showing {{ startIndex + 1 }} to {{ endIndex }} of {{ totalItems }} entries
+    </div>
+
+    <div class="pagination">
+      <button (click)="goToPreviousPage()" [disabled]="currentPage === 1">
+        <i class="bx bx-chevron-left"></i>
+      </button>
+
+      <button
+        *ngFor="let page of totalPagesArray"
+        (click)="goToPage(page)"
+        [class.active]="page === currentPage">
+        {{ page }}
+      </button>
+
+      <button (click)="goToNextPage()" [disabled]="currentPage === totalPages">
+        <i class="bx bx-chevron-right"></i>
+      </button>
+    </div>
+  </div>
 </div>

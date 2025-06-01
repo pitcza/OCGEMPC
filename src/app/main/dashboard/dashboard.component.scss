@@ -1,9 +1,9 @@
 .header {
-      font-size: 30px;
-      font-weight: 700;
-      color: #1f2937;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
+  font-size: 30px;
+  font-weight: 700;
+  color: #1f2937;
+  letter-spacing: 1.2px;
+  text-transform: uppercase;
 }
 
 .dashboard,
@@ -70,10 +70,8 @@
 
 .dashboard_3 {
   width: 100%;
-  padding: 2rem 0; // top-bottom only, or use 1rem sides if you still want spacing
-  background-color: #fff;
+  padding: 2rem 0;
   border-radius: 15px;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 
   .widget {
     width: 100%;
@@ -106,31 +104,32 @@
   }
 
 
-/* Status badge styling */
-.status-badge {
-  padding: 0.3rem 0.8rem;
-  border-radius: 20px;
-  font-size: 0.8rem;
-  font-weight: 600;
-  
-  &.paid {
-    background-color: #e6f7e6;
-    color: #508d4e;
-  }
-  
-  &.pending {
-    background-color: #fff8e6;
-    color: #d49a00;
-  }
-  
-  &.overdue {
-    background-color: #ffe6e6;
-    color: #cd5c5c;
-  }
-  
-  &.denied {
-    background-color: #f0f0f0;
-    color: #808080;
+  /* Status badge styling */
+  .status-badge {
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    
+    &.paid {
+      background-color: #e6f7e6;
+      color: #508d4e;
+    }
+    
+    &.pending {
+      background-color: #fff8e6;
+      color: #d49a00;
+    }
+    
+    &.overdue {
+      background-color: #ffe6e6;
+      color: #cd5c5c;
+    }
+    
+    &.denied {
+      background-color: #f0f0f0;
+      color: #808080;
+    }
   }
 }
 
@@ -150,5 +149,4 @@
   .dashboard_2 .widget {
     height: 300px;
   }
-}
 }

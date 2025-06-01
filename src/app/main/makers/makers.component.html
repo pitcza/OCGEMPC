@@ -31,30 +31,23 @@
             <th>Action</th>
           </tr>
         </thead>
+
+        <tbody>
+          <tr *ngIf="filteredUsers.length === 0">
+            <td colspan="5" style="text-align: center; padding: 20px;">No maker accounts found at the moment.</td>
+          </tr>
+          <tr *ngFor="let user of filteredUsers" (click)="viewDetails(user)">
+            <td>{{ getFullName(user) }}</td>
+            <td>{{ user.address }}</td>
+            <td>{{ user.phone_num }}</td>
+            <td>{{ user.birthdate }}</td>
+            <td class="actions">
+              <button class="action red-action" (click)="viewSchedule(user); $event.stopPropagation()">Schedule</button>
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
-
-    <div class="table-body">
-      <table>
-<tbody>
-  <tr *ngIf="filteredUsers.length === 0">
-    <td colspan="5" style="text-align: center; padding: 20px;">No maker accounts found at the moment.</td>
-  </tr>
-  <tr *ngFor="let user of filteredUsers" (click)="viewDetails(user)">
-    <td>{{ getFullName(user) }}</td>
-    <td>{{ user.address }}</td>
-    <td>{{ user.phone_num }}</td>
-    <td>{{ user.birthdate }}</td>
-    <td class="actions">
-      <button class="action red-action" (click)="viewSchedule(user); $event.stopPropagation()">Schedule</button>
-    </td>
-  </tr>
-</tbody>
-
-      </table>
-    </div>
-
-
   </div>
    <div class="pagination-container">
       <div class="items-per-page">

@@ -41,6 +41,7 @@ export class ApplicationListComponent implements OnInit {
         // Filter for pending loans
         this.loans = data.filter(loan => loan.loan_status && loan.loan_status.toLowerCase() === 'pending');
         this.filteredLoans = [...this.loans];
+        console.log(this.filteredLoans);
       },
       error: (err) => {
         Swal.fire('Error', 'Failed to fetch loans from server.', 'error');

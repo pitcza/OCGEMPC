@@ -10,9 +10,9 @@
 
         <!-- Form Body -->
         <div class="modal-body">
-            <form>
+            <form [formGroup]="makersForm" *ngIf="!isCoMakersFormVisible" (ngSubmit)="showCoMakersForm()">
                 <!-- Applicant Information Section -->
-                <div class="makers-form" *ngIf="!isCoMakersFormVisible">
+                <div class="makers-form">
                     <h2>Applicant Maker's Information</h2>
 
                     <!-- Personal Information -->
@@ -21,41 +21,39 @@
                         <div class="input-row">
                             <div class="input-group">
                                 <label class="label">First Name</label>
-                                <input type="text" class="text-field" name="first_name" placeholder="Juan">
+                                <input type="text" class="text-field" formControlName="first_name" placeholder="Juan">
                             </div>
                             <div class="input-group">
                                 <label class="label">Middle Name</label>
-                                <input type="text" class="text-field" name="middle_name" placeholder="Martinez">
+                                <input type="text" class="text-field" formControlName="middle_name" placeholder="Martinez">
                             </div>
                             <div class="input-group">
                                 <label class="label">Last Name</label>
-                                <input type="text" class="text-field" name="last_name" placeholder="Dela Cruz">
+                                <input type="text" class="text-field" formControlName="last_name" placeholder="Dela Cruz">
                             </div>
                             <div class="input-group-short">
                                 <label class="label">Ext Name</label>
-                                <input type="text" class="text-field" name="ext_name" placeholder="Jr.">
+                                <input type="text" class="text-field" formControlName="ext_name" placeholder="Jr.">
                             </div>
                         </div>
-
                         <div class="input-row">
                             <div class="input-group">
                                 <label class="label">Residence Address</label>
-                                <input type="text" class="text-field" name="address" placeholder="Lot No., Street Address, City, Province, Postal Code">
+                                <input type="text" class="text-field" formControlName="address" placeholder="Lot No., Street Address, City, Province, Postal Code">
                             </div>
                             <div class="input-group-short">
                                 <label class="label">Contact Number</label>
-                                <input type="text" class="text-field" name="phone_num" pattern="[0-9]*" maxlength="11" placeholder="09XXXXXXXXX" (keypress)="validatePhoneNumberInput($event)">
+                                <input type="text" class="text-field" formControlName="phone_num" maxlength="11" placeholder="09XXXXXXXXX" (keypress)="validatePhoneNumberInput($event)">
                             </div>
                         </div>
-
                         <div class="input-row">
                             <div class="input-group">
                                 <label class="label">Date of Birth</label>
-                                <input type="date" class="text-field" name="birthdate">
+                                <input type="date" class="text-field" formControlName="birthdate">
                             </div>
                             <div class="input-group-short">
                                 <label class="label">Age</label>
-                                <input type="number" class="text-field" name="age" placeholder="ex. 23">
+                                <input type="number" class="text-field" formControlName="age" placeholder="ex. 23">
                             </div>
                         </div>
                     </div>
@@ -66,19 +64,19 @@
                         <div class="input-row">
                             <div class="input-group">
                                 <label class="label">Dept./Office</label>
-                                <input type="text" class="text-field" name="dept" placeholder="Office">
+                                <input type="text" class="text-field" name="dept" formControlName="dept" placeholder="Office">
                             </div>
                             <div class="input-group">
                                 <label class="label">Position</label>
-                                <input type="text" class="text-field" name="position" placeholder="Position">
+                                <input type="text" class="text-field" formControlName="position" name="position" placeholder="Position">
                             </div>
                             <div class="input-group">
                                 <label class="label">Salary (per month)</label>
-                                <input type="number" class="text-field" name="salary" placeholder="ex. 18,000">
+                                <input type="number" class="text-field" name="salary" formControlName="salary" placeholder="ex. 18,000">
                             </div>
                             <div class="input-group">
                                 <label class="label">Employment Status</label>
-                                <input type="text" class="text-field" name="ee_status" placeholder="ex. Worker">
+                                <input type="text" class="text-field" name="ee_status" formControlName="ee_status" placeholder="ex. Worker">
                             </div>
                         </div>
                     </div>
@@ -89,15 +87,15 @@
                         <div class="input-row">
                             <div class="input-group">
                                 <label class="label">Years as Coop Member</label>
-                                <input type="text" class="text-field" name="years_coop" placeholder="ex. 2 years">
+                                <input type="text" class="text-field" name="years_coop" formControlName="years_coop" placeholder="ex. 2 years">
                             </div>
                             <div class="input-group">
                                 <label class="label">Amount of shares</label>
-                                <input type="number" class="text-field" name="share_amaont" placeholder="ex. 18,000">
+                                <input type="number" class="text-field" name="share_amount" formControlName="share_amount" placeholder="ex. 18,000">
                             </div>
                             <div class="input-group">
                                 <label class="label">Amount of saving</label>
-                                <input type="number" class="text-field" name="saving_amount" placeholder="ex. 18,000">
+                                <input type="number" class="text-field" name="saving_amount" formControlName="saving_amount" placeholder="ex. 18,000">
                             </div>
                         </div>
                     </div>
@@ -108,7 +106,7 @@
                         <div class="input-row">
                             <div class="input-group">
                                 <label class="label">Type of Loan</label>
-                                <select class="text-field" name="loan_type">
+                                <select class="text-field" name="loan_type" formControlName="loan_type">
                                     <option selected value="">Select Type</option>
                                     <option value="Educational">Educational</option>
                                     <option value="Livelihood">Livelihood</option>
@@ -117,22 +115,22 @@
                             </div>
                             <div class="input-group">
                                 <label class="label">Amount of loan applied</label>
-                                <input type="number" class="text-field" name="applied_amount" placeholder="ex. 60,000">
+                                <input type="number" class="text-field" name="applied_amount" formControlName="applied_amount" placeholder="ex. 60,000">
                             </div>
                         </div>
 
                         <div class="input-row">
                             <div class="input-group">
                                 <label class="label">Loan Term</label>
-                                <input type="number" class="text-field" name="loan_term" placeholder="ex. 24 months">
+                                <input type="number" class="text-field" name="loan_term" formControlName="loan_term" placeholder="ex. 24 months">
                             </div>
                             <div class="input-group">
                                 <label class="label">Purpose of Loan</label>
-                                <input type="text" class="text-field" name="loan_purpose" placeholder="ex. Education expenses">
+                                <input type="text" class="text-field" name="loan_purpose" formControlName="loan_purpose" placeholder="ex. Education expenses">
                             </div>
                             <div class="input-group">
                                 <label class="label">Repayment Frequency</label>
-                                <select class="text-field" name="repayment_freq">
+                                <select class="text-field" name="repayment_freq" formControlName="repayment_freq">
                                     <option selected value="Monthly">Monthly</option>
                                     <option value="Sample">Sample</option>
                                 </select>
@@ -144,13 +142,15 @@
                     <div class="buttons">
                         <div class="left"></div>
                         <div class="right">
-                            <input class="submit-btn" type="button" value="Next" (click)="showCoMakersForm()">
+                            <button class="submit-btn" type="submit" [disabled]="isSubmitting">Next</button>
                         </div>
                     </div>
                 </div>
+              </form>
 
+               <form [formGroup]="coMakersForm" *ngIf="isCoMakersFormVisible" (ngSubmit)="onSubmit()">
                 <!-- Co-Maker Information Section -->
-                <div class="comakers-form" *ngIf="isCoMakersFormVisible">
+                <div class="comakers-form">
                     <h2>Co-Maker's Information</h2>
 
                     <!-- Personal Information -->
@@ -159,41 +159,41 @@
                         <div class="input-row">
                             <div class="input-group">
                                 <label class="label">First Name</label>
-                                <input type="text" class="text-field" name="co_first_name" placeholder="Juan">
+                                <input type="text" class="text-field" name="co_first_name" formControlName="co_first_name" placeholder="Juan">
                             </div>
                             <div class="input-group">
                                 <label class="label">Middle Name</label>
-                                <input type="text" class="text-field" name="co_middle_name" placeholder="Martinez">
+                                <input type="text" class="text-field" name="co_middle_name" formControlName="co_middle_name" placeholder="Martinez">
                             </div>
                             <div class="input-group">
                                 <label class="label">Last Name</label>
-                                <input type="text" class="text-field" name="co_last_name" placeholder="Dela Cruz">
+                                <input type="text" class="text-field" name="co_last_name" formControlName="co_last_name"placeholder="Dela Cruz">
                             </div>
                             <div class="input-group-short">
                                 <label class="label">Ext Name</label>
-                                <input type="text" class="text-field" name="co_ext_name" placeholder="Jr.">
+                                <input type="text" class="text-field" name="co_ext_name" formControlName="co_ext_name" placeholder="Jr.">
                             </div>
                         </div>
 
                         <div class="input-row">
                             <div class="input-group">
                                 <label class="label">Residence Address</label>
-                                <input type="text" class="text-field" name="co_address" placeholder="Lot No., Street Address, City, Province, Postal Code">
+                                <input type="text" class="text-field" name="co_address" formControlName="co_address" placeholder="Lot No., Street Address, City, Province, Postal Code">
                             </div>
                             <div class="input-group-short">
                                 <label class="label">Contact Number</label>
-                                <input type="text" class="text-field" name="co_phone_num" pattern="[0-9]*" maxlength="11" placeholder="09XXXXXXXXX" (keypress)="validatePhoneNumberInput($event)">
+                                <input type="text" class="text-field" name="co_phone_num" formControlName="co_phone_num" pattern="[0-9]*" maxlength="11" placeholder="09XXXXXXXXX" (keypress)="validatePhoneNumberInput($event)">
                             </div>
                         </div>
 
                         <div class="input-row">
                             <div class="input-group">
                                 <label class="label">Date of Birth</label>
-                                <input type="date" class="text-field" name="co_birthdate">
+                                <input type="date" class="text-field" name="co_birthdate" formControlName="co_birthdate">
                             </div>
                             <div class="input-group-short">
                                 <label class="label">Age</label>
-                                <input type="text" class="text-field" name="co_age" placeholder="ex. 23">
+                                <input type="text" class="text-field" name="co_age" formControlName="co_age" placeholder="ex. 23">
                             </div>
                         </div>
                     </div>
@@ -204,19 +204,19 @@
                         <div class="input-row">
                             <div class="input-group">
                                 <label class="label">Dept./Office</label>
-                                <input type="text" class="text-field" name="co_dept" placeholder="Office">
+                                <input type="text" class="text-field" name="co_dept" formControlName="co_dept" placeholder="Office">
                             </div>
                             <div class="input-group">
                                 <label class="label">Position</label>
-                                <input type="text" class="text-field" name="co_position" placeholder="Position">
+                                <input type="text" class="text-field" name="co_position" formControlName="co_position"  placeholder="Position">
                             </div>
                             <div class="input-group">
                                 <label class="label">Salary (per month)</label>
-                                <input type="number" class="text-field" name="co_salary" placeholder="ex. 18,000">
+                                <input type="number" class="text-field" name="co_salary" formControlName="co_salary" placeholder="ex. 18,000">
                             </div>
                             <div class="input-group">
                                 <label class="label">Employment Status</label>
-                                <input type="text" class="text-field" name="co_ee_status" placeholder="ex. Worker">
+                                <input type="text" class="text-field" name="co_ee_status" formControlName="co_ee_status"  placeholder="ex. Worker">
                             </div>
                         </div>
                     </div>
@@ -227,15 +227,15 @@
                         <div class="input-row">
                             <div class="input-group">
                                 <label class="label">Years as Coop Member</label>
-                                <input type="text" class="text-field" name="co_years_coop" placeholder="ex. 2 years">
+                                <input type="text" class="text-field" name="co_years_coop" formControlName="co_years_coop" placeholder="ex. 2 years">
                             </div>
                             <div class="input-group">
                                 <label class="label">Amount of shares</label>
-                                <input type="number" class="text-field" name="co_share_amaont" placeholder="ex. 18,000">
+                                <input type="number" class="text-field" name="co_share_amount" formControlName="co_share_amount" placeholder="ex. 18,000">
                             </div>
                             <div class="input-group">
                                 <label class="label">Amount of saving</label>
-                                <input type="number" class="text-field" name="co_saving_amount" placeholder="ex. 18,000">
+                                <input type="number" class="text-field" name="co_saving_amount" formControlName="co_saving_amount" placeholder="ex. 18,000">
                             </div>
                         </div>
                     </div>
@@ -243,12 +243,13 @@
                     <!-- Navigation Buttons -->
                     <div class="buttons">
                         <div class="left">
-                            <input class="cancel-btn" type="button" value="Back" (click)="showMakersForm()">
+                            <button class="cancel-btn" type="button" (click)="showMakersForm()" [disabled]="isSubmitting">Back</button>
                         </div>
                         <div class="right">
                             <input class="submit-btn" type="button" value="Add Another Co-Maker">
-                            <input class="submit-btn" type="submit" value="Submit">
+                               <button class="submit-btn" type="submit" [disabled]="isSubmitting">Submit</button>
                         </div>
+                        <div *ngIf="apiError" class="error-message">{{ apiError }}</div>
                     </div>
                 </div>
             </form>

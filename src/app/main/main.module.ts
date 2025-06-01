@@ -31,6 +31,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { SetScheduleComponent } from './loan-application/set-schedule/set-schedule.component';
 import { DeclinedListComponent } from './loan-application/declined-list/declined-list.component';
 import { ActivityLogComponent } from './activity-log/activity-log.component';
+import { DeclinemodalComponent } from './loan-application/declinemodal/declinemodal.component';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import { ActivityLogComponent } from './activity-log/activity-log.component';
     AddApplicationComponent,
     SetScheduleComponent,
     DeclinedListComponent,
-    ActivityLogComponent
+    ActivityLogComponent,
+    DeclinemodalComponent
   ],
   imports: [
     CommonModule,

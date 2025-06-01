@@ -2,6 +2,8 @@ import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AddApplicationComponent } from './add-application/add-application.component';
 import { ViewApplicationComponent } from './view-application/view-application.component';
+import { ApprovemodalComponent } from './approvemodal/approvemodal.component';
+import { DeclinemodalComponent } from './declinemodal/declinemodal.component';
 
 interface PersonalInfo {
   firstName: string;
@@ -171,23 +173,25 @@ export class LoanApplicationComponent {
   }
 
   approve() {
-    if (!this.selectedApplicant) return;
+    this.dialog.open(ApprovemodalComponent)
+    // if (!this.selectedApplicant) return;
 
-    this.selectedApplicant.status = 'releasing';
-    this.filterApplicants(); // Refresh list
-    this.selectedApplicant = null;
+    // this.selectedApplicant.status = 'releasing';
+    // this.filterApplicants(); // Refresh list
+    // this.selectedApplicant = null;
   }
 
   decline() {
-    if (!this.selectedApplicant) return;
+    this.dialog.open(DeclinemodalComponent)
+    // if (!this.selectedApplicant) return;
 
-    const reason = prompt('Enter decline reason:');
-    if (reason) {
-      this.selectedApplicant.status = 'declined';
-      this.selectedApplicant.declineReason = reason;
-      this.filterApplicants(); // Refresh list
-      this.selectedApplicant = null;
-    }
+    // const reason = prompt('Enter decline reason:');
+    // if (reason) {
+    //   this.selectedApplicant.status = 'declined';
+    //   this.selectedApplicant.declineReason = reason;
+    //   this.filterApplicants(); // Refresh list
+    //   this.selectedApplicant = null;
+    // }
   }
   
 }

@@ -1,0 +1,14 @@
+<div class="modal-overlay">
+  <div class="modal">
+    <div class="modal-header">
+      <h2>DECLINE APPLICATION</h2>
+      <button class="close-button" (click)="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p>Please provide the reason for declining this application:</p>
+      <label for="decline-reason">Reason</label>
+      <textarea id="decline-reason" [(ngModel)]="reason" rows="4" placeholder="Enter reason..."></textarea>
+      <button class="set-button" (click)="submitDecline()">Decline</button>
+    </div>
+  </div>
+</div>

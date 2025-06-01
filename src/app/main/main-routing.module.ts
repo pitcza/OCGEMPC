@@ -10,6 +10,8 @@ import { ApplicationListComponent } from './loan-application/application-list/ap
 import { ForReleasingComponent } from './loan-application/for-releasing/for-releasing.component';
 import { DeclinedListComponent } from './loan-application/declined-list/declined-list.component';
 import { ActivityLogComponent } from './activity-log/activity-log.component';
+import { DeclinemodalComponent } from './loan-application/declinemodal/declinemodal.component';
+import { ApprovemodalComponent } from './loan-application/approvemodal/approvemodal.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -20,6 +22,8 @@ const routes: Routes = [
       { path: 'list', component: ApplicationListComponent },
       { path: 'release', component: ForReleasingComponent },
       { path: 'declined', component: DeclinedListComponent },
+      { path: 'declinedmodal', component: DeclinemodalComponent},
+      { path: 'approvemodal', component: ApprovemodalComponent},
       { path: '', redirectTo: 'list', pathMatch: 'full' }, 
     ],
   },

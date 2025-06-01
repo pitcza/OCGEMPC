@@ -9,14 +9,15 @@
   <div class="content-columns">
     <!-- Column 1 -->
     <div class="column">
-      <select id="filter" [(ngModel)]="selectedFilter" (change)="filterApplicants()">
-        <option value="application">Application List</option>
-        <option value="releasing">Releasing</option>
-        <option value="declined">Declined List</option>
-      </select>
+      <div class="filter-export">
+        <select id="filter" [(ngModel)]="selectedFilter" (change)="filterApplicants()">
+          <option value="application">Application List</option>
+          <option value="releasing">Releasing</option>
+          <option value="declined">Declined List</option>
+        </select>
 
-      <!-- <button class="btn export" (click)="exportList()">Export</button> -->
-      <button class="btn export">Export</button>
+        <button class="btn export">Export</button>
+      </div>
 
       <ul class="applicant-list">
         <li *ngFor="let applicant of filteredApplicants" (click)="selectApplicant(applicant)">
@@ -67,9 +68,9 @@
 
       <p *ngIf="selectedFilter === 'declined'">{{ selectedApplicant.declineReason }}</p>
 
-      <div class="action-buttons" *ngIf="selectedFilter === 'application'">
-        <button class="btn green" (click)="approve()">Approve</button>
+      <div class="action-buttons">
         <button class="btn red" (click)="decline()">Decline</button>
+        <button class="btn green" (click)="approve()">Approve</button>
       </div>
     </div>
   </div>

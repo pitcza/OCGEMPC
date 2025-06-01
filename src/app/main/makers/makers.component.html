@@ -20,7 +20,7 @@
       </div>
     </div>
 
-    <div class="table-header">
+    <div class="table-content">
       <table>
         <thead>
           <tr>
@@ -37,6 +37,9 @@
     <div class="table-body">
       <table>
 <tbody>
+  <tr *ngIf="filteredUsers.length === 0">
+    <td colspan="5" style="text-align: center; padding: 20px;">No maker accounts found at the moment.</td>
+  </tr>
   <tr *ngFor="let user of filteredUsers" (click)="viewDetails(user)">
     <td>{{ getFullName(user) }}</td>
     <td>{{ user.address }}</td>

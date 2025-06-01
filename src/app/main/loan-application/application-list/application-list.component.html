@@ -1,7 +1,10 @@
 <div class="main-table">
-  <div class="table-content">
+  <div class="table">
     <!-- Search Section -->
     <div class="table-head">
+      <div class="export-wrapper">
+        <button class="export-button">Export</button>
+      </div>
       <div class="search-wrapper">
         <input
           type="text"
@@ -17,7 +20,7 @@
     </div>
 
     <!-- Table Section -->
-    <div class="table-header">
+    <div class="table-content">
       <table>
         <thead>
           <tr>
@@ -29,6 +32,9 @@
           </tr>
         </thead>
         <tbody>
+          <tr *ngIf="paginatedUsers.length === 0">
+            <td colspan="5" style="text-align: center; padding: 20px;">There are currently no loan applications available.</td>
+          </tr>
           <tr
             *ngFor="let loan of paginatedUsers"
             (click)="viewLoan()"
@@ -39,8 +45,9 @@
             <td>{{ loan.name }}</td>
             <td>{{ loan.address }}</td>
             <td>{{ loan.phone_num }}</td>
-            <td>{{ loan.loan_status }}</td>
+            <td class="status {{ loan.status }}">{{ loan.loan_status }}</td>
             <td class="actions" *ngIf="userRole === 'Loan Officer' || userRole === 'Superadmin'">
+              <ng-container *ngIf="loan.status !== 'Approved'">
               <button
                 class="action green-action"
                 (click)="approve(loan); $event.stopPropagation()"
@@ -54,6 +61,14 @@
                 aria-label="Decline loan"
               >
                 Decline
+              </button>
+              </ng-container>
+              <button
+               *ngIf="loan.status === 'Approved'"
+                class="action blue-action"
+                (click)="setSchedule(); $event.stopPropagation()"
+                aria-label="Schedule user">
+                Schedule
               </button>
             </td>
           </tr>

@@ -38,6 +38,50 @@ export class ScheduleComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  addDeduction(index: number): void {
+    const entry = this.amortizationData[index];
+    entry.amountDeducted = entry.amountDeductedInput;
+    entry.dateDeducted = new Date().toISOString().split('T')[0]; // current date
+    entry.added = true;
+  }
+
+  exportToCSV(): void {
+  const headers = [
+    'Month',
+    'Principal',
+    'Principal Amortization',
+    'Monthly Interest',
+    'Total Amortization',
+    'Bi-Monthly Amortization',
+    'Monthly Balance',
+    'Amount Deducted',
+    'Date Deducted'
+  ];
+
+  const rows = this.amortizationData.map(row => [
+    row.month,
+    row.principal,
+    row.principalAmortization,
+    row.monthlyInterest,
+    row.totalAmortization,
+    row.biMonthlyAmortization,
+    row.monthlyBalance,
+    row.amountDeducted || row.amountDeductedInput || '',
+    row.dateDeducted || ''
+  ]);
+
+  const csvContent = [headers, ...rows]
+    .map(e => e.join(','))
+    .join('\n');
+
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.setAttribute('href', url);
+    a.setAttribute('download', 'amortization_schedule.csv');
+    a.click();
+  }
+
 
   // amortizationData = [
   //   {

@@ -3,6 +3,27 @@
   flex-direction: column;
   gap: 20px;
 
+  .button-group {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px;
+  }
+
+  .header {
+    display: flex;
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+
+    .title {
+      font-size: 30px;
+      font-weight: 700;
+      color: #1f2937;
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+    }
+  }
+
   .middle-content {
     display: flex;
     justify-content: space-between;
@@ -56,26 +77,14 @@
     gap: 15px;
     padding: 15px;
     box-shadow: var(--main-shadow);
+    border: 1px solid var(--bg-dark);
     border-radius: 5px;
 
-    th:nth-child(1),
-    td:nth-child(1),
-    th:nth-child(3),
-    td:nth-child(3) {
-      min-width: 150px;
-      max-width: 150px;
-    }
-
-    th:nth-child(5),
-    td:nth-child(5) {
-      min-width: 200px;
-      max-width: 200px;
-    }
-
-    .table-header {
+    .table-content {
       border-radius: 5px;
       overflow: hidden;
-      border: 1px solid #ccc; 
+      padding: 10px;
+      border: 1px solid var(--bg-dark);
 
       table {
         width: 100%;
@@ -97,22 +106,6 @@
             font-weight: 600;
           }
         }
-      }
-    }
-
-    .table-body {
-      background: white;
-      border-radius: 5px;
-      overflow: hidden;
-      animation: var(--popIn);
-
-      table {
-        width: 100%;
-      border-collapse: separate; 
-      border-spacing: 0; 
-      border-radius: 5px;
-      overflow: hidden;
-      border: 1px solid #ccc;
 
         tbody {
           display: block;
@@ -125,7 +118,7 @@
             transition: var(--main-transition);
 
             &:hover {
-          background-color: #f0fdf4;
+              background-color: #f0fdf4;
             }
 
             td {
@@ -184,56 +177,9 @@
     }
   }
 
-  .button-group {
-    display: flex;
-    justify-content: space-between;
-    margin: 15px;
-  }
-
-  .header {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    justify-content: center;
-
-    .title {
-      font-size: 30px;
-      font-weight: 700;
-      color: #1f2937;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-    }
-
-    .right-header {
-      display: flex;
-      gap: 15px;
-
-      .date-input {
-        display: flex;
-        align-items: center;
-        background-color: var(--primary);
-        color: white;
-        border-radius: 5px;
-
-        label {
-          font-weight: 500;
-          padding: 6px 15px;
-        }
-
-        input {
-          border: 2px solid var(--primary);
-          outline: none;
-          padding: 6px;
-          border-radius: 5px;
-          color: #333;
-        }
-      }
-    }
-  }
-
-   .pagination-container {
+  .pagination-container {
     padding: 5px;
-    margin-top: 24px;
+    margin-top: 10px;
     display: flex;
     flex-wrap: wrap;
     justify-content: flex-end;

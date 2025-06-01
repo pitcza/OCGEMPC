@@ -9,6 +9,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 30px;
 
   .title {
       font-size: 30px;
@@ -83,6 +84,7 @@
   display: flex;
   justify-content: space-between;
   gap: 10px;
+  margin-bottom: 20px;
 
   .tab {
     flex: 1;

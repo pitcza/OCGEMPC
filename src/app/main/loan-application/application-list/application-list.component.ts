@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ViewApplicationComponent } from '../view-application/view-application.component';
 import Swal from 'sweetalert2';
 import { SetScheduleComponent } from '../set-schedule/set-schedule.component';
 import { AuthService } from '../../../services/auth.services';
@@ -56,11 +55,7 @@ export class ApplicationListComponent implements OnInit {
     });
   }
 
-  viewLoan() {
-    this.dialog.open(ViewApplicationComponent);
-  }
-
-  approve(loan: any) {
+ approve(loan: any) {
     Swal.fire({
       title: 'Approve Application',
       text: `Are you sure you want to approve this application?`,

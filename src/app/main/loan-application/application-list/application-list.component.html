@@ -28,46 +28,57 @@
             <th>Address</th>
             <th>Contact No.</th>
             <th>Status</th>
-            <th *ngIf="userRole === 'Loan Officer' || userRole === 'Superadmin'">Action</th>
+            <th
+              *ngIf="userRole === 'Loan Officer' || userRole === 'Superadmin'"
+            >
+              Action
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr *ngIf="paginatedUsers.length === 0">
-            <td colspan="5" style="text-align: center; padding: 20px;">There are currently no loan applications available.</td>
+            <td colspan="5" style="text-align: center; padding: 20px">
+              There are currently no loan applications available.
+            </td>
           </tr>
           <tr
             *ngFor="let loan of paginatedUsers"
-            (click)="viewLoan()"
             tabindex="0"
             role="row"
             aria-label="User row"
           >
-            <td>{{ loan.maker.first_name }}</td>
-            <td>{{ loan.maker.address }}</td>
-            <td>{{ loan.maker.phone_num }}</td>
-            <td class="status {{ loan.status }}">{{ loan.loan_status }}</td>
-            <td class="actions" *ngIf="userRole === 'Loan Officer' || userRole === 'Superadmin'">
+            <td>{{ loan.name }}</td>
+            <td>{{ loan.address }}</td>
+            <td>{{ loan.phone_num }}</td>
+            <td class="status {{ loan.loan_status }}">
+              {{ loan.loan_status }}
+            </td>
+            <td
+              class="actions"
+              *ngIf="userRole === 'Loan Officer' || userRole === 'Superadmin'"
+            >
               <ng-container *ngIf="loan.status !== 'Approved'">
-              <button
-                class="action green-action"
-                (click)="approve(loan); $event.stopPropagation()"
-                aria-label="Approve loan"
-              >
-                Approve
-              </button>
-              <button
-                class="action red-action"
-                (click)="decline(loan); $event.stopPropagation()"
-                aria-label="Decline loan"
-              >
-                Decline
-              </button>
+                <button
+                  class="action green-action"
+                  (click)="approve(loan); $event.stopPropagation()"
+                  aria-label="Approve loan"
+                >
+                  Approve
+                </button>
+                <button
+                  class="action red-action"
+                  (click)="decline(loan); $event.stopPropagation()"
+                  aria-label="Decline loan"
+                >
+                  Decline
+                </button>
               </ng-container>
               <button
-               *ngIf="loan.status === 'Approved'"
+                *ngIf="loan.status === 'Approved'"
                 class="action blue-action"
                 (click)="setSchedule(); $event.stopPropagation()"
-                aria-label="Schedule user">
+                aria-label="Schedule user"
+              >
                 Schedule
               </button>
             </td>
@@ -108,7 +119,8 @@
       <button
         *ngFor="let page of totalPagesArray"
         (click)="goToPage(page)"
-        [class.active]="page === currentPage">
+        [class.active]="page === currentPage"
+      >
         {{ page }}
       </button>
       <button

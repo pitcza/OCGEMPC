@@ -1,19 +1,158 @@
-<!-- <p>loan-application works!</p>
-<button (click)="viewApplication()"> View Application </button> -->
 <div class="loan-application-container">
   <div class="header">
     <h2 class="title">LOAN APPLICATION</h2>
-    <div class="button-group" *ngIf="userRole === 'Loan Officer' || userRole === 'Superadmin'">
+    <div class="button-group">
       <button class="btn primary" (click)="addApplication()">Add Loan Application</button>
     </div>
   </div>
 
-  <nav class="tabs">
-    <button class="tab" routerLinkActive="active" [routerLink]="['list']">Application List</button>
-    <button class="tab" routerLinkActive="active" [routerLink]="['release']">For Release</button>
-    <button class="tab" routerLinkActive="active" [routerLink]="['declined']">Declined List</button>
-  </nav>
+  <div class="content-columns">
+    <!-- Column 1 -->
+    <div class="column one">
+      <div class="filter-export">
+        <select id="filter" [(ngModel)]="selectedFilter" (change)="filterApplicants()">
+          <option value="application">Application List</option>
+          <option value="releasing">Releasing</option>
+          <option value="declined">Declined List</option>
+        </select>
 
-  <router-outlet></router-outlet>
+        <button class="btn export">Export</button>
+      </div>
+
+      <ul class="applicant-list">
+        <li *ngFor="let applicant of filteredApplicants" (click)="selectApplicant(applicant)">
+          {{ applicant.personal.firstName }} {{ applicant.personal.lastName }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Column 2 -->
+    <div class="column two" *ngIf="selectedApplicant">
+      <!-- Personal Details -->
+      <h3>Personal Details</h3>
+      <table class="info-table perso">
+        <tbody>
+          <tr>
+            <td><strong>First Name:</strong></td>
+            <td>{{ selectedApplicant.personal.firstName }}</td>
+          </tr>
+          <tr>
+            <td><strong>Middle Name:</strong></td>
+            <td>{{ selectedApplicant.personal.middleName }}</td>
+          </tr>
+          <tr>
+            <td><strong>Last Name:</strong></td>
+            <td>{{ selectedApplicant.personal.lastName }}</td>
+          </tr>
+          <tr>
+            <td><strong>Ext Name:</strong></td>
+            <td>{{ selectedApplicant.personal.extName }}</td>
+          </tr>
+          <tr>
+            <td><strong>Address:</strong></td>
+            <td>{{ selectedApplicant.personal.address }}</td>
+          </tr>
+          <tr>
+            <td><strong>Contact No.:</strong></td>
+            <td>{{ selectedApplicant.personal.contactNumber }}</td>
+          </tr>
+          <tr>
+            <td><strong>Date of Birth:</strong></td>
+            <td>{{ selectedApplicant.personal.dob }}</td>
+          </tr>
+          <tr>
+            <td><strong>Age:</strong></td>
+            <td>{{ selectedApplicant.personal.age }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Employment Details -->
+      <h4>Employment Details</h4>
+      <table class="info-table">
+        <tbody>
+          <tr>
+            <td><strong>Dept./Office:</strong></td>
+            <td>{{ selectedApplicant.employment.office }}</td>
+          </tr>
+          <tr>
+            <td><strong>Position:</strong></td>
+            <td>{{ selectedApplicant.employment.position }}</td>
+          </tr>
+          <tr>
+            <td><strong>Salary (per month):</strong></td>
+            <td>{{ selectedApplicant.employment.salary }}</td>
+          </tr>
+          <tr>
+            <td><strong>Employment Status:</strong></td>
+            <td>{{ selectedApplicant.employment.status }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Cooperative Membership -->
+      <h4>Cooperative Membership</h4>
+      <table class="info-table">
+        <tbody>
+          <tr>
+            <td><strong>Years as Coop Member:</strong></td>
+            <td>{{ selectedApplicant.coop.years }}</td>
+          </tr>
+          <tr>
+            <td><strong>Amount of Shares:</strong></td>
+            <td>{{ selectedApplicant.coop.shares }}</td>
+          </tr>
+          <tr>
+            <td><strong>Amount of Saving:</strong></td>
+            <td>{{ selectedApplicant.coop.savings }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Loan Information -->
+      <h4>Loan Information</h4>
+      <table class="info-table">
+        <tbody>
+          <tr>
+            <td><strong>Type of Loan:</strong></td>
+            <td>{{ selectedApplicant.loan.type }}</td>
+          </tr>
+          <tr>
+            <td><strong>Amount of Loan Applied:</strong></td>
+            <td>{{ selectedApplicant.loan.amount }}</td>
+          </tr>
+          <tr>
+            <td><strong>Loan Term:</strong></td>
+            <td>{{ selectedApplicant.loan.term }}</td>
+          </tr>
+          <tr>
+            <td><strong>Purpose of Loan:</strong></td>
+            <td>{{ selectedApplicant.loan.purpose }}</td>
+          </tr>
+          <tr>
+            <td><strong>Repayment Frequency:</strong></td>
+            <td>{{ selectedApplicant.loan.frequency }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+
+    <!-- Column 3 -->
+    <div class="column three" *ngIf="selectedApplicant">
+      <h3 *ngIf="selectedFilter === 'declined'">Decline Reason</h3>
+      <h3 *ngIf="selectedFilter !== 'declined'">Requirements</h3>
+
+      <ul *ngIf="selectedFilter !== 'declined'">
+        <li *ngFor="let req of selectedApplicant.requirements">{{ req }}</li>
+      </ul>
+
+      <p *ngIf="selectedFilter === 'declined'">{{ selectedApplicant.declineReason }}</p>
+
+      <div class="action-buttons">
+        <button class="btn red" (click)="decline()">Decline</button>
+        <button class="btn green" (click)="approve()">Approve</button>
+      </div>
+    </div>
+  </div>
 </div>
-

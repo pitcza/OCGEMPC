@@ -9,8 +9,6 @@ import { MakersComponent } from './makers/makers.component';
 import { LoanApplicationComponent } from './loan-application/loan-application.component';
 import { InsuranceComponent } from './insurance/insurance.component';
 import { ApplicationListComponent } from './loan-application/application-list/application-list.component';
-import { ForReleasingComponent } from './loan-application/for-releasing/for-releasing.component';
-import { DeclinedListComponent } from './loan-application/declined-list/declined-list.component';
 import { ActivityLogComponent } from './activity-log/activity-log.component';
 import { UnauthorizedComponent } from '../unauthorized/unauthorized.component';
 
@@ -29,13 +27,6 @@ const routes: Routes = [
       { path: 'list',
         component: ApplicationListComponent,
         canActivate: [AuthGuard] },
-      { path: 'release',
-        component: ForReleasingComponent,
-        canActivate: [AuthGuard] },
-      { path: 'declined',
-        component: DeclinedListComponent,
-        canActivate: [AuthGuard] },
-      { path: '', redirectTo: 'list', pathMatch: 'full' },
     ],
   },
   { path: 'insurance',

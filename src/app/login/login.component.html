@@ -57,7 +57,12 @@
         <a [routerLink]="'/forgot-password'">Forgot Password?</a>
       </div>
 
-      <button type="submit" class="login-btn" [disabled]="loginForm.invalid">LOGIN</button>
+      <button type="submit" class="login-btn" [disabled]="isLoginDisabled">
+        <span *ngIf="!btnLoading">LOGIN</span>
+        <span class="loading" *ngIf="btnLoading">
+          <div class="loader"></div> Logging in...
+        </span>
+      </button>
     </form>
   </div>
 </div>

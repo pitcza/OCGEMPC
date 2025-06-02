@@ -11,9 +11,6 @@ import { MakersComponent } from './makers/makers.component';
 import { LoanApplicationComponent } from './loan-application/loan-application.component';
 import { ApplicationListComponent } from './loan-application/application-list/application-list.component';
 
-import { ForReleasingComponent } from './loan-application/for-releasing/for-releasing.component';
-import { ViewApplicationComponent } from './loan-application/view-application/view-application.component';
-
 import { InsuranceComponent } from './insurance/insurance.component';
 
 import { DetailsComponent } from './makers/details/details.component';
@@ -29,7 +26,6 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { SetScheduleComponent } from './loan-application/set-schedule/set-schedule.component';
-import { DeclinedListComponent } from './loan-application/declined-list/declined-list.component';
 import { ActivityLogComponent } from './activity-log/activity-log.component';
 
 
@@ -40,13 +36,10 @@ import { ActivityLogComponent } from './activity-log/activity-log.component';
     LoanApplicationComponent,
     InsuranceComponent,
     ApplicationListComponent,
-    ViewApplicationComponent,
     DetailsComponent,
     ScheduleComponent,
-    ForReleasingComponent,
     AddApplicationComponent,
     SetScheduleComponent,
-    DeclinedListComponent,
     ActivityLogComponent
   ],
   imports: [

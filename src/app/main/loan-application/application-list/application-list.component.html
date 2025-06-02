@@ -37,7 +37,6 @@
           </tr>
           <tr
             *ngFor="let loan of paginatedUsers"
-            (click)="viewLoan()"
             tabindex="0"
             role="row"
             aria-label="User row"
@@ -45,7 +44,7 @@
             <td>{{ loan.name }}</td>
             <td>{{ loan.address }}</td>
             <td>{{ loan.phone_num }}</td>
-            <td class="status {{ loan.status }}">{{ loan.loan_status }}</td>
+            <td class="status {{ loan.loan_status }}">{{ loan.loan_status }}</td>
             <td class="actions" *ngIf="userRole === 'Loan Officer' || userRole === 'Superadmin'">
               <ng-container *ngIf="loan.status !== 'Approved'">
               <button

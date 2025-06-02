@@ -153,14 +153,15 @@
 
 .status {
   font-weight: 500;
+  text-transform: capitalize;
 }
 
-.Pending {
+.pending {
   background-color: #0062ff20;
   color: #0047ba;
 }
 
-.Approved {
+.approved {
   background-color: #00d7321e;
   color: var(--primary);
 }

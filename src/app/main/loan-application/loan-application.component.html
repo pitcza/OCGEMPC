@@ -1,19 +1,77 @@
-<!-- <p>loan-application works!</p>
-<button (click)="viewApplication()"> View Application </button> -->
 <div class="loan-application-container">
   <div class="header">
     <h2 class="title">LOAN APPLICATION</h2>
-    <div class="button-group" *ngIf="userRole === 'Loan Officer' || userRole === 'Superadmin'">
+    <div class="button-group">
       <button class="btn primary" (click)="addApplication()">Add Loan Application</button>
     </div>
   </div>
 
-  <nav class="tabs">
-    <button class="tab" routerLinkActive="active" [routerLink]="['list']">Application List</button>
-    <button class="tab" routerLinkActive="active" [routerLink]="['release']">For Release</button>
-    <button class="tab" routerLinkActive="active" [routerLink]="['declined']">Declined List</button>
-  </nav>
+  <div class="content-columns">
+    <!-- Column 1 -->
+    <div class="column one">
+      <div class="filter-export">
+        <select id="filter" [(ngModel)]="selectedFilter" (change)="filterApplicants()">
+          <option value="application">Application List</option>
+          <option value="releasing">Releasing</option>
+          <option value="declined">Declined List</option>
+        </select>
 
-  <router-outlet></router-outlet>
+        <button class="btn export">Export</button>
+      </div>
+
+      <ul class="applicant-list">
+        <li *ngFor="let applicant of filteredApplicants" (click)="selectApplicant(applicant)">
+          {{ applicant.personal.firstName }} {{ applicant.personal.lastName }}
+        </li>
+      </ul>
+    </div>
+
+    <!-- Column 2 -->
+    <div class="column two" *ngIf="selectedApplicant">
+      <h3>Personal Details</h3>
+      <p><strong>First Name:</strong> {{ selectedApplicant.personal.firstName }}</p>
+      <p><strong>Middle Name:</strong> {{ selectedApplicant.personal.middleName }}</p>
+      <p><strong>Last Name:</strong> {{ selectedApplicant.personal.lastName }}</p>
+      <p><strong>Ext Name:</strong> {{ selectedApplicant.personal.extName }}</p>
+      <p><strong>Address:</strong> {{ selectedApplicant.personal.address }}</p>
+      <p><strong>Contact Number:</strong> {{ selectedApplicant.personal.contactNumber }}</p>
+      <p><strong>Date of Birth:</strong> {{ selectedApplicant.personal.dob }}</p>
+      <p><strong>Age:</strong> {{ selectedApplicant.personal.age }}</p>
+
+      <h4>Employment Details</h4>
+      <p><strong>Dept./Office:</strong> {{ selectedApplicant.employment.office }}</p>
+      <p><strong>Position:</strong> {{ selectedApplicant.employment.position }}</p>
+      <p><strong>Salary (per month):</strong> {{ selectedApplicant.employment.salary }}</p>
+      <p><strong>Employment Status:</strong> {{ selectedApplicant.employment.status }}</p>
+
+      <h4>Cooperative Membership</h4>
+      <p><strong>Years as Coop Member:</strong> {{ selectedApplicant.coop.years }}</p>
+      <p><strong>Amount of Shares:</strong> {{ selectedApplicant.coop.shares }}</p>
+      <p><strong>Amount of Saving:</strong> {{ selectedApplicant.coop.savings }}</p>
+
+      <h4>Loan Information</h4>
+      <p><strong>Type of Loan:</strong> {{ selectedApplicant.loan.type }}</p>
+      <p><strong>Amount of Loan Applied:</strong> {{ selectedApplicant.loan.amount }}</p>
+      <p><strong>Loan Term:</strong> {{ selectedApplicant.loan.term }}</p>
+      <p><strong>Purpose of Loan:</strong> {{ selectedApplicant.loan.purpose }}</p>
+      <p><strong>Repayment Frequency:</strong> {{ selectedApplicant.loan.frequency }}</p>
+    </div>
+
+    <!-- Column 3 -->
+    <div class="column three" *ngIf="selectedApplicant">
+      <h3 *ngIf="selectedFilter === 'declined'">Decline Reason</h3>
+      <h3 *ngIf="selectedFilter !== 'declined'">Requirements</h3>
+
+      <ul *ngIf="selectedFilter !== 'declined'">
+        <li *ngFor="let req of selectedApplicant.requirements">{{ req }}</li>
+      </ul>
+
+      <p *ngIf="selectedFilter === 'declined'">{{ selectedApplicant.declineReason }}</p>
+
+      <div class="action-buttons">
+        <button class="btn red" (click)="decline()">Decline</button>
+        <button class="btn green" (click)="approve()">Approve</button>
+      </div>
+    </div>
+  </div>
 </div>
-

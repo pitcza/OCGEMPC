@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ViewApplicationComponent } from '../view-application/view-application.component';
 import Swal from 'sweetalert2';
 import { SetScheduleComponent } from '../set-schedule/set-schedule.component';
 import { AuthService } from '../../../services/auth.services';
@@ -47,10 +46,6 @@ export class ApplicationListComponent implements OnInit {
         Swal.fire('Error', 'Failed to fetch loans from server.', 'error');
       }
     });
-  }
-
-    viewLoan() {
-    this.dialog.open(ViewApplicationComponent);
   }
 
  approve(loan: any) {

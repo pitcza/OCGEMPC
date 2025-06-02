@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { DetailsComponent } from './details/details.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { environment } from '../../../environments/environment';
+import { decryptResponse } from '../../utils/crypto.util';
 
 interface MakerUser {
   first_name: string;
@@ -38,6 +39,8 @@ export class MakersComponent implements OnInit {
   users: MakerUser[] = [];
   filteredUsers: MakerUser[] = [];
 
+  private encryptionKey = environment.encryptionKey;
+
   constructor(
     private dialog: MatDialog,
     private http: HttpClient
@@ -48,9 +51,10 @@ export class MakersComponent implements OnInit {
   }
   fetchUsers(): void {
     // Replace 'your-api-route' with your actual API endpoint
-    this.http.get<MakerUser[]>(`${environment.baseUrl}/api/makers`).subscribe({
+    this.http.get<any>(`${environment.baseUrl}/api/makers`).subscribe({
       next: (data) => {
-        this.users = data;
+        const decrypted = decryptResponse(data.encrypted, this.encryptionKey);
+        this.users = decrypted;
         this.filteredUsers = [...this.users];
       },
       error: (err) => {

@@ -3,14 +3,15 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { decryptResponse } from '../../../utils/crypto.util';
 
 @Component({
   selector: 'app-details',
   standalone: false,
   templateUrl: './details.component.html',
-  styleUrl: './details.component.scss'
+  styleUrl: './details.component.scss',
 })
-export class DetailsComponent implements OnInit{
+export class DetailsComponent implements OnInit {
   makerDetails: any = null;
   loading = true;
   error: string | null = null;
@@ -30,17 +31,20 @@ export class DetailsComponent implements OnInit{
     }
   }
 
+  private encryptionKey = environment.encryptionKey;
+
   fetchMakerDetails(id: string | number): void {
     this.loading = true;
     this.http.get<any>(`${environment.baseUrl}/api/maker/${id}`).subscribe({
       next: (details) => {
-        this.makerDetails = details;
+        const decrypted = decryptResponse(details.encrypted, this.encryptionKey);
+        this.makerDetails = decrypted;
         this.loading = false;
       },
       error: (err) => {
         this.error = 'Failed to fetch details.';
         this.loading = false;
-      }
+      },
     });
   }
 

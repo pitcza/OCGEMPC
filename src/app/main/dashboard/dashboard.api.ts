@@ -41,8 +41,8 @@ export class DashboardApiService {
   getActiveLoans(): Observable<number> {
     return this.http.get<{ encrypted: string }>(`${environment.baseUrl}/api/active-loans`)
       .pipe(
-        this.decryptApiResponse<{ activeLoans: number }>(),
-        map(decrypted => decrypted.activeLoans)
+        this.decryptApiResponse<{ totalActiveLoans: number }>(),
+        map(decrypted => decrypted.totalActiveLoans)
       );
   }
 

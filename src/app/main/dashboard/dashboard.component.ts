@@ -24,7 +24,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
   // For chart labels
   months = ['January', 'February', 'March', 'April', 'May', 'June'];
-  statuses = ['Current', 'Paid', 'Overdue', 'Skipped'];
+  statuses = ['Active', 'Paid', 'Overdue', 'Denied'];
 
 
 

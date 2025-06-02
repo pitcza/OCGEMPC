@@ -1,38 +1,103 @@
-import { Component, Inject, OnInit} from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
+import { environment } from '../../../../environments/environment';
+import { decryptResponse } from '../../../utils/crypto.util';
 
 @Component({
   selector: 'app-schedule',
   standalone: false,
   templateUrl: './schedule.component.html',
-  styleUrl: './schedule.component.scss'
+  styleUrl: './schedule.component.scss',
 })
 export class ScheduleComponent implements OnInit {
   amortizationData: any[] = [];
+  loading = true;
+  error: string | null = null;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     private dialogRef: MatDialogRef<ScheduleComponent>,
     private http: HttpClient
   ) {}
 
-    ngOnInit(): void {
-    this.fetchAmortizationData();
+  ngOnInit(): void {
+    if (this.data && this.data.id) {
+      this.fetchAmortizationData(this.data.id);
+    } else {
+      this.error = 'No Maker ID provided.';
+      this.loading = false;
+    }
   }
 
-  fetchAmortizationData(): void {
-    this.http.get<any>('/makers').subscribe({
+  private encryptionKey = environment.encryptionKey;
+
+  fetchAmortizationData(id: string | number): void {
+    this.http.get<any>(`${environment.baseUrl}/api/maker/${id}`).subscribe({
       next: (response) => {
-        this.amortizationData = response.loan_amortization || [];
+        const decrypted = decryptResponse(
+          response.encrypted,
+          this.encryptionKey
+        );
+
+        const amortizations = decrypted.loan_amortizations || [];
+
+        // Sort by installment_no if needed
+        amortizations.sort(
+          (a: any, b: any) => a.installment_no - b.installment_no
+        );
+
+        let totalLoanAmount = 0;
+        let totalPrincipalPaid = 0;
+        let amortizationPaidSoFar = 0;
+
+        if (amortizations.length > 0) {
+          const first = amortizations[0];
+          const firstPrincipal = parseFloat(first.principal) || 0;
+          const firstBalance = parseFloat(first.remaining_balance) || 0;
+
+          // Calculate total loan amount
+          totalLoanAmount = firstPrincipal + firstBalance;
+        }
+
+        this.amortizationData = amortizations.map(
+          (item: any, index: number) => {
+            const principalAmortization = parseFloat(item.principal) || 0; //goods
+            const monthlyInterest = parseFloat(item.interest) || 0; //goods
+            const totalAmortization = principalAmortization + monthlyInterest; //goods
+            const biMonthlyAmortization = totalAmortization / 2; //goods
+            const monthlyBalance = parseFloat(item.remaining_balance) || 0; //goods
+
+            amortizationPaidSoFar += totalAmortization;
+            totalPrincipalPaid += principalAmortization;
+
+            return {
+              month: item.installment_no,
+              principal: totalLoanAmount - amortizationPaidSoFar,
+              principalAmortization,
+              monthlyInterest,
+              totalAmortization,
+              biMonthlyAmortization,
+              monthlyBalance,
+              amountDeducted: item.total_payment,
+              dateDeducted: '',
+            };
+          }
+        );
+
+        this.loading = false;
       },
       error: (err) => {
-        // Optionally handle error, e.g., show a message or fallback data
+        this.loading = false;
         this.amortizationData = [];
-      }
+      },
     });
   }
 
+  formatMonth(dateStr: string): string {
+    const date = new Date(dateStr);
+    return date.toLocaleString('default', { month: 'long', year: 'numeric' });
+  }
 
   closeModal(): void {
     this.dialogRef.close();
@@ -46,33 +111,31 @@ export class ScheduleComponent implements OnInit {
   }
 
   exportToCSV(): void {
-  const headers = [
-    'Month',
-    'Principal',
-    'Principal Amortization',
-    'Monthly Interest',
-    'Total Amortization',
-    'Bi-Monthly Amortization',
-    'Monthly Balance',
-    'Amount Deducted',
-    'Date Deducted'
-  ];
+    const headers = [
+      'Month',
+      'Principal',
+      'Principal Amortization',
+      'Monthly Interest',
+      'Total Amortization',
+      'Bi-Monthly Amortization',
+      'Monthly Balance',
+      'Amount Deducted',
+      'Date Deducted',
+    ];
 
-  const rows = this.amortizationData.map(row => [
-    row.month,
-    row.principal,
-    row.principalAmortization,
-    row.monthlyInterest,
-    row.totalAmortization,
-    row.biMonthlyAmortization,
-    row.monthlyBalance,
-    row.amountDeducted || row.amountDeductedInput || '',
-    row.dateDeducted || ''
-  ]);
+    const rows = this.amortizationData.map((row) => [
+      row.month,
+      row.principal,
+      row.principalAmortization,
+      row.monthlyInterest,
+      row.totalAmortization,
+      row.biMonthlyAmortization,
+      row.monthlyBalance,
+      row.amountDeducted || row.amountDeductedInput || '',
+      row.dateDeducted || '',
+    ]);
 
-  const csvContent = [headers, ...rows]
-    .map(e => e.join(','))
-    .join('\n');
+    const csvContent = [headers, ...rows].map((e) => e.join(',')).join('\n');
 
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
@@ -81,7 +144,6 @@ export class ScheduleComponent implements OnInit {
     a.setAttribute('download', 'amortization_schedule.csv');
     a.click();
   }
-
 
   // amortizationData = [
   //   {

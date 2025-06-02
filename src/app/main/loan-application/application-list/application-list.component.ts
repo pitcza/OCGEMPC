@@ -6,12 +6,13 @@ import { SetScheduleComponent } from '../set-schedule/set-schedule.component';
 import { AuthService } from '../../../services/auth.services';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
+import { decryptResponse } from '../../../utils/crypto.util';
 
 @Component({
   selector: 'app-application-list',
   standalone: false,
   templateUrl: './application-list.component.html',
-  styleUrl: './application-list.component.scss'
+  styleUrl: './application-list.component.scss',
 })
 export class ApplicationListComponent implements OnInit {
   selectedMaker = 'all';
@@ -23,10 +24,12 @@ export class ApplicationListComponent implements OnInit {
   loans: any[] = [];
   filteredLoans: any[] = [];
 
+  private encryptionKey = environment.encryptionKey;
+
   constructor(
     private dialog: MatDialog,
     private authService: AuthService,
-    private http: HttpClient,
+    private http: HttpClient
   ) {
     this.userRole = this.authService.cookieService.get('roleName');
   }
@@ -36,24 +39,28 @@ export class ApplicationListComponent implements OnInit {
   }
 
   fetchLoans() {
-    this.http.get<any[]>(`${environment.baseUrl}/api/loans`).subscribe({
+    this.http.get<any>(`${environment.baseUrl}/api/loans`).subscribe({
       next: (data) => {
-        // Filter for pending loans
-        this.loans = data.filter(loan => loan.loan_status && loan.loan_status.toLowerCase() === 'pending');
+        const decrypted = decryptResponse(data.encrypted, this.encryptionKey);
+
+        console.log(decrypted)
+        this.loans = decrypted.filter(
+          (loan: any) =>
+            loan.loan_status && loan.loan_status.toLowerCase() === 'pending'
+        );
         this.filteredLoans = [...this.loans];
-        console.log(this.filteredLoans);
       },
-      error: (err) => {
+      error: () => {
         Swal.fire('Error', 'Failed to fetch loans from server.', 'error');
-      }
+      },
     });
   }
 
-    viewLoan() {
+  viewLoan() {
     this.dialog.open(ViewApplicationComponent);
   }
 
- approve(loan: any) {
+  approve(loan: any) {
     Swal.fire({
       title: 'Approve Application',
       text: `Are you sure you want to approve this application?`,
@@ -61,29 +68,31 @@ export class ApplicationListComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: '#508D4E',
       cancelButtonColor: '#7c7777',
-      confirmButtonText: 'Yes, approve it!'
+      confirmButtonText: 'Yes, approve it!',
     }).then((result) => {
       if (result.isConfirmed) {
         // Call the approve API
-        this.http.post(`${environment.baseUrl}/api/approve-loan/${loan.id}`, {}).subscribe({
-          next: () => {
-            Swal.fire({
-              title: 'Application Approved',
-              text: `${loan.name} has been approved.`,
-              icon: 'success',
-              confirmButtonColor: '#508D4E',
-              confirmButtonText: 'SET SCHEDULE'
-            }).then((result) => {
-              if (result.isConfirmed) {
-                this.setSchedule();
-              }
-              this.fetchLoans(); // Refresh the list
-            });
-          },
-          error: () => {
-            Swal.fire('Error', 'Failed to approve the loan.', 'error');
-          }
-        });
+        this.http
+          .post(`${environment.baseUrl}/api/approve-loan/${loan.id}`, {})
+          .subscribe({
+            next: () => {
+              Swal.fire({
+                title: 'Application Approved',
+                text: `${loan.name} has been approved.`,
+                icon: 'success',
+                confirmButtonColor: '#508D4E',
+                confirmButtonText: 'SET SCHEDULE',
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  this.setSchedule();
+                }
+                this.fetchLoans(); // Refresh the list
+              });
+            },
+            error: () => {
+              Swal.fire('Error', 'Failed to approve the loan.', 'error');
+            },
+          });
       }
     });
   }
@@ -92,7 +101,7 @@ export class ApplicationListComponent implements OnInit {
     this.dialog.open(SetScheduleComponent);
   }
 
- decline(loan: any) {
+  decline(loan: any) {
     Swal.fire({
       title: 'Decline Application',
       text: `Are you sure you want to decline this application?`,
@@ -100,7 +109,7 @@ export class ApplicationListComponent implements OnInit {
       showCancelButton: true,
       confirmButtonColor: '#be1010',
       cancelButtonColor: '#7c7777',
-      confirmButtonText: 'Yes, decline it!'
+      confirmButtonText: 'Yes, decline it!',
     }).then((result) => {
       if (result.isConfirmed) {
         // Prompt for remarks
@@ -110,7 +119,7 @@ export class ApplicationListComponent implements OnInit {
           inputLabel: 'Please provide a reason for declining:',
           inputPlaceholder: 'Enter your remarks here...',
           inputAttributes: {
-            'aria-label': 'Type your message here'
+            'aria-label': 'Type your message here',
           },
           showCancelButton: true,
           confirmButtonText: 'Submit',
@@ -121,26 +130,33 @@ export class ApplicationListComponent implements OnInit {
               Swal.showValidationMessage('Remarks are required to proceed.');
             }
             return remarks;
-          }
+          },
         }).then((remarksResult) => {
           if (remarksResult.isConfirmed) {
             const remarks = remarksResult.value;
             // Call the decline API
-            this.http.post(`${environment.baseUrl}/api/decline-loan/${loan.id}`, { remarks }).subscribe({
-              next: () => {
-                Swal.fire('Declined!', `${loan.name} has been declined.`, 'error');
-                this.fetchLoans(); // Refresh the list
-              },
-              error: () => {
-                Swal.fire('Error', 'Failed to decline the loan.', 'error');
-              }
-            });
+            this.http
+              .post(`${environment.baseUrl}/api/decline-loan/${loan.id}`, {
+                remarks,
+              })
+              .subscribe({
+                next: () => {
+                  Swal.fire(
+                    'Declined!',
+                    `${loan.name} has been declined.`,
+                    'error'
+                  );
+                  this.fetchLoans(); // Refresh the list
+                },
+                error: () => {
+                  Swal.fire('Error', 'Failed to decline the loan.', 'error');
+                },
+              });
           }
         });
       }
     });
   }
-
 
   get totalItems() {
     return this.filteredLoans.length;
@@ -168,7 +184,7 @@ export class ApplicationListComponent implements OnInit {
 
   applyFilters() {
     const query = this.searchQuery.toLowerCase();
-    this.filteredLoans = this.loans.filter(loan =>
+    this.filteredLoans = this.loans.filter((loan) =>
       loan.name.toLowerCase().includes(query)
     );
     this.currentPage = 1;

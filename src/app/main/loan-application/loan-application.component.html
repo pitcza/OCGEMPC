@@ -28,33 +28,114 @@
 
     <!-- Column 2 -->
     <div class="column two" *ngIf="selectedApplicant">
+      <!-- Personal Details -->
       <h3>Personal Details</h3>
-      <p><strong>First Name:</strong> {{ selectedApplicant.personal.firstName }}</p>
-      <p><strong>Middle Name:</strong> {{ selectedApplicant.personal.middleName }}</p>
-      <p><strong>Last Name:</strong> {{ selectedApplicant.personal.lastName }}</p>
-      <p><strong>Ext Name:</strong> {{ selectedApplicant.personal.extName }}</p>
-      <p><strong>Address:</strong> {{ selectedApplicant.personal.address }}</p>
-      <p><strong>Contact Number:</strong> {{ selectedApplicant.personal.contactNumber }}</p>
-      <p><strong>Date of Birth:</strong> {{ selectedApplicant.personal.dob }}</p>
-      <p><strong>Age:</strong> {{ selectedApplicant.personal.age }}</p>
+      <table class="info-table perso">
+        <tbody>
+          <tr>
+            <td><strong>First Name:</strong></td>
+            <td>{{ selectedApplicant.personal.firstName }}</td>
+          </tr>
+          <tr>
+            <td><strong>Middle Name:</strong></td>
+            <td>{{ selectedApplicant.personal.middleName }}</td>
+          </tr>
+          <tr>
+            <td><strong>Last Name:</strong></td>
+            <td>{{ selectedApplicant.personal.lastName }}</td>
+          </tr>
+          <tr>
+            <td><strong>Ext Name:</strong></td>
+            <td>{{ selectedApplicant.personal.extName }}</td>
+          </tr>
+          <tr>
+            <td><strong>Address:</strong></td>
+            <td>{{ selectedApplicant.personal.address }}</td>
+          </tr>
+          <tr>
+            <td><strong>Contact No.:</strong></td>
+            <td>{{ selectedApplicant.personal.contactNumber }}</td>
+          </tr>
+          <tr>
+            <td><strong>Date of Birth:</strong></td>
+            <td>{{ selectedApplicant.personal.dob }}</td>
+          </tr>
+          <tr>
+            <td><strong>Age:</strong></td>
+            <td>{{ selectedApplicant.personal.age }}</td>
+          </tr>
+        </tbody>
+      </table>
 
+      <!-- Employment Details -->
       <h4>Employment Details</h4>
-      <p><strong>Dept./Office:</strong> {{ selectedApplicant.employment.office }}</p>
-      <p><strong>Position:</strong> {{ selectedApplicant.employment.position }}</p>
-      <p><strong>Salary (per month):</strong> {{ selectedApplicant.employment.salary }}</p>
-      <p><strong>Employment Status:</strong> {{ selectedApplicant.employment.status }}</p>
+      <table class="info-table">
+        <tbody>
+          <tr>
+            <td><strong>Dept./Office:</strong></td>
+            <td>{{ selectedApplicant.employment.office }}</td>
+          </tr>
+          <tr>
+            <td><strong>Position:</strong></td>
+            <td>{{ selectedApplicant.employment.position }}</td>
+          </tr>
+          <tr>
+            <td><strong>Salary (per month):</strong></td>
+            <td>{{ selectedApplicant.employment.salary }}</td>
+          </tr>
+          <tr>
+            <td><strong>Employment Status:</strong></td>
+            <td>{{ selectedApplicant.employment.status }}</td>
+          </tr>
+        </tbody>
+      </table>
 
+      <!-- Cooperative Membership -->
       <h4>Cooperative Membership</h4>
-      <p><strong>Years as Coop Member:</strong> {{ selectedApplicant.coop.years }}</p>
-      <p><strong>Amount of Shares:</strong> {{ selectedApplicant.coop.shares }}</p>
-      <p><strong>Amount of Saving:</strong> {{ selectedApplicant.coop.savings }}</p>
+      <table class="info-table">
+        <tbody>
+          <tr>
+            <td><strong>Years as Coop Member:</strong></td>
+            <td>{{ selectedApplicant.coop.years }}</td>
+          </tr>
+          <tr>
+            <td><strong>Amount of Shares:</strong></td>
+            <td>{{ selectedApplicant.coop.shares }}</td>
+          </tr>
+          <tr>
+            <td><strong>Amount of Saving:</strong></td>
+            <td>{{ selectedApplicant.coop.savings }}</td>
+          </tr>
+        </tbody>
+      </table>
 
+      <!-- Loan Information -->
       <h4>Loan Information</h4>
-      <p><strong>Type of Loan:</strong> {{ selectedApplicant.loan.type }}</p>
-      <p><strong>Amount of Loan Applied:</strong> {{ selectedApplicant.loan.amount }}</p>
-      <p><strong>Loan Term:</strong> {{ selectedApplicant.loan.term }}</p>
-      <p><strong>Purpose of Loan:</strong> {{ selectedApplicant.loan.purpose }}</p>
-      <p><strong>Repayment Frequency:</strong> {{ selectedApplicant.loan.frequency }}</p>
+      <table class="info-table">
+        <tbody>
+          <tr>
+            <td><strong>Type of Loan:</strong></td>
+            <td>{{ selectedApplicant.loan.type }}</td>
+          </tr>
+          <tr>
+            <td><strong>Amount of Loan Applied:</strong></td>
+            <td>{{ selectedApplicant.loan.amount }}</td>
+          </tr>
+          <tr>
+            <td><strong>Loan Term:</strong></td>
+            <td>{{ selectedApplicant.loan.term }}</td>
+          </tr>
+          <tr>
+            <td><strong>Purpose of Loan:</strong></td>
+            <td>{{ selectedApplicant.loan.purpose }}</td>
+          </tr>
+          <tr>
+            <td><strong>Repayment Frequency:</strong></td>
+            <td>{{ selectedApplicant.loan.frequency }}</td>
+          </tr>
+        </tbody>
+      </table>
+
     </div>
 
     <!-- Column 3 -->

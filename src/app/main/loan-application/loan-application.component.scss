@@ -123,7 +123,6 @@ select {
 
 .column {
   flex: 1;
-  min-width: 280px;
   background-color: var(--bg-dark);
   border: 1px solid #ddd;
   box-shadow: var(--main-shadow);
@@ -135,9 +134,20 @@ select {
   }
 }
 
+.one {
+  flex-basis: 10%;
+}
+
+.two {
+  flex-basis: 30%;
+}
+
+.three {
+  height: 100%;
+}
+
 .column h3, .column h4 {
-  padding: 5px;
-  margin-bottom: 10px;
+  padding: 10px;
   font-weight: 500;
   color: white;
   font-size: 16px;
@@ -145,9 +155,9 @@ select {
 }
 
 .column p {
-  padding: 0 5px;
+  border-bottom: 1px solid #bfbfbf;
+  padding: 10px;
   font-size: 14px;
-  margin: 4px 0;
   color: #334155;
 }
 
@@ -155,7 +165,32 @@ select {
   li {
     padding: 10px;
     font-size: 14px;
+    border-bottom: 1px solid #bfbfbf;
   }
+}
+
+/* Table styling */
+.info-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.info-table td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.info-table td:first-child {
+    font-weight: 500;
+    color: #333;
+    width: 40%;
+    text-align: left;
+    background: #f6f6f6;
+}
+
+.perso td:first-child {
+    width: 30%;
 }
 
 .applicant-list {

@@ -211,9 +211,12 @@ select {
 }
 
 .action-buttons {
-  margin-top: 20px;
+  margin-top: 30px;
   display: flex;
-  gap: 12px;
+  width: auto;
+  justify-content: end;
+  align-items: end;
+  gap: 25px;
 
   .btn {
     flex: 1;
@@ -269,5 +272,99 @@ select {
     .btn {
       width: 100%;
     }
+  }
+}
+
+.requirements-list {
+  margin-top: 10px;
+}
+
+.requirement-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.requirement-status {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  text-align: center;
+  margin-right: 10px;
+  border-radius: 50%;
+  font-weight: bold;
+  
+  &.submitted {
+    color: var(--primary);
+  }
+  
+  &:not(.submitted) {
+    color: var(--red);
+  }
+}
+
+.requirement-name {
+  font-size: 14px;
+}
+
+
+.history {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  max-width: 800px;
+  margin-top: 20px;
+}
+
+
+.loan-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+}
+
+.loan-table th,
+.loan-table td {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.loan-table thead th {
+  background-color: #f3f4f6;
+  color: #374151;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.loan-table tbody tr {
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.loan-table tbody tr:hover {
+  background-color: #f0fdf4;
+}
+
+.details-box {
+  background-color: #ecfdf5;
+  padding: 1px;
+  border-top: 4px solid green;
+  border-radius: 8px;
+  color: #065f46;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.details-box p {
+  margin: 0.3rem 0;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

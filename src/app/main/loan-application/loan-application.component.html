@@ -110,6 +110,7 @@
       </table>
 
       <!-- Loan Information -->
+        
       <h4>Loan Information</h4>
       <table class="info-table">
         <tbody>
@@ -135,7 +136,10 @@
           </tr>
         </tbody>
       </table>
-
+              <div class="action-buttons">
+        <button class="btn red" (click)="decline()">Decline</button>
+        <button class="btn green" (click)="approve()">Approve</button>
+      </div>
     </div>
 
     <!-- Column 3 -->
@@ -143,16 +147,40 @@
       <h3 *ngIf="selectedFilter === 'declined'">Decline Reason</h3>
       <h3 *ngIf="selectedFilter !== 'declined'">Requirements</h3>
 
-      <ul *ngIf="selectedFilter !== 'declined'">
-        <li *ngFor="let req of selectedApplicant.requirements">{{ req }}</li>
-      </ul>
-
-      <p *ngIf="selectedFilter === 'declined'">{{ selectedApplicant.declineReason }}</p>
-
-      <div class="action-buttons">
-        <button class="btn red" (click)="decline()">Decline</button>
-        <button class="btn green" (click)="approve()">Approve</button>
+      <div *ngIf="selectedFilter !== 'declined'" class="requirements-list">
+        <div *ngFor="let req of standardRequirements" class="requirement-item">
+          <span class="requirement-status" [class.submitted]="isRequirementSubmitted(req)">
+            {{ isRequirementSubmitted(req) ? '✓' : '✗' }}
+          </span> 
+          <span class="requirement-name">{{ req }}</span>
+        </div>
       </div>
-    </div>
-  </div>
+      <p *ngIf="selectedFilter === 'declined'"></p>
+
+    <div>
+      <div class="history">
+        <h3>Loan History</h3>
+
+        <table class="loan-table">
+          <thead>
+            <tr>
+              <th>Load Amount</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+        <tbody>
+          <tr *ngFor="let item of historyData" (click)="selectItem(item)">
+            <td>{{ item.loanamount_history }}</td>
+            <td>{{ item.status }}</td>
+          </tr>
+        </tbody>
+        </table>
+
+        <div *ngIf="selectedItem" class="details-box">
+          <p><strong>Load Amount:</strong> {{ selectedItem.loanamount_history }}</p>
+          <p><strong>Date:</strong> {{ selectedItem.date }}</p>
+          <p><strong>Status:</strong> {{ selectedItem.status }}</p>
+        </div>
+      </div>
+  </div>  
 </div>

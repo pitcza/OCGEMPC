@@ -1,0 +1,333 @@
+<div class="main-overlay">
+  <div class="modal-container">
+    <div class="modal-head">
+      <div class="modal-title">
+        <h1>Loan Application Form</h1>
+      </div>
+      <button class="exit-button" (click)="closeModal()"> &times; </button>
+    </div>
+
+    <div class="modal-body">
+      <form *ngIf="loanForm && !isNextClicked" [formGroup]="loanForm">
+        <div class="makers-form">
+          <div class="section-group">
+            <h3>Loan Information</h3>
+
+            <div class="input-row">
+              <div class="input-group">
+                <label class="label">Type of Loan</label>
+                <select class="text-field" formControlName="loan_type">
+                  <option value="">Select Type</option>
+                  <option value="Educational">Educational</option>
+                  <option value="Livelihood">Livelihood</option>
+                  <option value="Medical">Medical</option>
+                </select>
+                <div
+                  *ngIf="
+                    loanForm.get('loan_type')?.invalid &&
+                    loanForm.get('loan_type')?.touched
+                  "
+                  class="error"
+                >
+                  Loan type is required.
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label class="label">Amount of Loan Applied</label>
+                <input
+                  type="number"
+                  class="text-field"
+                  formControlName="applied_amount"
+                  placeholder="ex. 60,000"
+                />
+                <div
+                  *ngIf="
+                    loanForm.get('applied_amount')?.invalid &&
+                    loanForm.get('applied_amount')?.touched
+                  "
+                  class="error"
+                >
+                  Loan amount is required.
+                </div>
+              </div>
+            </div>
+
+            <div class="input-row">
+              <div class="input-group">
+                <label class="label">Loan Term</label>
+                <input
+                  type="number"
+                  class="text-field"
+                  formControlName="loan_term"
+                  placeholder="ex. 24 months"
+                />
+                <div
+                  *ngIf="
+                    loanForm.get('loan_term')?.invalid &&
+                    loanForm.get('loan_term')?.touched
+                  "
+                  class="error"
+                >
+                  Loan term is required.
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label class="label">Purpose of Loan</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="loan_purpose"
+                  placeholder="ex. Education expenses"
+                />
+                <div
+                  *ngIf="
+                    loanForm.get('loan_purpose')?.invalid &&
+                    loanForm.get('loan_purpose')?.touched
+                  "
+                  class="error"
+                >
+                  Loan purpose is required.
+                </div>
+              </div>
+
+              <div class="input-group">
+                <label class="label">Repayment Frequency</label>
+                <select class="text-field" formControlName="repayment_freq">
+                  <option value="">Select Frequency</option>
+                  <option value="Monthly">Monthly</option>
+                  <option value="Sample">Sample</option>
+                </select>
+                <div
+                  *ngIf="
+                    loanForm.get('repayment_freq')?.invalid &&
+                    loanForm.get('repayment_freq')?.touched
+                  "
+                  class="error"
+                >
+                  Repayment frequency is required.
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="actions">
+          <button
+            class="action newgreen-action"
+            type="button"
+            [disabled]="isSubmitting"
+            (click)="goToNext()"
+          >
+            Next
+          </button>
+        </div>
+      </form>
+
+      <div *ngIf="loanForm && isNextClicked">
+        <h3>Co-Maker Section</h3>
+
+        <button
+          class="action newgreen-action"
+          type="button"
+          [disabled]="isSubmitting"
+          (click)="previewCoMakers()"
+        >
+          Preview Co-Makers
+        </button>
+        <button type="button" (click)="addNewCoMakers()">New Co-Makers</button>
+
+        <form
+          *ngIf="isNewCoMakerClicked"
+          [formGroup]="loanForm"
+          (ngSubmit)="onSubmit()"
+          class="comakers-form"
+        >
+          <h2>Co-Maker's Information</h2>
+
+          <div class="section-group">
+            <h3>Personal Details</h3>
+            <div class="input-row">
+              <div class="input-group">
+                <label class="label">First Name</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_first_name"
+                  placeholder="Juan"
+                />
+              </div>
+              <div class="input-group">
+                <label class="label">Middle Name</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_middle_name"
+                  placeholder="Martinez"
+                />
+              </div>
+              <div class="input-group">
+                <label class="label">Last Name</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_last_name"
+                  placeholder="Dela Cruz"
+                />
+              </div>
+              <div class="input-group-short">
+                <label class="label">Ext Name</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_ext_name"
+                  placeholder="Jr."
+                />
+              </div>
+            </div>
+
+            <div class="input-row">
+              <div class="input-group">
+                <label class="label">Residence Address</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_address"
+                  placeholder="Lot No., Street Address, City, Province, Postal Code"
+                />
+              </div>
+              <div class="input-group-short">
+                <label class="label">Contact Number</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_phone_num"
+                  pattern="[0-9]*"
+                  maxlength="11"
+                  placeholder="09XXXXXXXXX"
+                />
+              </div>
+            </div>
+
+            <div class="input-row">
+              <div class="input-group">
+                <label class="label">Date of Birth</label>
+                <input
+                  type="date"
+                  class="text-field"
+                  formControlName="co_birthdate"
+                />
+              </div>
+              <div class="input-group-short">
+                <label class="label">Age</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_age"
+                  placeholder="ex. 23"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="section-group">
+            <h3>Employment Details</h3>
+            <div class="input-row">
+              <div class="input-group">
+                <label class="label">Dept./Office</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_dept"
+                  placeholder="Office"
+                />
+              </div>
+              <div class="input-group">
+                <label class="label">Position</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_position"
+                  placeholder="Position"
+                />
+              </div>
+              <div class="input-group">
+                <label class="label">Salary (per month)</label>
+                <input
+                  type="number"
+                  class="text-field"
+                  formControlName="co_salary"
+                  placeholder="ex. 18,000"
+                />
+              </div>
+              <div class="input-group">
+                <label class="label">Employment Status</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_ee_status"
+                  placeholder="ex. Worker"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="section-group">
+            <h3>Cooperative Membership</h3>
+            <div class="input-row">
+              <div class="input-group">
+                <label class="label">Years as Coop Member</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_years_coop"
+                  placeholder="ex. 2 years"
+                />
+              </div>
+              <div class="input-group">
+                <label class="label">Amount of shares</label>
+                <input
+                  type="number"
+                  class="text-field"
+                  formControlName="co_share_amount"
+                  placeholder="ex. 18,000"
+                />
+              </div>
+              <div class="input-group">
+                <label class="label">Amount of saving</label>
+                <input
+                  type="number"
+                  class="text-field"
+                  formControlName="co_saving_amount"
+                  placeholder="ex. 18,000"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="buttons">
+            <div class="left">
+              <button
+                class="cancel-btn"
+                type="button"
+                (click)="isNewCoMakerClicked = false"
+                [disabled]="isSubmitting"
+              >
+                Back
+              </button>
+            </div>
+            <div class="right">
+              <button
+                class="submit-btn"
+                type="submit"
+                [disabled]="isSubmitting"
+              >
+                Submit
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

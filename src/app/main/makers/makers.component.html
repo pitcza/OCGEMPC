@@ -54,11 +54,16 @@
               >
                 Schedule
               </button>
+
+              <button class="action newgreen-action" (click)="newloandetails(user); $event.stopPropagation()">
+                New Loan
+              </button>
+
             </td>
           </tr>
         </tbody>
       </table>
-    </div>
+    </div> 
 
     <div class="pagination-container">
       <div class="items-per-page">

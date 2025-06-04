@@ -5,6 +5,7 @@ import { DetailsComponent } from './details/details.component';
 import { ScheduleComponent } from './schedule/schedule.component';
 import { environment } from '../../../environments/environment';
 import { decryptResponse } from '../../utils/crypto.util';
+import { NewLoanDetails } from './details/new-loan-details/newloandetails.component'
 
 interface MakerUser {
   first_name: string;
@@ -123,7 +124,13 @@ export class MakersComponent implements OnInit {
     });
   }
 
+  newloandetails(user: any) {
+    this.dialog.open(NewLoanDetails, {
+      data: user
+    })
+  }
    getFullName(user: any): string {
   return [user.first_name, user.last_name].filter(Boolean).join(' ');
 }
+
 }

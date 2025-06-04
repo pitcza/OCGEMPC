@@ -51,4 +51,12 @@ export class DetailsComponent implements OnInit {
   closeModal(): void {
     this.dialogRef.close();
   }
+
+  historyData = [
+  { loadamount:"1000", date: '2025-06-01 09:15:23', status: 'complated' },
+    { loadamount:"1000", date: '2025-06-01 09:15:23', status: 'declined' },
+    { loadamount:"1000", date: '2025-06-01 09:15:23', status: 'pending' },
+      
+];
+
 }

@@ -77,6 +77,27 @@
             </div>
           </div>
         </div>
+        <!-- History Load -->
+          <div class="table-container">
+          <h2>Load History</h2>
+          <table class="history-table">
+            <thead>
+              <tr>
+                <th>Load Amount</th>  
+                <th>Date</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let item of historyData">
+              <td>{{ item.loadamount }}</td>
+              <td>{{ item.date }}</td>
+              <td>{{ item.status }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </div>
+
       </ng-container>
     </div>
   </div>

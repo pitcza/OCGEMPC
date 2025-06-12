@@ -7,14 +7,11 @@ import { AuthService } from '../services/auth.services';
   selector: 'app-main',
   standalone: false,
   templateUrl: './main.component.html',
-  styleUrl: './main.component.scss'
+  styleUrl: './main.component.scss',
 })
 export class MainComponent {
   userRole: string | null = null;
-  constructor(
-    private router: Router,
-    private authService: AuthService,
-  ) {
+  constructor(private router: Router, private authService: AuthService) {
     this.checkScreenWidth();
     this.userRole = this.authService.cookieService.get('roleName');
   }
@@ -28,19 +25,26 @@ export class MainComponent {
       confirmButtonColor: '#CA2311',
       cancelButtonColor: '#7F7F7F',
       confirmButtonText: 'Logout',
-      cancelButtonText: 'Cancel'
+      cancelButtonText: 'Cancel',
     }).then((result) => {
       if (result.isConfirmed) {
-
         // Call the AuthService to perform logout (API + cleanup)
         this.authService.performLogout().subscribe({
           next: () => {
+            localStorage.removeItem('makersItemsPerPage');
+            localStorage.removeItem('makersCurrentPage');
+            localStorage.removeItem('comakersItemsPerPage');
+            localStorage.removeItem('comakersCurrentPage');
             // The AuthService.logout() will handle redirect
           },
           error: (err) => {
+            localStorage.removeItem('makersItemsPerPage');
+            localStorage.removeItem('makersCurrentPage');
+            localStorage.removeItem('comakersItemsPerPage');
+            localStorage.removeItem('comakersCurrentPage');
             // Even if API fails, ensure local logout
             this.authService.logout();
-          }
+          },
         });
       }
     });

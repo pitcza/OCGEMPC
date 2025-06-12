@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NewLoanDetails } from './newloandetails.component';
+import { NewCoMakerComponent } from './new-comaker.component';
 
-describe('Newloadetails', () => {
-  let component: NewLoanDetails;
-  let fixture: ComponentFixture<NewLoanDetails>;
+describe('Newcomaker', () => {
+  let component: NewCoMakerComponent;
+  let fixture: ComponentFixture<NewCoMakerComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [NewLoanDetails]
+      declarations: [NewCoMakerComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(NewLoanDetails);
+    fixture = TestBed.createComponent(NewCoMakerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

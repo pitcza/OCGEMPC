@@ -1,4 +1,9 @@
-<div class="main-overlay" role="dialog" aria-modal="true" aria-labelledby="amortizationTitle">
+<div
+  class="main-overlay"
+  role="dialog"
+  aria-modal="true"
+  aria-labelledby="amortizationTitle"
+>
   <div class="modal-container">
     <header class="modal-head">
       <h1 id="amortizationTitle" class="modal-title">Amortization Schedule</h1>
@@ -28,20 +33,30 @@
               <th scope="col">Bi-Monthly Amortization</th>
               <th scope="col">Monthly Balance</th>
               <th scope="col">Amount Deducted</th>
-              <th scope="col">Date Deducted</th>
+              <th scope="col">Status</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let row of amortizationData">
               <td>{{ row.month }}</td>
-              <td>{{ row.principal | number: '1.2-2' }}</td>
-              <td>{{ row.principalAmortization | number: '1.2-2' }}</td>
-              <td>{{ row.monthlyInterest | number: '1.2-2' }}</td>
-              <td>{{ row.totalAmortization | number: '1.2-2' }}</td>
-              <td>{{ row.biMonthlyAmortization | number: '1.2-2' }}</td>
-              <td>{{ row.monthlyBalance | number: '1.2-2' }}</td>
-              <td>{{ row.amountDeducted | number: '1.2-2' }}</td>
-              <td>{{ row.dateDeducted }}</td>
+              <td>{{ row.principal | number : "1.2-2" }}</td>
+              <td>{{ row.principalAmortization | number : "1.2-2" }}</td>
+              <td>{{ row.monthlyInterest | number : "1.2-2" }}</td>
+              <td>{{ row.totalAmortization | number : "1.2-2" }}</td>
+              <td>{{ row.biMonthlyAmortization | number : "1.2-2" }}</td>
+              <td>{{ row.monthlyBalance | number : "1.2-2" }}</td>
+              <td>{{ row.amountDeducted | number : "1.2-2" }}</td>
+              <td>
+                <select
+                  [(ngModel)]="row.status"
+                  (change)="updateStatus(row, row.status)"
+                  class="status-select"
+                >
+                  <option value="unpaid">Unpaid</option>
+                  <option value="partially paid">Partially Paid</option>
+                  <option value="fully paid">Fully Paid</option>
+                </select>
+              </td>
             </tr>
           </tbody>
         </table>

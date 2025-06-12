@@ -47,9 +47,9 @@
                 <tbody>
                     <tr *ngFor="let payment of recentPayments">
                         <td>{{payment.id}}</td>
-                        <td>{{getFullName(payment)}}</td>
-                        <td>{{payment.amount}}</td>
-                        <td>{{payment.date}}</td>
+                        <td>{{payment.maker.first_name}} {{payment.maker.last_name}}</td>
+                        <td>{{payment.total_payment}}</td>
+                        <td>{{payment.updatedAt | date:'medium'}}</td>
                         <td>
                             <span class="status-badge" [ngClass]="payment.status.toLowerCase()">
                                 {{payment.status}}

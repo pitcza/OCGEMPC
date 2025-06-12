@@ -8,9 +8,9 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { MakersComponent } from './makers/makers.component';
 import { LoanApplicationComponent } from './loan-application/loan-application.component';
 import { InsuranceComponent } from './insurance/insurance.component';
-import { ApplicationListComponent } from './loan-application/application-list/application-list.component';
 import { ActivityLogComponent } from './activity-log/activity-log.component';
 import { UnauthorizedComponent } from '../unauthorized/unauthorized.component';
+import { CoMakersComponent } from './comakers/comakers.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -22,13 +22,12 @@ const routes: Routes = [
     canActivate: [AuthGuard, RoleGuard],
     data: { roles: ['Loan Officer', 'Superadmin'] },
   },
-  { path: 'loan', component: LoanApplicationComponent,
-    children: [
-      { path: 'list',
-        component: ApplicationListComponent,
-        canActivate: [AuthGuard] },
-    ],
+  { path: 'comakers',
+    component: CoMakersComponent,
+    canActivate: [AuthGuard, RoleGuard],
+    data: { roles: ['Loan Officer', 'Superadmin'] },
   },
+  { path: 'loan', component: LoanApplicationComponent},
   { path: 'insurance',
     component: InsuranceComponent,
     canActivate: [AuthGuard, RoleGuard],

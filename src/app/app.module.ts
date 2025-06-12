@@ -1,5 +1,9 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule, provideClientHydration, withEventReplay } from '@angular/platform-browser';
+import {
+  BrowserModule,
+  provideClientHydration,
+  withEventReplay,
+} from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -13,13 +17,12 @@ import { LoginComponent } from './login/login.component';
 import { CommonModule } from '@angular/common';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { AuthInterceptor } from './interceptors/auth.interceptors';
+import { MakerService } from './main/makers/makers.service';
+import { ComakerService } from './main/comakers/comakers.service';
+import { LoanApplicationService } from './main/loan-application/add-application/loan-application.service';
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    MainComponent,
-
-  ],
+  declarations: [AppComponent, MainComponent],
 
   imports: [
     BrowserModule,
@@ -40,9 +43,12 @@ import { AuthInterceptor } from './interceptors/auth.interceptors';
     {
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
-      multi: true
-    }
+      multi: true,
+    },
+    MakerService,
+    ComakerService,
+    LoanApplicationService,
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
-export class AppModule { }
+export class AppModule {}

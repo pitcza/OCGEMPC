@@ -20,52 +20,52 @@
       <ng-container *ngIf="error && !loading">
         <div class="error">{{ error }}</div>
       </ng-container>
-      <ng-container *ngIf="!loading && !error && makerDetails">
+      <ng-container *ngIf="!loading && !error && comakerDetails">
         <div class="form-grid">
           <div class="form-group">
             <label>Full Name</label>
             <div class="input-box">
-              {{ makerDetails.first_name }} {{ makerDetails.middle_name }}
-              {{ makerDetails.last_name }} {{ makerDetails.ext_name }}
+              {{ comakerDetails.co_first_name }} {{ comakerDetails.co_middle_name }}
+              {{ comakerDetails.co_last_name }} {{ comakerDetails.co_ext_name }}
             </div>
           </div>
           <div class="form-group">
             <label>Residence Address</label>
-            <div class="input-box">{{ makerDetails.address }}</div>
+            <div class="input-box">{{ comakerDetails.co_address }}</div>
           </div>
           <div class="form-group">
             <label>Contact Number</label>
-            <div class="input-box">{{ makerDetails.phone_num }}</div>
+            <div class="input-box">{{ comakerDetails.co_phone_num }}</div>
           </div>
           <div class="form-group">
             <label>Date of Birth</label>
             <div class="input-box">
-              {{ makerDetails.birthdate | date : "longDate" }}
+              {{ comakerDetails.co_birthdate | date : "longDate" }}
             </div>
           </div>
           <div class="form-group">
             <label>Age</label>
-            <div class="input-box">{{ makerDetails.age }}</div>
+            <div class="input-box">{{ comakerDetails.co_age }}</div>
           </div>
           <div class="form-group">
             <label>Dept/Office</label>
-            <div class="input-box">{{ makerDetails.dept }}</div>
+            <div class="input-box">{{ comakerDetails.co_dept }}</div>
           </div>
           <div class="form-group">
             <label>Position</label>
-            <div class="input-box">{{ makerDetails.position }}</div>
+            <div class="input-box">{{ comakerDetails.co_position }}</div>
           </div>
           <div class="form-group">
             <label>Salary/Month</label>
-            <div class="input-box">{{ makerDetails.salary }}</div>
+            <div class="input-box">{{ comakerDetails.co_salary }}</div>
           </div>
           <div class="form-group">
             <label>Employment Status</label>
-            <div class="input-box">{{ makerDetails.ee_status }}</div>
+            <div class="input-box">{{ comakerDetails.co_ee_status }}</div>
           </div>
           <div class="form-group">
             <label>Years as Coop</label>
-            <div class="input-box">{{ makerDetails.years_coop }}</div>
+            <div class="input-box">{{ comakerDetails.co_years_coop }}</div>
           </div>
           <!-- <div class="form-group">
             <label>Type of Loan</label>

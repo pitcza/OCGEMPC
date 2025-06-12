@@ -3,6 +3,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import Swal from 'sweetalert2';
+import { decryptResponse } from '../../utils/crypto.util';
 
 interface InsuranceApi {
   loan_id: number;
@@ -24,13 +25,14 @@ interface InsuranceApi {
     middle_name?: string;
     last_name: string;
     ext_name?: string;
+    age: string | number;
   };
 }
 
 interface InsuranceTableRow {
   certificateNo: string;
   fullName: string;
-  age: string | number; // Age is not in the API, so will be blank or calculated if possible
+  age: string | number | undefined;
   status: string;
   effectiveDate: string;
   expiryDate: string;
@@ -47,6 +49,7 @@ interface InsuranceTableRow {
   styleUrl: './insurance.component.scss'
 })
 export class InsuranceComponent implements OnInit {
+  private encryptionKey = environment.encryptionKey;
 
  insurances: InsuranceApi[] = [];
   filteredInsurances: InsuranceTableRow[] = [];
@@ -80,19 +83,26 @@ export class InsuranceComponent implements OnInit {
     this.fetchInsurances();
   }
 
-    fetchInsurances() {
-    this.http.get<InsuranceApi[]>(`${environment.baseUrl}/api/insurances`).subscribe({
-      next: (data) => {
-        this.insurances = data;
-        this.allBillingStatements = Array.from(new Set(data.map(i => i.billing_statement_no)));
-        this.selectedBillingStatement = this.allBillingStatements[0] || '';
-        this.applyFilters();
-      },
-      error: (err) => {
-        Swal.fire('Error', 'Failed to fetch insurances from server.', 'error');
+fetchInsurances() {
+  this.http.get<{ encrypted: string }>(`${environment.baseUrl}/api/insurances`).subscribe({
+    next: (data) => {
+      const decrypted = decryptResponse(data.encrypted, this.encryptionKey);
+      if (typeof decrypted === 'string') {
+        this.insurances = JSON.parse(decrypted) as InsuranceApi[];
+      } else {
+        this.insurances = decrypted as InsuranceApi[];
       }
-    });
-  }
+      this.allBillingStatements = Array.from(new Set(this.insurances.map(i => i.billing_statement_no)));
+      this.selectedBillingStatement = this.allBillingStatements[0] || '';
+      
+      this.applyFilters();
+    },
+    error: (err) => {
+      Swal.fire('Error', 'Failed to fetch insurances from server.', 'error');
+    }
+  });
+}
+
 
 mapToTableRow(insurance: InsuranceApi): InsuranceTableRow {
     // Compose full name from maker
@@ -111,7 +121,7 @@ mapToTableRow(insurance: InsuranceApi): InsuranceTableRow {
     return {
       certificateNo: insurance.certificate_no,
       fullName,
-      age: '', // If age is available, calculate here
+      age: insurance.maker?.age, // If age is available, calculate here
       status: insurance.status === 'new' ? 'N' : 'R',
       effectiveDate: this.formatDate(insurance.effective_date),
       expiryDate: this.formatDate(insurance.expiry_date),

@@ -12,6 +12,8 @@ import { decryptResponse } from '../../../utils/crypto.util';
   styleUrl: './schedule.component.scss',
 })
 export class ScheduleComponent implements OnInit {
+  firstName: string = '';
+  lastName: string = '';
   amortizationData: any[] = [];
   loading = true;
   error: string | null = null;
@@ -40,10 +42,24 @@ export class ScheduleComponent implements OnInit {
           this.encryptionKey
         );
 
+        this.firstName = decrypted.first_name;
+        this.lastName = decrypted.last_name;
+        
         const amortizations = decrypted.loan_amortizations || [];
+        const loanApplications = decrypted.loan_applications || [];
 
-        // Sort by installment_no if needed
-        amortizations.sort(
+        // filter loan applications that are not completed
+        const activeLoanIds = loanApplications
+          .filter((loan: any) => loan.loan_status !== 'completed')
+          .map((loan: any) => loan.id);
+
+        // filter amortizations linked to active loans
+        const filteredAmortizations = amortizations.filter((amort: any) =>
+          activeLoanIds.includes(amort.loan_id)
+        );
+
+        // sort
+        filteredAmortizations.sort(
           (a: any, b: any) => a.installment_no - b.installment_no
         );
 
@@ -51,39 +67,37 @@ export class ScheduleComponent implements OnInit {
         let totalPrincipalPaid = 0;
         let amortizationPaidSoFar = 0;
 
-        if (amortizations.length > 0) {
-          const first = amortizations[0];
+        if (filteredAmortizations.length > 0) {
+          const first = filteredAmortizations[0];
           const firstPrincipal = parseFloat(first.principal) || 0;
           const firstBalance = parseFloat(first.remaining_balance) || 0;
-
-          // Calculate total loan amount
           totalLoanAmount = firstPrincipal + firstBalance;
         }
 
-        this.amortizationData = amortizations.map(
-          (item: any, index: number) => {
-            const principalAmortization = parseFloat(item.principal) || 0; //goods
-            const monthlyInterest = parseFloat(item.interest) || 0; //goods
-            const totalAmortization = principalAmortization + monthlyInterest; //goods
-            const biMonthlyAmortization = totalAmortization / 2; //goods
-            const monthlyBalance = parseFloat(item.remaining_balance) || 0; //goods
+        this.amortizationData = filteredAmortizations.map((item: any) => {
+          const principalAmortization = parseFloat(item.principal) || 0;
+          const monthlyInterest = parseFloat(item.interest) || 0;
+          const totalAmortization = principalAmortization + monthlyInterest;
+          const biMonthlyAmortization = totalAmortization / 2;
+          const monthlyBalance = parseFloat(item.remaining_balance) || 0;
 
-            amortizationPaidSoFar += totalAmortization;
-            totalPrincipalPaid += principalAmortization;
+          amortizationPaidSoFar += totalAmortization;
+          totalPrincipalPaid += principalAmortization;
 
-            return {
-              month: item.installment_no,
-              principal: totalLoanAmount - amortizationPaidSoFar,
-              principalAmortization,
-              monthlyInterest,
-              totalAmortization,
-              biMonthlyAmortization,
-              monthlyBalance,
-              amountDeducted: item.total_payment,
-              dateDeducted: '',
-            };
-          }
-        );
+          return {
+            id: item.id,
+            month: item.installment_no,
+            principal: totalLoanAmount - amortizationPaidSoFar,
+            principalAmortization,
+            monthlyInterest,
+            totalAmortization,
+            biMonthlyAmortization,
+            monthlyBalance,
+            amountDeducted: item.total_payment,
+            status: item.status,
+            dateDeducted: '',
+          };
+        });
 
         this.loading = false;
       },
@@ -120,7 +134,7 @@ export class ScheduleComponent implements OnInit {
       'Bi-Monthly Amortization',
       'Monthly Balance',
       'Amount Deducted',
-      'Date Deducted',
+      'Status',
     ];
 
     const rows = this.amortizationData.map((row) => [
@@ -132,7 +146,7 @@ export class ScheduleComponent implements OnInit {
       row.biMonthlyAmortization,
       row.monthlyBalance,
       row.amountDeducted || row.amountDeductedInput || '',
-      row.dateDeducted || '',
+      row.status,
     ]);
 
     const csvContent = [headers, ...rows].map((e) => e.join(',')).join('\n');
@@ -141,44 +155,27 @@ export class ScheduleComponent implements OnInit {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.setAttribute('href', url);
-    a.setAttribute('download', 'amortization_schedule.csv');
+    const fileName = `Amortization_Schedule_${this.firstName}_${this.lastName}.csv`;
+    a.setAttribute('download', fileName);
     a.click();
   }
 
-  // amortizationData = [
-  //   {
-  //     month: 'January',
-  //     principal: 50000,
-  //     principalAmortization: 4000,
-  //     monthlyInterest: 500,
-  //     totalAmortization: 4500,
-  //     biMonthlyAmortization: 2250,
-  //     monthlyBalance: 46000,
-  //     amountDeducted: 4500,
-  //     dateDeducted: '2025-01-30'
-  //   },
-  //   {
-  //     month: 'February',
-  //     principal: 46000,
-  //     principalAmortization: 4000,
-  //     monthlyInterest: 460,
-  //     totalAmortization: 4460,
-  //     biMonthlyAmortization: 2230,
-  //     monthlyBalance: 42000,
-  //     amountDeducted: 4460,
-  //     dateDeducted: '2025-02-28'
-  //   },
-  //   {
-  //     month: 'March',
-  //     principal: 42000,
-  //     principalAmortization: 4000,
-  //     monthlyInterest: 420,
-  //     totalAmortization: 4420,
-  //     biMonthlyAmortization: 2210,
-  //     monthlyBalance: 38000,
-  //     amountDeducted: 4420,
-  //     dateDeducted: '2025-03-30'
-  //   }
-  //   // Add more entries as needed
-  // ];
+  updateStatus(amortization: any, newStatus: string): void {
+    this.http
+      .patch(
+        `${environment.baseUrl}/api/amortization/${amortization.id}/status`,
+        { status: newStatus },
+        { headers: { 'Content-Type': 'application/json' } }
+      )
+      .subscribe({
+        next: () => {
+          amortization.status = newStatus;
+          // Optionally refresh the data
+          this.fetchAmortizationData(this.data.id);
+        },
+        error: (err) => {
+          console.error('Failed to update status:', err);
+        },
+      });
+  }
 }

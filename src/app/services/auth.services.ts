@@ -29,6 +29,15 @@ export class AuthService {
     this.cookieService.set('roleName', role);
   }
 
+  getUserRole(): string | null {
+    return this.cookieService.get('roleName');
+  }
+
+  hasRequiredRoles(requiredRoles: string[]): boolean {
+    const userRole = this.getUserRole();
+    return userRole ? requiredRoles.includes(userRole.toLowerCase()) : false;
+  }
+
   refreshToken(): Observable<string> {
     return this.http
       .post<{ accessToken: string }>('/api/refresh', {

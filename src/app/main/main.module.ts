@@ -9,7 +9,6 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { MakersComponent } from './makers/makers.component';
 
 import { LoanApplicationComponent } from './loan-application/loan-application.component';
-import { ApplicationListComponent } from './loan-application/application-list/application-list.component';
 
 import { InsuranceComponent } from './insurance/insurance.component';
 
@@ -27,6 +26,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { SetScheduleComponent } from './loan-application/set-schedule/set-schedule.component';
 import { ActivityLogComponent } from './activity-log/activity-log.component';
+import { NewMakerComponent } from './makers/new-maker/new-maker.component';
+import { CoMakersComponent } from './comakers/comakers.component';
+import { CoMakerDetailsComponent } from './comakers/details/details.component';
+import { NewCoMakerComponent } from './comakers/new-comaker/new-comaker.component';
+import { LoanDetailsComponent } from './loan-details/loan-details.component';
 
 
 @NgModule({
@@ -35,12 +39,16 @@ import { ActivityLogComponent } from './activity-log/activity-log.component';
     MakersComponent,
     LoanApplicationComponent,
     InsuranceComponent,
-    ApplicationListComponent,
     DetailsComponent,
+    CoMakerDetailsComponent,
     ScheduleComponent,
     AddApplicationComponent,
     SetScheduleComponent,
-    ActivityLogComponent
+    ActivityLogComponent,
+    NewMakerComponent,
+    NewCoMakerComponent,
+    CoMakersComponent,
+    LoanDetailsComponent,
   ],
   imports: [
     CommonModule,

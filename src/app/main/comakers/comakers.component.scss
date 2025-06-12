@@ -166,22 +166,10 @@
             &.newgreen-action{
               background-color: #2f855a;
             }
-
-            &.create-loan-action {
-              background-color: #e69e00;
-            }
           }
         }
       }
     }
-  }
-
-  .no-options {
-  display: inline-block;
-  color: #999;
-  font-style: italic;
-  font-size: 13px;
-  padding-left: 5px;
   }
 
   .for-nodata {
@@ -281,18 +269,16 @@
     }
   }
 }
+        .action {
+            padding: 6px 12px;
+            margin: 0 4px;
+            border: none;
+            border-radius: 4px;
+            color: #fff;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
 
-
-
-.action {
-  padding: 6px 12px;
-  margin: 0 4px;
-  border: none;
-  border-radius: 4px;
-  color: #fff;
-  font-size: 14px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
             &.green-action {
               background-color: #508D4E;
             }

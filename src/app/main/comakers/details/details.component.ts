@@ -12,39 +12,40 @@ import { LoanDetailsComponent } from '../../loan-details/loan-details.component'
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss',
 })
-export class DetailsComponent implements OnInit {
-  makerDetails: any = null;
+export class CoMakerDetailsComponent implements OnInit {
+  comakerDetails: any = null;
   loading = true;
   error: string | null = null;
-  historyData: {id: number; loanAmount: string; loanType: string; date: string; status: string }[] = [];
+  historyData: { id: number; loanAmount: string; loanType: string; date: string; status: string }[] = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<DetailsComponent>,
+    private dialogRef: MatDialogRef<CoMakerDetailsComponent>,
     private http: HttpClient,
     private dialog: MatDialog
   ) {}
 
   ngOnInit(): void {
     if (this.data && this.data.id) {
-      this.fetchMakerDetails(this.data.id);
+      this.fetchCoMakerDetails(this.data.id);
     } else {
-      this.error = 'No Maker ID provided.';
+      this.error = 'No CoMaker ID provided.';
       this.loading = false;
     }
   }
 
   private encryptionKey = environment.encryptionKey;
 
-  fetchMakerDetails(id: string | number): void {
+  fetchCoMakerDetails(id: string | number): void {
     this.loading = true;
-    this.http.get<any>(`${environment.baseUrl}/api/maker/${id}`).subscribe({
+    this.http.get<any>(`${environment.baseUrl}/api/comaker/${id}`).subscribe({
       next: (details) => {
         const decrypted = decryptResponse(
           details.encrypted,
           this.encryptionKey
         );
-        this.makerDetails = decrypted;
+        
+        this.comakerDetails = decrypted;
 
         this.historyData = (decrypted.loan_applications || []).map(
           (loan: any) => ({
@@ -68,12 +69,11 @@ export class DetailsComponent implements OnInit {
   closeModal(): void {
     this.dialogRef.close();
   }
-  
 
-  viewLoanDetails(loanId: number) {
-  this.dialog.open(LoanDetailsComponent, {
-    data: { loanId },
-    panelClass: 'loan-details-dialog'
-  });
+    viewLoanDetails(loanId: number) {
+    this.dialog.open(LoanDetailsComponent, {
+      data: { loanId },
+      panelClass: 'loan-details-dialog'
+    });
 }
 }

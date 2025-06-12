@@ -1,4 +1,10 @@
-import { Component, OnInit, Inject, PLATFORM_ID, AfterViewInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Inject,
+  PLATFORM_ID,
+  AfterViewInit,
+} from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Chart } from 'chart.js/auto';
 import { DashboardApiService, RecentPayment } from './dashboard.api';
@@ -7,10 +13,9 @@ import { DashboardApiService, RecentPayment } from './dashboard.api';
   selector: 'app-dashboard',
   standalone: false,
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.scss'
+  styleUrl: './dashboard.component.scss',
 })
 export class DashboardComponent implements OnInit, AfterViewInit {
-
   barChart: any;
   pieChart: any;
 
@@ -23,37 +28,80 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   recentPayments: RecentPayment[] = [];
 
   // For chart labels
-  months = ['January', 'February', 'March', 'April', 'May', 'June'];
+  months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December' ];
   statuses = ['Active', 'Paid', 'Overdue', 'Denied'];
 
-
-
-   constructor(
+  constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private dashboardApi: DashboardApiService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     // Wait for the DOM to be ready
-    this.dashboardApi.getTotalApplications().subscribe(val => {
+    this.dashboardApi.getTotalApplications().subscribe((val) => {
       // If val is not a number, default to 0
       this.loanCount = typeof val === 'number' ? val : 0;
     });
-    this.dashboardApi.getTotalLoanAmountThisMonth().subscribe(val => {
+    this.dashboardApi.getTotalLoanAmountThisMonth().subscribe((val) => {
       this.totalLoanAmount = typeof val === 'number' ? val : 0;
     });
-    this.dashboardApi.getActiveLoans().subscribe(val => {
-      this.activeLoans = typeof val === "number" ? val : 0;
+    this.dashboardApi.getActiveLoans().subscribe((val) => {
+      this.activeLoans = typeof val === 'number' ? val : 0;
     });
-    this.dashboardApi.getFullyPaidLoans().subscribe(val => {
-     this.fullyPaidLoans = typeof val === 'number' ? val : 0;
+    this.dashboardApi.getFullyPaidLoans().subscribe((val) => {
+      this.fullyPaidLoans = typeof val === 'number' ? val : 0;
     });
-    this.dashboardApi.getLoanApplicationsByMonth().subscribe(val => this.loanApplicationsByMonth = val);
-    this.dashboardApi.getLoanStatusOverview().subscribe(val => this.loanStatusOverview = val);
-    this.dashboardApi.getRecentPayments().subscribe(val => this.recentPayments = val);
+
+    this.dashboardApi
+      .getLoanApplicationsByMonth()
+      .subscribe((response: any) => {
+        const data = response.result;
+
+        this.loanApplicationsByMonth = {};
+
+        data.forEach((item: { month: string; count: number }) => {
+          const date = new Date(item.month + '-01');
+          const monthName = date.toLocaleString('default', { month: 'long' });
+          this.loanApplicationsByMonth[monthName] = item.count;
+        });
+      });
+
+    this.dashboardApi.getLoanStatusOverview().subscribe((val: any) => {
+      const statusObj: Record<string, number> = {};
+
+      const result = val.result;
+
+      if (Array.isArray(result)) {
+        result.forEach((item: { loan_status: string; count: number }) => {
+          const status = item.loan_status.toLowerCase();
+          switch (status) {
+            case 'approved':
+              statusObj['Active'] = item.count;
+              break;
+            case 'completed':
+              statusObj['Paid'] = item.count;
+              break;
+            case 'pending':
+              statusObj['Pending'] = item.count;
+              break;
+            case 'declined':
+              statusObj['Declined'] = item.count;
+              break;
+          }
+        });
+      } else {
+        console.error('Expected result to be an array, but got:', result);
+      }
+
+      this.loanStatusOverview = statusObj;
+    });
+
+    this.dashboardApi.getRecentPayments().subscribe((val) => {
+      this.recentPayments = val.mostRecentPayments;
+    });
   }
 
-    ngAfterViewInit(): void {
+  ngAfterViewInit(): void {
     // Only run chart code in the browser
     if (isPlatformBrowser(this.platformId)) {
       // Wait for the DOM to be ready
@@ -68,7 +116,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   groupPaymentsByMonth(): Record<string, number> {
     const result: Record<string, number> = {};
 
-    this.recentPayments.forEach(payment => {
+    this.recentPayments.forEach((payment) => {
       // Extract month from payment date
       const date = new Date(payment.date);
       const monthName = date.toLocaleString('default', { month: 'long' });
@@ -85,7 +133,6 @@ export class DashboardComponent implements OnInit, AfterViewInit {
   }
 
   createBarChart() {
-
     if (!isPlatformBrowser(this.platformId)) return;
 
     const barCanvas = document.getElementById('barChart') as HTMLCanvasElement;
@@ -96,17 +143,21 @@ export class DashboardComponent implements OnInit, AfterViewInit {
 
     // // Monthly loan application data
     // const months = ['January', 'February', 'March', 'April', 'May', 'June'];
-    const applicationData = this.months.map(month => this.loanApplicationsByMonth[month] || 0);
+    const applicationData = this.months.map(
+      (month) => this.loanApplicationsByMonth[month] || 0
+    );
     this.barChart = new Chart(barCanvas, {
       type: 'bar',
       data: {
         labels: this.months,
-        datasets: [{
-          label: 'Loan Applications',
-          data: applicationData,
-          backgroundColor: '#508d4e',
-          borderWidth: 1
-        }]
+        datasets: [
+          {
+            label: 'Loan Applications',
+            data: applicationData,
+            backgroundColor: '#508d4e',
+            borderWidth: 1,
+          },
+        ],
       },
       options: {
         responsive: true,
@@ -116,26 +167,26 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             beginAtZero: true,
             title: {
               display: true,
-              text: 'Number of Applications'
-            }
+              text: 'Number of Applications',
+            },
           },
           x: {
             title: {
               display: true,
-              text: 'Month'
-            }
-          }
+              text: 'Month',
+            },
+          },
         },
         plugins: {
           tooltip: {
             callbacks: {
-              label: function(context) {
+              label: function (context) {
                 return `Applications: ${context.raw}`;
-              }
-            }
-          }
-        }
-      }
+              },
+            },
+          },
+        },
+      },
     });
   }
 
@@ -145,35 +196,25 @@ export class DashboardComponent implements OnInit, AfterViewInit {
     const pieCanvas = document.getElementById('pieChart') as HTMLCanvasElement;
     if (!pieCanvas) return;
 
-    // Define status type to avoid TS errors
-    // type LoanStatus = 'Active' | 'Paid' | 'Overdue' | 'Denied';
-
-    // // Count loans by status with proper typing
-    // const statusCounts: Record<LoanStatus, number> = {
-    //   'Active': this.activeLoans,
-    //   'Paid': this.fullyPaidLoans,
-    //   'Overdue': 0,
-    //   'Denied': 0
-    // };
-
-    // // Loan status data
-    // const statuses: LoanStatus[] = ['Active', 'Paid', 'Overdue', 'Denied'];
-    const statusData = this.statuses.map(status => this.loanStatusOverview[status] || 0);
-
+    const statusData = this.statuses.map(
+      (status) => this.loanStatusOverview[status] || 0
+    );
 
     this.pieChart = new Chart(pieCanvas, {
       type: 'pie',
       data: {
         labels: this.statuses,
-        datasets: [{
-          data: statusData,
-          backgroundColor: [
-            '#508d4e',  // Green - Active
-            '#4682B4',  // Blue - Paid
-            '#CD5C5C',  // Red - Overdue
-            '#808080'   // Gray - Denied
-          ]
-        }]
+        datasets: [
+          {
+            data: statusData,
+            backgroundColor: [
+              '#508d4e', // Green - Active
+              '#4682B4', // Blue - Paid
+              '#CD5C5C', // Red - Overdue
+              '#808080', // Gray - Denied
+            ],
+          },
+        ],
       },
       options: {
         responsive: true,
@@ -183,32 +224,39 @@ export class DashboardComponent implements OnInit, AfterViewInit {
             position: 'right',
             labels: {
               font: {
-                size: 12
-              }
-            }
+                size: 12,
+              },
+            },
           },
           tooltip: {
             callbacks: {
-              label: function(context) {
+              label: function (context) {
                 const label = context.label || '';
                 const value = context.raw as number;
-                const total = (context.dataset.data as number[]).reduce((acc, data) => acc + data, 0);
+                const total = (context.dataset.data as number[]).reduce(
+                  (acc, data) => acc + data,
+                  0
+                );
                 const percentage = Math.round((value / total) * 100);
                 return `${label}: ${value} (${percentage}%)`;
-              }
-            }
-          }
-        }
-      }
+              },
+            },
+          },
+        },
+      },
     });
   }
-   get formattedTotalLoanAmount(): string {
-    return `P ${this.totalLoanAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+
+  get formattedTotalLoanAmount(): string {
+    return `P ${this.totalLoanAmount.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2,
+    })}`;
   }
 
-    getFullName(payment: any): string {
-  return [payment.first_name, payment.last_name].filter(Boolean).join(' ');
-}
+  getFullName(payment: any): string {
+    return [payment.first_name, payment.last_name].filter(Boolean).join(' ');
+  }
 
   get loanApplicationsByMonthArray(): [string, number][] {
     return Object.entries(this.loanApplicationsByMonth);

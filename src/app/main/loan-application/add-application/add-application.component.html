@@ -1,258 +1,283 @@
 <div class="main-overlay">
-    <div class="modal-container">
-        <!-- Header Section -->
-        <div class="modal-head">
-            <div class="modal-title">
-                <h1>Loan Application Form</h1>
-            </div>
-            <button class="exit-button" (click)="closeModal()"> &times; </button>
-        </div>
-
-        <!-- Form Body -->
-        <div class="modal-body">
-            <form [formGroup]="makersForm" *ngIf="!isCoMakersFormVisible" (ngSubmit)="showCoMakersForm()">
-                <!-- Applicant Information Section -->
-                <div class="makers-form">
-                    <h2>Applicant Maker's Information</h2>
-
-                    <!-- Personal Information -->
-                    <div class="section-group">
-                        <h3>Personal Details</h3>
-                        <div class="input-row">
-                            <div class="input-group">
-                                <label class="label">First Name</label>
-                                <input type="text" class="text-field" formControlName="first_name" placeholder="Juan">
-                            </div>
-                            <div class="input-group">
-                                <label class="label">Middle Name</label>
-                                <input type="text" class="text-field" formControlName="middle_name" placeholder="Martinez">
-                            </div>
-                            <div class="input-group">
-                                <label class="label">Last Name</label>
-                                <input type="text" class="text-field" formControlName="last_name" placeholder="Dela Cruz">
-                            </div>
-                            <div class="input-group-short">
-                                <label class="label">Ext Name</label>
-                                <input type="text" class="text-field" formControlName="ext_name" placeholder="Jr.">
-                            </div>
-                        </div>
-                        <div class="input-row">
-                            <div class="input-group">
-                                <label class="label">Residence Address</label>
-                                <input type="text" class="text-field" formControlName="address" placeholder="Lot No., Street Address, City, Province, Postal Code">
-                            </div>
-                            <div class="input-group-short">
-                                <label class="label">Contact Number</label>
-                                <input type="text" class="text-field" formControlName="phone_num" maxlength="11" placeholder="09XXXXXXXXX" (keypress)="validatePhoneNumberInput($event)">
-                            </div>
-                        </div>
-                        <div class="input-row">
-                            <div class="input-group">
-                                <label class="label">Date of Birth</label>
-                                <input type="date" class="text-field" formControlName="birthdate">
-                            </div>
-                            <div class="input-group-short">
-                                <label class="label">Age</label>
-                                <input type="number" class="text-field" formControlName="age" placeholder="ex. 23">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Employment Information -->
-                    <div class="section-group">
-                        <h3>Employment Details</h3>
-                        <div class="input-row">
-                            <div class="input-group">
-                                <label class="label">Dept./Office</label>
-                                <input type="text" class="text-field" name="dept" formControlName="dept" placeholder="Office">
-                            </div>
-                            <div class="input-group">
-                                <label class="label">Position</label>
-                                <input type="text" class="text-field" formControlName="position" name="position" placeholder="Position">
-                            </div>
-                            <div class="input-group">
-                                <label class="label">Salary (per month)</label>
-                                <input type="number" class="text-field" name="salary" formControlName="salary" placeholder="ex. 18,000">
-                            </div>
-                            <div class="input-group">
-                                <label class="label">Employment Status</label>
-                                <input type="text" class="text-field" name="ee_status" formControlName="ee_status" placeholder="ex. Worker">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Cooperative Membership -->
-                    <div class="section-group">
-                        <h3>Cooperative Membership</h3>
-                        <div class="input-row">
-                            <div class="input-group">
-                                <label class="label">Years as Coop Member</label>
-                                <input type="text" class="text-field" name="years_coop" formControlName="years_coop" placeholder="ex. 2 years">
-                            </div>
-                            <div class="input-group">
-                                <label class="label">Amount of shares</label>
-                                <input type="number" class="text-field" name="share_amount" formControlName="share_amount" placeholder="ex. 18,000">
-                            </div>
-                            <div class="input-group">
-                                <label class="label">Amount of saving</label>
-                                <input type="number" class="text-field" name="saving_amount" formControlName="saving_amount" placeholder="ex. 18,000">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Loan Details -->
-                    <div class="section-group">
-                        <h3>Loan Information</h3>
-                        <div class="input-row">
-                            <div class="input-group">
-                                <label class="label">Type of Loan</label>
-                                <select class="text-field" name="loan_type" formControlName="loan_type">
-                                    <option selected value="">Select Type</option>
-                                    <option value="Educational">Educational</option>
-                                    <option value="Livelihood">Livelihood</option>
-                                    <option value="Medical">Medical</option>
-                                </select>
-                            </div>
-                            <div class="input-group">
-                                <label class="label">Amount of loan applied</label>
-                                <input type="number" class="text-field" name="applied_amount" formControlName="applied_amount" placeholder="ex. 60,000">
-                            </div>
-                        </div>
-
-                        <div class="input-row">
-                            <div class="input-group">
-                                <label class="label">Loan Term</label>
-                                <input type="number" class="text-field" name="loan_term" formControlName="loan_term" placeholder="ex. 24 months">
-                            </div>
-                            <div class="input-group">
-                                <label class="label">Purpose of Loan</label>
-                                <input type="text" class="text-field" name="loan_purpose" formControlName="loan_purpose" placeholder="ex. Education expenses">
-                            </div>
-                            <div class="input-group">
-                                <label class="label">Repayment Frequency</label>
-                                <select class="text-field" name="repayment_freq" formControlName="repayment_freq">
-                                    <option selected value="Monthly">Monthly</option>
-                                    <option value="Sample">Sample</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Navigation Buttons -->
-                    <div class="buttons">
-                        <div class="left"></div>
-                        <div class="right">
-                            <button class="submit-btn" type="submit" [disabled]="isSubmitting">Next</button>
-                        </div>
-                    </div>
-                </div>
-              </form>
-
-               <form [formGroup]="coMakersForm" *ngIf="isCoMakersFormVisible" (ngSubmit)="onSubmit()">
-                <!-- Co-Maker Information Section -->
-                <div class="comakers-form">
-                    <h2>Co-Maker's Information</h2>
-
-                    <!-- Personal Information -->
-                    <div class="section-group">
-                        <h3>Personal Details</h3>
-                        <div class="input-row">
-                            <div class="input-group">
-                                <label class="label">First Name</label>
-                                <input type="text" class="text-field" name="co_first_name" formControlName="co_first_name" placeholder="Juan">
-                            </div>
-                            <div class="input-group">
-                                <label class="label">Middle Name</label>
-                                <input type="text" class="text-field" name="co_middle_name" formControlName="co_middle_name" placeholder="Martinez">
-                            </div>
-                            <div class="input-group">
-                                <label class="label">Last Name</label>
-                                <input type="text" class="text-field" name="co_last_name" formControlName="co_last_name"placeholder="Dela Cruz">
-                            </div>
-                            <div class="input-group-short">
-                                <label class="label">Ext Name</label>
-                                <input type="text" class="text-field" name="co_ext_name" formControlName="co_ext_name" placeholder="Jr.">
-                            </div>
-                        </div>
-
-                        <div class="input-row">
-                            <div class="input-group">
-                                <label class="label">Residence Address</label>
-                                <input type="text" class="text-field" name="co_address" formControlName="co_address" placeholder="Lot No., Street Address, City, Province, Postal Code">
-                            </div>
-                            <div class="input-group-short">
-                                <label class="label">Contact Number</label>
-                                <input type="text" class="text-field" name="co_phone_num" formControlName="co_phone_num" pattern="[0-9]*" maxlength="11" placeholder="09XXXXXXXXX" (keypress)="validatePhoneNumberInput($event)">
-                            </div>
-                        </div>
-
-                        <div class="input-row">
-                            <div class="input-group">
-                                <label class="label">Date of Birth</label>
-                                <input type="date" class="text-field" name="co_birthdate" formControlName="co_birthdate">
-                            </div>
-                            <div class="input-group-short">
-                                <label class="label">Age</label>
-                                <input type="text" class="text-field" name="co_age" formControlName="co_age" placeholder="ex. 23">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Employment Information -->
-                    <div class="section-group">
-                        <h3>Employment Details</h3>
-                        <div class="input-row">
-                            <div class="input-group">
-                                <label class="label">Dept./Office</label>
-                                <input type="text" class="text-field" name="co_dept" formControlName="co_dept" placeholder="Office">
-                            </div>
-                            <div class="input-group">
-                                <label class="label">Position</label>
-                                <input type="text" class="text-field" name="co_position" formControlName="co_position"  placeholder="Position">
-                            </div>
-                            <div class="input-group">
-                                <label class="label">Salary (per month)</label>
-                                <input type="number" class="text-field" name="co_salary" formControlName="co_salary" placeholder="ex. 18,000">
-                            </div>
-                            <div class="input-group">
-                                <label class="label">Employment Status</label>
-                                <input type="text" class="text-field" name="co_ee_status" formControlName="co_ee_status"  placeholder="ex. Worker">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Cooperative Membership -->
-                    <div class="section-group">
-                        <h3>Cooperative Membership</h3>
-                        <div class="input-row">
-                            <div class="input-group">
-                                <label class="label">Years as Coop Member</label>
-                                <input type="text" class="text-field" name="co_years_coop" formControlName="co_years_coop" placeholder="ex. 2 years">
-                            </div>
-                            <div class="input-group">
-                                <label class="label">Amount of shares</label>
-                                <input type="number" class="text-field" name="co_share_amount" formControlName="co_share_amount" placeholder="ex. 18,000">
-                            </div>
-                            <div class="input-group">
-                                <label class="label">Amount of saving</label>
-                                <input type="number" class="text-field" name="co_saving_amount" formControlName="co_saving_amount" placeholder="ex. 18,000">
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Navigation Buttons -->
-                    <div class="buttons">
-                        <div class="left">
-                            <button class="cancel-btn" type="button" (click)="showMakersForm()" [disabled]="isSubmitting">Back</button>
-                        </div>
-                        <div class="right">
-                            <input class="submit-btn" type="button" value="Add Another Co-Maker">
-                               <button class="submit-btn" type="submit" [disabled]="isSubmitting">Submit</button>
-                        </div>
-                        <div *ngIf="apiError" class="error-message">{{ apiError }}</div>
-                    </div>
-                </div>
-            </form>
-        </div>
+  <div class="modal-container">
+    <!-- Header Section -->
+    <div class="modal-head">
+      <div class="modal-title">
+        <h1>Loan Application Form</h1>
+      </div>
+      <button class="exit-button" (click)="closeModal()">&times;</button>
     </div>
+
+    <!-- Form Body -->
+    <div class="modal-body">
+      <form [formGroup]="loanForm" (ngSubmit)="onSubmit()">
+        <div class="section-group">
+          <!-- Maker Selection -->
+          <div class="input-row">
+            <div class="input-group">
+              <div class="section-header">
+                <h3>Select Maker</h3>
+                <button
+                  type="button"
+                  class="add-button"
+                  (click)="openNewMakerDialog()"
+                >
+                  <span>+ Add New Maker</span>
+                </button>
+              </div>
+
+              <!-- Selected Maker Preview (shown when maker is selected) -->
+              <div class="selected-preview" *ngIf="selectedMaker">
+                <div class="preview-header">
+                  <h4>Selected Maker</h4>
+                  <button
+                    type="button"
+                    class="clear-button"
+                    (click)="clearMakerSelection()"
+                  >
+                    Change Maker
+                  </button>
+                </div>
+                <div class="preview-content">
+                  <p>
+                    <strong>Name:</strong> {{ selectedMaker.first_name }}
+                    {{ selectedMaker.middle_name }}
+                    {{ selectedMaker.last_name }} {{ selectedMaker.ext_name }}
+                  </p>
+                  <p><strong>Address:</strong> {{ selectedMaker.address }}</p>
+                  <p><strong>Contact:</strong> {{ selectedMaker.phone_num }}</p>
+                  <p>
+                    <strong>Position:</strong> {{ selectedMaker.position }} ({{
+                      selectedMaker.dept
+                    }})
+                  </p>
+                </div>
+              </div>
+
+              <!-- Maker Selection Dropdown (shown when no maker is selected) -->
+              <div class="select-container" *ngIf="!selectedMaker">
+                <div class="search-wrapper">
+                  <input
+                    type="text"
+                    placeholder="Search makers..."
+                    class="search-input"
+                    [(ngModel)]="makerSearchTerm"
+                    (input)="filterMakers()"
+                    name="makerSearch"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                  <span class="search-icon">🔍</span>
+                </div>
+                <div class="select-options" #modalBody>
+                  <div *ngIf="filteredMakers.length === 0" class="no-results">
+                    No maker found.
+                  </div>
+                  <div
+                    *ngFor="let maker of filteredMakers"
+                    class="select-option"
+                    (click)="onMakerSelect(maker)"
+                  >
+                    <div class="option-content">
+                      <span class="option-name"
+                        >{{ maker.first_name }} {{ maker.last_name }}</span
+                      >
+                      <span class="option-details"
+                        >{{ maker.position }} • {{ maker.dept }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Comaker Selection -->
+        <div class="input-row">
+        <div class="input-group">
+            <div class="section-header">
+            <h3>Select Comaker</h3>
+            <button type="button" class="add-button" (click)="openNewComakerDialog()">
+                <span>+ Add New Comaker</span>
+            </button>
+            </div>
+            
+            <!-- Selected Comaker Preview (shown when comaker is selected) -->
+            <div class="selected-preview" *ngIf="selectedComaker">
+            <div class="preview-header">
+                <h4>Selected Comaker</h4>
+                <button type="button" class="clear-button" (click)="clearComakerSelection()">
+                Change Comaker
+                </button>
+            </div>
+            <div class="preview-content">
+                <p>
+                <strong>Name:</strong> {{ selectedComaker.co_first_name }}
+                {{ selectedComaker.co_middle_name }}
+                {{ selectedComaker.co_last_name }} {{ selectedComaker.co_ext_name }}
+                </p>
+                <p><strong>Address:</strong> {{ selectedComaker.co_address }}</p>
+                <p><strong>Contact:</strong> {{ selectedComaker.co_phone_num }}</p>
+                <p>
+                <strong>Position:</strong> {{ selectedComaker.co_position }} ({{
+                    selectedComaker.co_dept
+                }})
+                </p>
+            </div>
+            </div>
+            
+            <!-- Comaker Selection Dropdown (shown when no comaker is selected) -->
+            <div class="select-container" *ngIf="!selectedComaker">
+            <div class="search-wrapper">
+                <input
+                type="text"
+                placeholder="Search comakers..."
+                class="search-input"
+                [(ngModel)]="comakerSearchTerm"
+                (input)="filterComakers()"
+                name="comakerSearch"
+                [ngModelOptions]="{ standalone: true }"
+                />
+                <span class="search-icon">🔍</span>
+            </div>
+            <div class="select-options" #modalBody>
+                <div *ngIf="filteredComakers.length === 0" class="no-results">
+                No comaker found.
+                </div>
+                <div
+                *ngFor="let comaker of filteredComakers"
+                class="select-option"
+                (click)="onComakerSelect(comaker)"
+                >
+                <div class="option-content">
+                    <span class="option-name"
+                    >{{ comaker.co_first_name }} {{ comaker.co_last_name }}</span
+                    >
+                    <span class="option-details"
+                    >{{ comaker.co_position }} • {{ comaker.co_dept }}</span
+                    >
+                </div>
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+
+          <!-- Loan Details -->
+          <div class="section-group">
+            <h2>Loan Information</h2>
+            <div class="input-row">
+              <div class="input-group">
+                <label class="label">Type of Loan</label>
+                <select class="text-field" formControlName="loan_type">
+                  <option value="" disabled selected>Select Type</option>
+                  <option value="Educational">Educational</option>
+                  <option value="Livelihood">Livelihood</option>
+                  <option value="Medical">Medical</option>
+                  <option value="Emergency">Emergency</option>
+                  <option value="Housing">Housing</option>
+                </select>
+              </div>
+              <div class="input-group">
+                <label class="label">Amount of loan applied</label>
+                <input
+                  type="number"
+                  class="text-field"
+                  formControlName="applied_amount"
+                  placeholder="ex. 60,000"
+                />
+              </div>
+            </div>
+
+            <div class="input-row">
+              <div class="input-group">
+                <label class="label">Loan Term (months)</label>
+                <input
+                  type="number"
+                  class="text-field"
+                  formControlName="loan_term"
+                  placeholder="ex. 24"
+                />
+              </div>
+              <div class="input-group">
+                <label class="label">Purpose of Loan</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="loan_purpose"
+                  placeholder="ex. Education expenses"
+                />
+              </div>
+              <div class="input-group">
+                <label class="label">Repayment Frequency</label>
+                <select class="text-field" formControlName="repayment_freq">
+                  <option value="Monthly">Monthly</option>
+                  <option value="Bi-Monthly">Bi-Monthly</option>
+                  <option value="Quarterly">Quarterly</option>
+                </select>
+              </div>
+            </div>
+          </div>
+
+          <!-- Required Documents -->
+          <div class="section-group">
+            <h2>Required Documents</h2>
+            <div class="documents-grid">
+              <label class="document-checkbox">
+                <input type="checkbox" formControlName="payslip" />
+                <span class="checkmark"></span>
+                Payslip
+              </label>
+              <label class="document-checkbox">
+                <input type="checkbox" formControlName="valid_id" />
+                <span class="checkmark"></span>
+                Valid ID
+              </label>
+              <label class="document-checkbox">
+                <input type="checkbox" formControlName="company_id" />
+                <span class="checkmark"></span>
+                Company ID
+              </label>
+              <label class="document-checkbox">
+                <input type="checkbox" formControlName="proof_of_billing" />
+                <span class="checkmark"></span>
+                Proof of Billing
+              </label>
+              <label class="document-checkbox">
+                <input type="checkbox" formControlName="employment_details" />
+                <span class="checkmark"></span>
+                Employment Details
+              </label>
+              <label class="document-checkbox">
+                <input type="checkbox" formControlName="barangay_clearance" />
+                <span class="checkmark"></span>
+                Barangay Clearance
+              </label>
+            </div>
+          </div>
+
+          <!-- Navigation Buttons -->
+          <div class="buttons">
+            <div class="left">
+              <button type="button" class="cancel-btn" (click)="closeModal()">
+                Cancel
+              </button>
+            </div>
+            <div class="right">
+              <button
+                type="submit"
+                class="submit-btn"
+                [disabled]="isSubmitting || loanForm.invalid"
+              >
+                {{ isSubmitting ? "Processing..." : "Submit Application" }}
+              </button>
+            </div>
+          </div>
+
+          <div *ngIf="apiError" class="error-message">
+            {{ apiError }}
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>

@@ -2,20 +2,13 @@
   <div class="table">
     <div class="button-group">
       <div class="header">
-        <h2 class="title">LIST OF MAKERS ACCOUNT</h2>
+        <h2 class="title">LIST OF CO-MAKERS ACCOUNT</h2>
       </div>
 
       <div class="middle-content">
-        <button
-          class="action green-action"
-          (click)="viewNewMaker(); $event.stopPropagation()"
-        >
-          + New Maker
-        </button>
-        <select [(ngModel)]="selectedMaker" (change)="applyFilters()">
-          <option value="all">All</option>
-          <option value="withActiveLoan">With Active Loan</option>
-        </select>
+          <button class="action green-action" (click)="viewNewMaker(null); $event.stopPropagation()" >
+             + New Co-Maker
+          </button>
 
         <div class="search-wrapper">
           <input
@@ -36,7 +29,8 @@
             <th>Full name</th>
             <th>Address</th>
             <th>Contact No.</th>
-            <th>Options</th>
+            <th>Birthday</th>
+            <!-- <th>Action</th> -->
           </tr>
         </thead>
         <tbody>
@@ -45,49 +39,21 @@
               No maker accounts found at the moment.
             </td>
           </tr>
-          <tr *ngFor="let user of pagedUsers" (click)="viewDetails(user)">
+          <tr *ngFor="let user of filteredUsers.slice(startIndex, endIndex)" (click)="viewDetails(user)">
             <td>{{ getFullName(user) }}</td>
-            <td>{{ user.address }}</td>
-            <td>{{ user.phone_num }}</td>
-            <td class="actions">
-              <ng-container *ngIf="hasSchedule(user)">
-                <button
-                  class="action red-action"
-                  (click)="viewSchedule(user); $event.stopPropagation()"
-                >
-                  Schedule
-                </button>
-              </ng-container>
+            <td>{{ user.co_address }}</td>
+            <td>{{ user.co_phone_num }}</td>
+            <td>{{ user.co_birthdate }}</td>
+            <!-- <td class="actions">
+              <button class="action newgreen-action">
+                View Connected Maker
+              </button>
 
-              <ng-container *ngIf="getLatestRelevantLoan(user)">
-                <button
-                  class="action newgreen-action"
-                  (click)="
-                    viewLoanDetails(getLatestRelevantLoan(user)?.id);
-                    $event.stopPropagation()
-                  "
-                >
-                  Loan Details
-                </button>
-              </ng-container>
-
-              <ng-container
-                *ngIf="!hasSchedule(user) && !getLatestRelevantLoan(user)"
-              >
-                <button
-                  class="action create-loan-action"
-                  (click)="
-                    createNewLoanForMaker(user); $event.stopPropagation()
-                  "
-                >
-                  Add New Loan
-                </button>
-              </ng-container>
-            </td>
+            </td> -->
           </tr>
         </tbody>
       </table>
-    </div>
+    </div> 
     <div class="pagination-container">
       <div class="items-per-page">
         <label for="itemsPerPage">Show:</label>

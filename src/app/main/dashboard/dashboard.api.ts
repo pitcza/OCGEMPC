@@ -10,6 +10,24 @@ export interface RecentPayment {
   amount: string;
   date: string;
   status: string;
+  total_payment: string;
+  updatedAt: any;
+  maker: Maker
+}
+
+export interface Maker {
+  id: number;
+  first_name: string;
+  middle_name: string;
+  last_name: string;
+  ext_name: string;
+  position: string;
+  dept: string;
+}
+
+
+interface RecentPaymentsResponse {
+  mostRecentPayments: RecentPayment[];
 }
 
 @Injectable({ providedIn: 'root' })
@@ -68,11 +86,10 @@ export class DashboardApiService {
       );
   }
 
-  getRecentPayments(): Observable<RecentPayment[]> {
+  getRecentPayments(): Observable<RecentPaymentsResponse> {
     return this.http.get<{ encrypted: string }>(`${environment.baseUrl}/api/recent-payments`)
-      .pipe(
-        this.decryptApiResponse<RecentPayment[]>()
-      );
+    .pipe(
+      this.decryptApiResponse<RecentPaymentsResponse>()
+    );
   }
-
 }

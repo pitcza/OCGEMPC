@@ -2,7 +2,9 @@
   <div class="header">
     <h2 class="title">LOAN APPLICATION</h2>
     <div class="button-group">
-      <button class="btn primary" (click)="addApplication()">Add Loan Application</button>
+      <button class="btn primary" (click)="addApplication()">
+        Add Loan Application
+      </button>
     </div>
   </div>
 
@@ -10,177 +12,247 @@
     <!-- Column 1 -->
     <div class="column one">
       <div class="filter-export">
-        <select id="filter" [(ngModel)]="selectedFilter" (change)="filterApplicants()">
-          <option value="application">Application List</option>
-          <option value="releasing">Releasing</option>
+        <select
+          id="filter"
+          [(ngModel)]="selectedFilter"
+          (change)="filterApplicants()"
+        >
+          <option value="pending">Application List (Pending)</option>
+          <option value="approved">Releasing (Approved)</option>
           <option value="declined">Declined List</option>
+          <option value="completed">Completed Loans</option>
         </select>
 
         <button class="btn export">Export</button>
       </div>
 
       <ul class="applicant-list">
-        <li *ngFor="let applicant of filteredApplicants" (click)="selectApplicant(applicant)">
-          {{ applicant.personal.firstName }} {{ applicant.personal.lastName }}
-        </li>
+        <ng-container *ngIf="filteredApplicants.length > 0; else noApplicants">
+          <li 
+            *ngFor="let applicant of filteredApplicants" 
+            (click)="selectApplicant(applicant)"
+            [class.selected]="selectedApplicant?.id === applicant.id"
+          >
+            {{ applicant.personal.firstName }} {{ applicant.personal.lastName }}
+          </li>
+        </ng-container>
+        <ng-template #noApplicants>
+          <li class="no-applicants">
+            <div class="empty-state">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="12"></line>
+                <line x1="12" y1="16" x2="12.01" y2="16"></line>
+              </svg>
+              <p>No loan applications available</p>
+              <p class="subtext">for {{selectedFilter}} status</p>
+            </div>
+          </li>
+        </ng-template>
       </ul>
     </div>
 
-    <!-- Column 2 -->
-    <div class="column two" *ngIf="selectedApplicant">
-      <!-- Personal Details -->
-      <h3>Personal Details</h3>
-      <table class="info-table perso">
-        <tbody>
-          <tr>
-            <td><strong>First Name:</strong></td>
-            <td>{{ selectedApplicant.personal.firstName }}</td>
-          </tr>
-          <tr>
-            <td><strong>Middle Name:</strong></td>
-            <td>{{ selectedApplicant.personal.middleName }}</td>
-          </tr>
-          <tr>
-            <td><strong>Last Name:</strong></td>
-            <td>{{ selectedApplicant.personal.lastName }}</td>
-          </tr>
-          <tr>
-            <td><strong>Ext Name:</strong></td>
-            <td>{{ selectedApplicant.personal.extName }}</td>
-          </tr>
-          <tr>
-            <td><strong>Address:</strong></td>
-            <td>{{ selectedApplicant.personal.address }}</td>
-          </tr>
-          <tr>
-            <td><strong>Contact No.:</strong></td>
-            <td>{{ selectedApplicant.personal.contactNumber }}</td>
-          </tr>
-          <tr>
-            <td><strong>Date of Birth:</strong></td>
-            <td>{{ selectedApplicant.personal.dob }}</td>
-          </tr>
-          <tr>
-            <td><strong>Age:</strong></td>
-            <td>{{ selectedApplicant.personal.age }}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- Employment Details -->
-      <h4>Employment Details</h4>
-      <table class="info-table">
-        <tbody>
-          <tr>
-            <td><strong>Dept./Office:</strong></td>
-            <td>{{ selectedApplicant.employment.office }}</td>
-          </tr>
-          <tr>
-            <td><strong>Position:</strong></td>
-            <td>{{ selectedApplicant.employment.position }}</td>
-          </tr>
-          <tr>
-            <td><strong>Salary (per month):</strong></td>
-            <td>{{ selectedApplicant.employment.salary }}</td>
-          </tr>
-          <tr>
-            <td><strong>Employment Status:</strong></td>
-            <td>{{ selectedApplicant.employment.status }}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- Cooperative Membership -->
-      <h4>Cooperative Membership</h4>
-      <table class="info-table">
-        <tbody>
-          <tr>
-            <td><strong>Years as Coop Member:</strong></td>
-            <td>{{ selectedApplicant.coop.years }}</td>
-          </tr>
-          <tr>
-            <td><strong>Amount of Shares:</strong></td>
-            <td>{{ selectedApplicant.coop.shares }}</td>
-          </tr>
-          <tr>
-            <td><strong>Amount of Saving:</strong></td>
-            <td>{{ selectedApplicant.coop.savings }}</td>
-          </tr>
-        </tbody>
-      </table>
-
-      <!-- Loan Information -->
-        
-      <h4>Loan Information</h4>
-      <table class="info-table">
-        <tbody>
-          <tr>
-            <td><strong>Type of Loan:</strong></td>
-            <td>{{ selectedApplicant.loan.type }}</td>
-          </tr>
-          <tr>
-            <td><strong>Amount of Loan Applied:</strong></td>
-            <td>{{ selectedApplicant.loan.amount }}</td>
-          </tr>
-          <tr>
-            <td><strong>Loan Term:</strong></td>
-            <td>{{ selectedApplicant.loan.term }}</td>
-          </tr>
-          <tr>
-            <td><strong>Purpose of Loan:</strong></td>
-            <td>{{ selectedApplicant.loan.purpose }}</td>
-          </tr>
-          <tr>
-            <td><strong>Repayment Frequency:</strong></td>
-            <td>{{ selectedApplicant.loan.frequency }}</td>
-          </tr>
-        </tbody>
-      </table>
-              <div class="action-buttons">
-        <button class="btn red" (click)="decline()">Decline</button>
-        <button class="btn green" (click)="approve()">Approve</button>
-      </div>
-    </div>
-
-    <!-- Column 3 -->
-    <div class="column three" *ngIf="selectedApplicant">
-      <h3 *ngIf="selectedFilter === 'declined'">Decline Reason</h3>
-      <h3 *ngIf="selectedFilter !== 'declined'">Requirements</h3>
-
-      <div *ngIf="selectedFilter !== 'declined'" class="requirements-list">
-        <div *ngFor="let req of standardRequirements" class="requirement-item">
-          <span class="requirement-status" [class.submitted]="isRequirementSubmitted(req)">
-            {{ isRequirementSubmitted(req) ? '✓' : '✗' }}
-          </span> 
-          <span class="requirement-name">{{ req }}</span>
-        </div>
-      </div>
-      <p *ngIf="selectedFilter === 'declined'"></p>
-
-    <div>
-      <div class="history">
-        <h3>Loan History</h3>
-
-        <table class="loan-table">
-          <thead>
+    <!-- Column 2 & 3 -->
+    <ng-container *ngIf="selectedApplicant; else noSelection">
+      <!-- Column 2 -->
+      <div class="column two">
+        <!-- Personal Details -->
+        <h3>Personal Details</h3>
+        <table class="info-table perso">
+          <tbody>
             <tr>
-              <th>Load Amount</th>
-              <th>Status</th>
+              <td><strong>First Name</strong></td>
+              <td>{{ selectedApplicant.personal.firstName }}</td>
             </tr>
-          </thead>
-        <tbody>
-          <tr *ngFor="let item of historyData" (click)="selectItem(item)">
-            <td>{{ item.loanamount_history }}</td>
-            <td>{{ item.status }}</td>
-          </tr>
-        </tbody>
+            <tr>
+              <td><strong>Middle Name</strong></td>
+              <td>{{ selectedApplicant.personal.middleName }}</td>
+            </tr>
+            <tr>
+              <td><strong>Last Name</strong></td>
+              <td>{{ selectedApplicant.personal.lastName }}</td>
+            </tr>
+            <tr>
+              <td><strong>Ext Name</strong></td>
+              <td>{{ selectedApplicant.personal.extName }}</td>
+            </tr>
+            <tr>
+              <td><strong>Address</strong></td>
+              <td>{{ selectedApplicant.personal.address }}</td>
+            </tr>
+            <tr>
+              <td><strong>Contact No.</strong></td>
+              <td>{{ selectedApplicant.personal.contactNumber }}</td>
+            </tr>
+            <tr>
+              <td><strong>Date of Birth</strong></td>
+              <td>{{ selectedApplicant.personal.dob }}</td>
+            </tr>
+            <tr>
+              <td><strong>Age</strong></td>
+              <td>{{ selectedApplicant.personal.age }}</td>
+            </tr>
+          </tbody>
         </table>
 
-        <div *ngIf="selectedItem" class="details-box">
-          <p><strong>Load Amount:</strong> {{ selectedItem.loanamount_history }}</p>
-          <p><strong>Date:</strong> {{ selectedItem.date }}</p>
-          <p><strong>Status:</strong> {{ selectedItem.status }}</p>
+        <!-- Employment Details -->
+        <h4>Employment Details</h4>
+        <table class="info-table">
+          <tbody>
+            <tr>
+              <td><strong>Dept./Office</strong></td>
+              <td>{{ selectedApplicant.employment.office }}</td>
+            </tr>
+            <tr>
+              <td><strong>Position</strong></td>
+              <td>{{ selectedApplicant.employment.position }}</td>
+            </tr>
+            <tr>
+              <td><strong>Salary (per month)</strong></td>
+              <td>{{ selectedApplicant.employment.salary }}</td>
+            </tr>
+            <tr>
+              <td><strong>Employment Status</strong></td>
+              <td>{{ selectedApplicant.employment.status }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Cooperative Membership -->
+        <h4>Cooperative Membership</h4>
+        <table class="info-table">
+          <tbody>
+            <tr>
+              <td><strong>Years as Coop Member</strong></td>
+              <td>{{ selectedApplicant.coop.years }}</td>
+            </tr>
+            <tr>
+              <td><strong>Amount of Shares</strong></td>
+              <td>{{ selectedApplicant.coop.shares }}</td>
+            </tr>
+            <tr>
+              <td><strong>Amount of Saving</strong></td>
+              <td>{{ selectedApplicant.coop.savings }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <!-- Loan Information -->
+        <h4>Loan Information</h4>
+        <table class="info-table">
+          <tbody>
+            <tr>
+              <td><strong>Type of Loan</strong></td>
+              <td>{{ selectedApplicant.loan.type }}</td>
+            </tr>
+            <tr>
+              <td><strong>Amount of Loan Applied</strong></td>
+              <td>{{ selectedApplicant.loan.amount }}</td>
+            </tr>
+            <tr>
+              <td><strong>Loan Term</strong></td>
+              <td>{{ selectedApplicant.loan.term }}</td>
+            </tr>
+            <tr>
+              <td><strong>Purpose of Loan</strong></td>
+              <td>{{ selectedApplicant.loan.purpose }}</td>
+            </tr>
+            <tr>
+              <td><strong>Repayment Frequency</strong></td>
+              <td>{{ selectedApplicant.loan.frequency }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="action-buttons" *ngIf="selectedApplicant?.status === 'pending' && canApproveDecline()">
+          <button class="btn red" (click)="decline()">Decline</button>
+          <button class="btn green" (click)="approve()">Approve</button>
         </div>
       </div>
-  </div>  
+
+      <!-- Column 3 -->
+      <div class="column three">
+        <h3 *ngIf="selectedApplicant.status === 'declined'">Decline Reason</h3>
+
+        <div *ngIf="selectedApplicant.status === 'declined'" class="decline-reason">
+          <p>{{selectedApplicant.loan.status_details}}</p>
+        </div>
+
+        <h3 *ngIf="selectedFilter !== 'declined'">Requirements</h3>
+
+        <div *ngIf="selectedFilter !== 'declined'" class="requirements-list">
+          <div *ngFor="let req of standardRequirements" class="requirement-item">
+            <button
+              class="requirement-status-btn"
+              [ngClass]="{
+                submitted: getRequirementStatus(req.key),
+                'not-submitted': !getRequirementStatus(req.key)
+              }"
+              (click)="toggleRequirement(req.key)"
+              [disabled]="!canToggleRequiredDocuments()"
+            >
+              {{ getRequirementStatus(req.key) ? "✅" : "❌" }}
+            </button>
+            <span class="requirement-name">{{ req.label }}</span>
+          </div>
+        </div>
+
+        <div>
+          <div class="history">
+            <h3>Loan History</h3>
+
+            <table class="loan-table">
+              <thead>
+                <tr>
+                  <th>Amount</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of historyData" (click)="viewLoanDetails(item.id)" class="clickable-row">
+                  <td>{{ item.loanamount_history }}</td>
+                  <td>{{ item.status }}</td>
+                </tr>
+                <tr *ngIf="historyData.length === 0">
+                  <td colspan="2" class="no-history">No loan history available</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div *ngIf="selectedItem" class="details-box">
+              <p>
+                <strong>Amount:</strong> {{ selectedItem.loanamount_history }}
+              </p>
+              <p><strong>Date:</strong> {{ selectedItem.date }}</p>
+              <p><strong>Status:</strong> {{ selectedItem.status }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-template #noSelection>
+      <div class="column two empty-column">
+        <div class="empty-state">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+          </svg>
+          <h3>No application selected</h3>
+          <p>Select a loan application from the list to view details</p>
+        </div>
+      </div>
+      <div class="column three empty-column">
+        <div class="empty-state">
+          <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          <h3>Details will appear here</h3>
+          <p>Select a loan application to view requirements and history</p>
+        </div>
+      </div>
+    </ng-template>
+  </div>
 </div>

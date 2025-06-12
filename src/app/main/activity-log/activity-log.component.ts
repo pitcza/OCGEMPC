@@ -14,7 +14,7 @@ interface StaffLog {
     id: number;
     first_name: string;
     last_name: string;
-    // add other user fields as needed
+    roles: any;
   };
 }
 export interface ActivityLog {
@@ -41,8 +41,8 @@ export class ActivityLogComponent implements OnInit {
 
     constructor(private http: HttpClient) { }
 
-  private encryptionKey = environment.encryptionKey;
-  private decryptApiResponse<T>() {
+    private encryptionKey = environment.encryptionKey;
+    private decryptApiResponse<T>() {
     return map((res: { encrypted: string }) => decryptResponse(res.encrypted, this.encryptionKey) as T);
   }
 
@@ -50,12 +50,13 @@ export class ActivityLogComponent implements OnInit {
   ngOnInit(): void {
     this.getStaffLogs().subscribe({
       next: (logs: StaffLog[]) => {
-        this.dataSource = logs.map(log => ({
+        this.dataSource = logs.map(log => (
+          {
           timestamp: this.formatDate(log.createdAt),
           who: log.user
             ? `${log.user.first_name} ${log.user.last_name}`
             : `User #${log.user_id}`,
-          role: log.user && (log.user as any).role ? (log.user as any).role : 'N/A',
+          role: log.user?.roles[0].role_name ? (log.user.roles[0].role_name as any) : 'N/A',
           action: this.formatAction(log.action),
           details: log.description || this.generateDetails(log)
         }));

@@ -91,8 +91,6 @@ export class LoginComponent {
               this.encryptionKey
             ) as LoginResponse;
 
-            console.log('Decrypted login response:', decrypted);
-
             this.authService.setAccessToken(decrypted.accessToken);
             this.authService.setRefreshToken(decrypted.refreshToken);
             this.authService.setRoleName(decrypted.roleName);

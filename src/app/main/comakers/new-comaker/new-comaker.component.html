@@ -1,0 +1,250 @@
+<div class="main-overlay">
+  <div class="modal-container">
+    <!-- Header Section -->
+    <div class="modal-head">
+      <div class="modal-title">
+        <h1>New Co-Maker Form</h1>
+      </div>
+      <button class="exit-button" (click)="closeModal()">&times;</button>
+    </div>
+
+    <!-- Form Body -->
+    <div class="modal-body">
+      <form [formGroup]="comakerForm" (ngSubmit)="onSubmit()">
+        <!-- Applicant Information Section -->
+        <div class="makers-form">
+          <h2>Applicant Co-Maker's Information</h2>
+
+          <!-- Personal Information -->
+          <div class="section-group">
+            <h3>Personal Details</h3>
+            <div class="input-row">
+              <div class="input-group">
+                <label class="label">First Name*</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_first_name"
+                  placeholder="Juan"
+                  [class.invalid]="comakerForm.get('co_first_name')?.invalid && comakerForm.get('co_first_name')?.touched"
+                />
+                <small [class.visible]="comakerForm.get('co_first_name')?.invalid && comakerForm.get('co_first_name')?.touched" class="error-message">
+                  First name is required
+                </small>
+              </div>
+              <div class="input-group">
+                <label class="label">Middle Name</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_middle_name"
+                  placeholder="Martinez"
+                />
+                <small class="error-message">&nbsp;</small>
+              </div>
+              <div class="input-group">
+                <label class="label">Last Name*</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_last_name"
+                  placeholder="Dela Cruz"
+                  [class.invalid]="comakerForm.get('co_last_name')?.invalid && comakerForm.get('co_last_name')?.touched"
+                />
+                <small [class.visible]="comakerForm.get('co_last_name')?.invalid && comakerForm.get('co_last_name')?.touched" class="error-message">
+                  Last name is required
+                </small>
+              </div>
+              <div class="input-group-short">
+                <label class="label">Ext Name</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_ext_name"
+                  placeholder="Jr."
+                />
+                <small class="error-message">&nbsp;</small>
+              </div>
+            </div>
+            <div class="input-row">
+              <div class="input-group">
+                <label class="label">Residence Address*</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_address"
+                  placeholder="Lot No., Street Address, City, Province, Postal Code"
+                  [class.invalid]="comakerForm.get('co_address')?.invalid && comakerForm.get('co_address')?.touched"
+                />
+                <small [class.visible]="comakerForm.get('co_address')?.invalid && comakerForm.get('co_address')?.touched" class="error-message">
+                  Address is required
+                </small>
+              </div>
+              <div class="input-group-short">
+                <label class="label">Contact Number*</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_phone_num"
+                  maxlength="11"
+                  placeholder="09XXXXXXXXX"
+                  (keypress)="validatePhoneNumberInput($event)"
+                  [class.invalid]="comakerForm.get('co_phone_num')?.invalid && comakerForm.get('co_phone_num')?.touched"
+                />
+                <small [class.visible]="comakerForm.get('co_phone_num')?.invalid && comakerForm.get('co_phone_num')?.touched" class="error-message">
+                  Valid 11-digit phone number required
+                </small>
+              </div>
+            </div>
+            <div class="input-row">
+              <div class="input-group">
+                <label class="label">Date of Birth*</label>
+                <input
+                  type="date"
+                  class="text-field"
+                  formControlName="co_birthdate"
+                  [class.invalid]="comakerForm.get('co_birthdate')?.invalid && comakerForm.get('co_birthdate')?.touched"
+                />
+                <small [class.visible]="comakerForm.get('co_birthdate')?.invalid && comakerForm.get('co_birthdate')?.touched" class="error-message">
+                  Birthdate is required
+                </small>
+              </div>
+              <div class="input-group-short">
+                <label class="label">Age*</label>
+                  <input
+                    type="number"
+                    class="text-field"
+                    formControlName="co_age"
+                    min="18"
+                    readonly
+                  />
+                 <small [class.visible]="comakerForm.get('co_age')?.invalid && comakerForm.get('co_birthdate')?.touched" class="error-message">
+                  Age must be at least 18
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Employment Information -->
+          <div class="section-group">
+            <h3>Employment Details</h3>
+            <div class="input-row">
+              <div class="input-group">
+                <label class="label">Dept./Office*</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_dept"
+                  placeholder="Office"
+                  [class.invalid]="comakerForm.get('co_dept')?.invalid && comakerForm.get('co_dept')?.touched"
+                />
+                <small [class.visible]="comakerForm.get('co_dept')?.invalid && comakerForm.get('co_dept')?.touched" class="error-message">
+                  Department is required
+                </small>
+              </div>
+              <div class="input-group">
+                <label class="label">Position*</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_position"
+                  placeholder="Position"
+                  [class.invalid]="comakerForm.get('co_position')?.invalid && comakerForm.get('co_position')?.touched"
+                />
+                <small [class.visible]="comakerForm.get('position')?.invalid && comakerForm.get('co_position')?.touched" class="error-message">
+                  Position is required
+                </small>
+              </div>
+              <div class="input-group">
+                <label class="label">Salary (per month)*</label>
+                <input
+                  type="number"
+                  class="text-field"
+                  formControlName="co_salary"
+                  placeholder="ex. 18000"
+                  min="0"
+                  step="0.01"
+                  [class.invalid]="comakerForm.get('co_salary')?.invalid && comakerForm.get('co_salary')?.touched"
+                />
+                <small [class.visible]="comakerForm.get('co_salary')?.invalid && comakerForm.get('co_salary')?.touched" class="error-message">
+                  Valid salary amount required
+                </small>
+              </div>
+              <div class="input-group">
+                <label class="label">Employment Status*</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_ee_status"
+                  placeholder="ex. Worker"
+                  [class.invalid]="comakerForm.get('co_ee_status')?.invalid && comakerForm.get('co_ee_status')?.touched"
+                />
+                <small [class.visible]="comakerForm.get('co_ee_status')?.invalid && comakerForm.get('co_ee_status')?.touched" class="error-message">
+                  Employment status is required
+                </small>
+              </div>
+            </div>
+          </div>
+
+          <!-- Cooperative Membership -->
+          <div class="section-group">
+            <h3>Cooperative Membership</h3>
+            <div class="input-row">
+              <div class="input-group">
+                <label class="label">Years as Coop Member*</label>
+                <input
+                  type="text"
+                  class="text-field"
+                  formControlName="co_years_coop"
+                  placeholder="ex. 2 years"
+                  [class.invalid]="comakerForm.get('co_years_coop')?.invalid && comakerForm.get('co_years_coop')?.touched"
+                />
+                <small [class.visible]="comakerForm.get('co_years_coop')?.invalid && comakerForm.get('co_years_coop')?.touched" class="error-message">
+                  This field is required
+                </small>
+              </div>
+              <div class="input-group">
+                <label class="label">Amount of shares*</label>
+                <input
+                  type="number"
+                  class="text-field"
+                  formControlName="co_share_amount"
+                  placeholder="ex. 18000"
+                  min="0"
+                  step="0.01"
+                  [class.invalid]="comakerForm.get('co_share_amount')?.invalid && comakerForm.get('co_share_amount')?.touched"
+                />
+                <small [class.visible]="comakerForm.get('co_share_amount')?.invalid && comakerForm.get('co_share_amount')?.touched" class="error-message">
+                  Valid amount required
+                </small>
+              </div>
+              <div class="input-group">
+                <label class="label">Amount of saving*</label>
+                <input
+                  type="number"
+                  class="text-field"
+                  formControlName="co_saving_amount"
+                  placeholder="ex. 18000"
+                  min="0"
+                  step="0.01"
+                  [class.invalid]="comakerForm.get('co_saving_amount')?.invalid && comakerForm.get('co_saving_amount')?.touched"
+                />
+                <small [class.visible]="comakerForm.get('co_saving_amount')?.invalid && comakerForm.get('co_saving_amount')?.touched" class="error-message">
+                  Valid amount required
+                </small>
+              </div>
+            </div>
+          </div>
+          
+          <div class="form-footer">
+            <button type="button" class="cancel-button" (click)="closeModal()">Cancel</button>
+            <button type="submit" class="green-button" [disabled]="isLoading">
+              <span *ngIf="!isLoading">Submit</span>
+              <span *ngIf="isLoading">Processing...</span>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

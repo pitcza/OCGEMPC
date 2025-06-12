@@ -313,6 +313,7 @@
             }
         }
 
+
         .green-btn {
             background-color: var(--green);
             width: auto;
@@ -338,38 +339,80 @@
 }
 
 
-.error {
-  color: red;
-  font-size: 0.9rem;
-  margin-top: 0.5rem;
+.green-button {
+    background-color: green;
+    width: auto;
+    height: 40px;
+    border: none;
+    outline: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    border-radius: 4px;
+    font-size: 14px;
+    font-weight: 400;
+    padding: 10px 30px;
+    color: white;
+    transition: var(--main-transition);
+    cursor: pointer;
+    
 }
 
-        .actions {
-          margin-top: 10px;
-          text-align: end;
+.error-message {
+  color: #f44336;
+  font-size: 12px;
+  min-height: 16px;
+  margin-top: 4px;
+  display: block;
+  visibility: hidden;
+}
 
-          .action {
-            padding:12px 22px 12px 22px;
-            margin: 0 4px;
-            border: none;
-            border-radius: 4px;
-            color: #fff;
-            font-size: 15px;
-            cursor: pointer;
-            transition: background-color 0.3s ease;
+.error-message.visible {
+  visibility: visible;
+}
 
-            &.green-action {
-              background-color: #508D4E;
-            }
+.text-field.invalid + .error-message {
+  visibility: visible;
+}
 
-            &.red-action {
-              background-color: #be1010;
-            }
+.text-field.invalid {
+  border-color: #f44336;
+}
 
-            &.newgreen-action{
-              background-color: #2f855a;
-            }
-          }
-        }
+.text-field[readonly] {
+  background-color: #f0f0f0;
+  cursor: default !important;
+  border-color: #ccc;
+  color: #666;
+}
 
-        
+.text-field[readonly]:hover {
+  background-color: #f0f0f0;
+  border-color: #ccc;
+  box-shadow: none;
+}
+
+.form-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.cancel-button {
+  padding: 8px 16px;
+  background: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.cancel-button:hover {
+  background: #e0e0e0;
+}
+
+.green-button[disabled] {
+  background-color: #cccccc;
+  cursor: not-allowed;
+}
+

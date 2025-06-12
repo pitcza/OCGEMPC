@@ -1,0 +1,90 @@
+<!-- duplicate-confirmation-dialog.component.html -->
+<div class="main-overlay">
+  <div class="duplicate-confirmation-container">
+    <h2 mat-dialog-title>Potential Duplicate Found</h2>
+
+    <mat-dialog-content>
+      <div
+        class="confidence-badge"
+        [ngClass]="{
+          'exact-match': highestMatch.confidence === 100,
+          'strong-match': highestMatch.confidence >= 90,
+          'possible-match': highestMatch.confidence < 90
+        }"
+      >
+        {{
+          highestMatch.confidence === 100
+            ? "Exact Match"
+            : highestMatch.confidence >= 90
+            ? "Strong Similarity"
+            : "Possible Similarity"
+        }}
+        ({{ highestMatch.confidence | number : "1.0-1" }}%)
+      </div>
+
+      <div class="comparison-section">
+        <div class="form-column">
+          <h3>New Maker Information</h3>
+          <div class="form-field" *ngFor="let field of getFormFields()">
+            <label>{{ getFieldLabel(field) }}</label>
+            <div class="field-value">
+              {{ newMakerForm.get(field)?.value || "N/A" }}
+            </div>
+          </div>
+        </div>
+
+        <div class="form-column">
+          <h3>Existing Record</h3>
+          <div class="form-field" *ngFor="let field of getFormFields()">
+            <label>{{ getFieldLabel(field) }}</label>
+            <div
+              class="field-value"
+              [class.highlight-difference]="!compareFields(field)"
+            >
+              {{ highestMatch[field] || "N/A" }}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="existingMakers.length > 1" class="other-matches">
+        <button mat-button (click)="toggleMatches()">
+          {{ showAllMatches ? "Hide" : "Show" }} other potential matches ({{
+            existingMakers.length - 1
+          }})
+        </button>
+
+        <div *ngIf="showAllMatches" class="additional-matches">
+          <div *ngFor="let match of existingMakers.slice(1)" class="match-item">
+            <h4>Match ({{ match.confidence | number : "1.0-1" }}%)</h4>
+            <div class="match-details">
+              <div *ngFor="let field of getFormFields()">
+                <strong>{{ getFieldLabel(field) }}:</strong>
+                {{ match[field] || "N/A" }}
+              </div>
+            </div>
+            <button
+              mat-raised-button
+              color="green-button"
+              (click)="useExisting(match)"
+            >
+              Use This Record
+            </button>
+          </div>
+        </div>
+      </div>
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="actions">
+      <button mat-button class="button cancel-btn" (click)="dialogRef.close()">Cancel</button>
+      <button mat-button class="button cancel-btn" (click)="createNew()">Create New Anyway</button>
+      <button
+        mat-raised-button
+        class="button green-btn"
+        (click)="useExisting(highestMatch)"
+      >
+        Use Existing Record
+      </button>
+    </mat-dialog-actions>
+  </div>
+</div>

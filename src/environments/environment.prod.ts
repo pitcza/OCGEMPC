@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  baseUrl: 'https://ocgempcapi-production.up.railway.app/'
+  baseUrl: 'https://ocgempc-api-production.up.railway.app/'
 };

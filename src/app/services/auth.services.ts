@@ -50,7 +50,8 @@ export class AuthService {
         })
       );
   }
-logoutApi(): Observable<any> {
+
+  logoutApi(): Observable<any> {
     // Call your backend logout endpoint, passing the refresh token if needed
     return this.http.post('/api/logout', {
       refreshToken: this.getRefreshToken()

@@ -83,11 +83,7 @@ export class LoginComponent {
 
     this.btnLoading = true;
 
-    this.http.post<{ encrypted: string }>(
-      `${environment.baseUrl}/api/login`,
-      this.loginForm.value,
-      { withCredentials: true }
-    ).subscribe({
+    this.http.post<{ encrypted: string }>(`${environment.baseUrl}/api/login`, this.loginForm.value).subscribe({
       next: (response) => {
 
             const decrypted = decryptResponse(

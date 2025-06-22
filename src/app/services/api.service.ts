@@ -7,8 +7,8 @@ import { Observable } from 'rxjs';
 })
 export class ApiService {
 
-  private baseUrl = 'http://localhost:4000/api';
-  // private baseUrl = 'https://ocgempc-api-production.up.railway.app/api';
+  // private baseUrl = 'http://localhost:4000/api';
+  private baseUrl = 'https://ocgempc-api-production.up.railway.app/api';
 
   constructor(private http: HttpClient) { }
 

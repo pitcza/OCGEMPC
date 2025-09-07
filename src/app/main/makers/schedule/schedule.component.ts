@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../../environments/environment';
 import { decryptResponse } from '../../../utils/crypto.util';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-schedule',
@@ -161,21 +162,45 @@ export class ScheduleComponent implements OnInit {
   }
 
   updateStatus(amortization: any, newStatus: string): void {
-    this.http
-      .patch(
-        `${environment.baseUrl}/api/amortization/${amortization.id}/status`,
-        { status: newStatus },
-        { headers: { 'Content-Type': 'application/json' } }
-      )
-      .subscribe({
-        next: () => {
-          amortization.status = newStatus;
-          // Optionally refresh the data
-          this.fetchAmortizationData(this.data.id);
-        },
-        error: (err) => {
-          console.error('Failed to update status:', err);
-        },
-      });
+  Swal.fire({
+    title: 'Are you sure?',
+    text: `Do you want to update the status to "${newStatus}"?`,
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#3085d6',
+    cancelButtonColor: '#d33',
+    confirmButtonText: 'Yes, update it!',
+    cancelButtonText: 'Cancel',
+  }).then((result) => {
+    if (result.isConfirmed) {
+      this.http
+        .patch(
+          `${environment.baseUrl}/api/amortization/${amortization.id}/status`,
+          { status: newStatus },
+          { headers: { 'Content-Type': 'application/json' } }
+        )
+        .subscribe({
+          next: () => {
+            amortization.status = newStatus;
+            this.fetchAmortizationData(this.data.id);
+            Swal.fire({
+              icon: 'success',
+              title: 'Status Updated',
+              text: `The status has been successfully updated to "${newStatus}".`,
+              confirmButtonColor: '#3085d6',
+            });
+          },
+          error: (err) => {
+            console.error('Failed to update status:', err);
+            Swal.fire({
+              icon: 'error',
+              title: 'Update Failed',
+              text: 'There was an error updating the status. Please try again.',
+              confirmButtonColor: '#d33',
+            });
+          },
+        });
+      }
+    });
   }
 }

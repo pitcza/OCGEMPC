@@ -1,10 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MakerService } from '../makers.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { SuccessOptionsDialog } from './success-options-dialog.component';
@@ -12,6 +8,7 @@ import { AddApplicationComponent } from '../../loan-application/add-application/
 import { environment } from '../../../../environments/environment';
 import { decryptResponse } from '../../../utils/crypto.util';
 import { DuplicateConfirmationDialogComponent } from './duplicate-confirmation/duplicate-confirmation-dialog.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-new-maker',
@@ -86,33 +83,46 @@ export class NewMakerComponent {
   onSubmit(): void {
     if (this.makerForm.invalid) {
       this.makerForm.markAllAsTouched();
-      this.snackBar.open('Please fill all required fields correctly', 'Close', {
-        duration: 3000,
+      Swal.fire({
+        icon: 'warning',
+        title: 'Validation Error',
+        text: 'Please fill all required fields correctly',
+        confirmButtonColor: '#3085d6',
       });
       return;
     }
 
-    this.isLoading = true;
-    this.makerService.checkMaker(this.makerForm.value).subscribe({
-      next: (response: any) => {
-        const decrypted = decryptResponse(
-          response.encrypted,
-          this.encryptionKey
-        );
-        const data = decrypted.data;
-        this.isLoading = false;
-
-        this.handleDuplicateCheckResponse(response);
-      },
-      error: (error) => {
-        this.isLoading = false;
-        console.error('Error creating maker:', error);
-        this.snackBar.open(
-          error.error?.message || 'Failed to create maker',
-          'Close',
-          { duration: 5000 }
-        );
-      },
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to create this maker record?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, create it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
+        this.makerService.checkMaker(this.makerForm.value).subscribe({
+          next: (response: any) => {
+            const decrypted = decryptResponse(
+              response.encrypted,
+              this.encryptionKey
+            );
+            this.isLoading = false;
+            this.handleDuplicateCheckResponse(response);
+          },
+          error: (error) => {
+            this.isLoading = false;
+            Swal.fire({
+              icon: 'error',
+              title: 'Error',
+              text: error.error?.message || 'Failed to create maker',
+              confirmButtonColor: '#d33',
+            });
+          },
+        });
+      }
     });
   }
 
@@ -196,6 +206,9 @@ export class NewMakerComponent {
       } else {
         this.dialogRef.close(createdMaker);
       }
+      setTimeout(() => {
+        window.location.reload();
+      }, 300);
     });
   }
 

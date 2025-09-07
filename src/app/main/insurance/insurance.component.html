@@ -5,11 +5,15 @@
 
   <div class="table">
     <div class="table-head">
-        <button class="btn-download">Download Report Sheet</button>
+       <button class="btn-download" (click)="downloadReport()">
+          Download Report Sheet
+        </button>
       <div class="filters">
-        <select id="billingStatement" class="form-select">
-          <option value="0000001">Billing Statement No. 0000001</option>
-          <!-- Add more options here -->
+        <select id="billingStatement" class="form-select" [(ngModel)]="selectedBillingStatement" (change)="onBillingStatementChange()">
+          <option value="">All Billing Statements</option>
+          <option *ngFor="let bs of allBillingStatements" [value]="bs">
+            {{ bs }}
+          </option>
         </select>
               <div class="table-head">
         <div class="search-wrapper">

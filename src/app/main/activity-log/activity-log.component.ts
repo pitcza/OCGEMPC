@@ -5,7 +5,7 @@ import { environment } from '../../../environments/environment';
 import { decryptResponse } from '../../utils/crypto.util';
 interface StaffLog {
   user_id: number;
-  action: 'login' | 'logout' | 'create loan' | 'approve loan' | 'decline loan' | 'deleted loan' | 'updated loan';
+  action: string;
   description?: string;
   related_data?: any;
   createdAt: string;
@@ -85,7 +85,6 @@ export class ActivityLogComponent implements OnInit {
   }
 
   private generateDetails(log: StaffLog): string {
-    // Fallback if description is missing
     switch (log.action) {
       case 'create loan':
         return `Created a new loan${log.related_data?.loan_id ? ` (#${log.related_data.loan_id})` : ''}.`;
@@ -101,8 +100,12 @@ export class ActivityLogComponent implements OnInit {
         return `User logged in.`;
       case 'logout':
         return `User logged out.`;
+      case 'create maker account':
+        return `Created a maker account for ${log.related_data?.name ?? 'a user'}.`;
+      case 'create co-maker account':
+        return `Created a co-maker account for ${log.related_data?.name ?? 'a user'}.`;
       default:
-        return '';
+        return log.description || '';
     }
   }
 

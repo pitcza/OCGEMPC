@@ -1,10 +1,4 @@
-import {
-  Component,
-  OnInit,
-  Inject,
-  PLATFORM_ID,
-  AfterViewInit,
-} from '@angular/core';
+import { Component, OnInit, Inject, PLATFORM_ID, AfterViewInit } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { Chart } from 'chart.js/auto';
 import { DashboardApiService, RecentPayment } from './dashboard.api';

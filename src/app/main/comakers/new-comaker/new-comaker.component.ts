@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ComakerService } from '../comakers.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-new-co-maker',
@@ -79,30 +80,53 @@ export class NewCoMakerComponent {
   onSubmit(): void {
     if (this.comakerForm.invalid) {
       this.comakerForm.markAllAsTouched();
-      this.snackBar.open('Please fill all required fields correctly', 'Close', {
-        duration: 3000,
+      Swal.fire({
+        icon: 'warning',
+        title: 'Validation Error',
+        text: 'Please fill all required fields correctly',
+        confirmButtonColor: '#3085d6',
       });
       return;
     }
 
-    this.isLoading = true;
-    this.makerService.createComaker(this.comakerForm.value).subscribe({
-      next: (response) => {
-        this.isLoading = false;
-        this.snackBar.open('Co-Maker created successfully', 'Close', {
-          duration: 3000,
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to create this Co-Maker record?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, create it!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isLoading = true;
+        this.makerService.createComaker(this.comakerForm.value).subscribe({
+          next: (response) => {
+            this.isLoading = false;
+            Swal.fire({
+              icon: 'success',
+              title: 'Co-Maker Created',
+              text: 'The Co-Maker was successfully created.',
+              confirmButtonColor: '#3085d6',
+            }).then((res) => {
+                if (res.isConfirmed) {
+                  this.dialogRef.close(true);
+                  window.location.reload(); 
+                }
+              });
+            },
+          error: (error) => {
+            this.isLoading = false;
+            console.error('Error creating co-maker:', error);
+            Swal.fire({
+              icon: 'error',
+              title: 'Creation Failed',
+              text: error.error?.message || 'Failed to create co-maker',
+              confirmButtonColor: '#d33',
+            });
+          },
         });
-        this.dialogRef.close(true);
-      },
-      error: (error) => {
-        this.isLoading = false;
-        console.error('Error creating co-maker:', error);
-        this.snackBar.open(
-          error.error?.message || 'Failed to create co-maker',
-          'Close',
-          { duration: 5000 }
-        );
-      },
+      }
     });
   }
 

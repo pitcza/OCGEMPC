@@ -1,17 +1,5 @@
-import {
-  Component,
-  ElementRef,
-  Inject,
-  OnInit,
-  QueryList,
-  ViewChild,
-  ViewChildren,
-} from '@angular/core';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogRef,
-} from '@angular/material/dialog';
+import { Component, ElementRef, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoanApplicationService } from './loan-application.service';
 import { Observable } from 'rxjs';
@@ -22,6 +10,7 @@ import { decryptResponse } from '../../../utils/crypto.util';
 import { environment } from '../../../../environments/environment';
 import { NewMakerComponent } from '../../makers/new-maker/new-maker.component';
 import { NewCoMakerComponent } from '../../comakers/new-comaker/new-comaker.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-application',
@@ -304,39 +293,75 @@ export class AddApplicationComponent implements OnInit {
 
     if (this.loanForm.invalid) {
       this.loanForm.markAllAsTouched();
+      Swal.fire({
+        icon: 'warning',
+        title: 'Validation Error',
+        text: 'Please fill all required fields correctly before submitting.',
+        confirmButtonColor: '#3085d6',
+      });
       return;
     }
 
-    this.isSubmitting = true;
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to submit this loan application?',
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, submit it',
+      cancelButtonText: 'Cancel',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.isSubmitting = true;
 
-    const formValue = {
-      ...this.loanForm.value,
-      supporting_documents: {
-        payslip: this.loanForm.value.payslip,
-        valid_id: this.loanForm.value.valid_id,
-        company_id: this.loanForm.value.company_id,
-        proof_of_billing: this.loanForm.value.proof_of_billing,
-        employment_details: this.loanForm.value.employment_details,
-        barangay_clearance: this.loanForm.value.barangay_clearance,
-      },
-    };
+        const formValue = {
+          ...this.loanForm.value,
+          supporting_documents: {
+            payslip: this.loanForm.value.payslip,
+            valid_id: this.loanForm.value.valid_id,
+            company_id: this.loanForm.value.company_id,
+            proof_of_billing: this.loanForm.value.proof_of_billing,
+            employment_details: this.loanForm.value.employment_details,
+            barangay_clearance: this.loanForm.value.barangay_clearance,
+          },
+        };
 
-    this.loanService.createLoanApplication(formValue).subscribe({
-      next: (res) => {
-        const decrypted = decryptResponse(res.encrypted, this.encryptionKey);
+        this.loanService.createLoanApplication(formValue).subscribe({
+          next: (res) => {
+            const decrypted = decryptResponse(res.encrypted, this.encryptionKey);
+            this.isSubmitting = false;
 
-        this.isSubmitting = false;
-        this.dialogRef.close({
-          success: true,
-          loanId: decrypted.loan.id,
-          status: 'pending',
+            Swal.fire({
+              icon: 'success',
+              title: 'Application Submitted',
+              text: 'Your loan application has been submitted successfully.',
+              confirmButtonColor: '#3085d6',
+            }).then(() => {
+              this.dialogRef.close({
+                success: true,
+                loanId: decrypted.loan.id,
+                status: 'pending',
+              });
+              setTimeout(() => {
+                window.location.reload();
+              }, 300);
+            });
+          },
+          error: (err) => {
+            this.isSubmitting = false;
+            this.apiError =
+              err?.error?.message || 'Submission failed. Please try again.';
+
+            Swal.fire({
+              icon: 'error',
+              title: 'Submission Failed',
+              text: this.apiError ?? '',
+              confirmButtonColor: '#d33',
+            });
+          },
         });
-      },
-      error: (err) => {
-        this.isSubmitting = false;
-        this.apiError =
-          err?.error?.message || 'Submission failed. Please try again.';
-      },
+      }
     });
   }
 }

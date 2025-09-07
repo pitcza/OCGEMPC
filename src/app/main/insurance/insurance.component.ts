@@ -4,6 +4,8 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import Swal from 'sweetalert2';
 import { decryptResponse } from '../../utils/crypto.util';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 interface InsuranceApi {
   loan_id: number;
@@ -93,8 +95,7 @@ fetchInsurances() {
         this.insurances = decrypted as InsuranceApi[];
       }
       this.allBillingStatements = Array.from(new Set(this.insurances.map(i => i.billing_statement_no)));
-      this.selectedBillingStatement = this.allBillingStatements[0] || '';
-      
+      this.selectedBillingStatement = ''; 
       this.applyFilters();
     },
     error: (err) => {
@@ -212,6 +213,40 @@ mapToTableRow(insurance: InsuranceApi): InsuranceTableRow {
     this.applyFilters();
   }
 
+  downloadReport(): void {
+    if (!this.filteredInsurances || this.filteredInsurances.length === 0) {
+      Swal.fire('No Data', 'There are no insurance records to export.', 'info');
+      return;
+    }
 
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(
+      this.filteredInsurances.map(item => ({
+        'Certificate No.': item.certificateNo,
+        'Full Name': item.fullName,
+        'Age': item.age,
+        'Status': item.status,
+        'Effective Date': item.effectiveDate,
+        'Expiry Date': item.expiryDate,
+        'Term': item.term,
+        'Sum Insured': item.sumInsured,
+        'Gross Premium': item.grossPremium
+      }))
+    );
+
+    const workbook: XLSX.WorkBook = {
+      Sheets: { 'Insurance Report': worksheet },
+      SheetNames: ['Insurance Report'],
+    };
+
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array'
+    });
+    const blob: Blob = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+    });
+
+    saveAs(blob, `Insurance_Report_${new Date().toISOString().slice(0,10)}.xlsx`);
+  }
 }
 

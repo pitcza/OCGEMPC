@@ -9,6 +9,8 @@ import { environment } from '../../../environments/environment';
 import { decryptResponse } from '../../utils/crypto.util';
 import { LoanDetailsComponent } from '../loan-details/loan-details.component';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
+import * as XLSX from 'xlsx';
+import { saveAs } from 'file-saver';
 
 interface PersonalInfo {
   firstName: string;
@@ -515,5 +517,44 @@ export class LoanApplicationComponent implements OnInit {
       panelClass: 'loan-details-dialog',
     });
   }
-  
+
+  exportToExcel() {
+    const exportData = this.filteredApplicants.map(applicant => ({
+      'First Name': applicant.personal.firstName,
+      'Last Name': applicant.personal.lastName,
+      'Address': applicant.personal.address,
+      'Contact No.': applicant.personal.contactNumber,
+      'DOB': applicant.personal.dob,
+      'Age': applicant.personal.age,
+      'Department/Office': applicant.employment.office,
+      'Position': applicant.employment.position,
+      'Salary': applicant.employment.salary,
+      'Employment Status': applicant.employment.status,
+      'Years in Coop': applicant.coop.years,
+      'Shares': applicant.coop.shares,
+      'Savings': applicant.coop.savings,
+      'Loan Type': applicant.loan.type,
+      'Loan Amount': applicant.loan.amount,
+      'Loan Term': applicant.loan.term,
+      'Loan Purpose': applicant.loan.purpose,
+      'Repayment Frequency': applicant.loan.frequency,
+      'Status': applicant.status,
+    }));
+
+    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
+    const workbook: XLSX.WorkBook = {
+      Sheets: { 'Loan Applications': worksheet },
+      SheetNames: ['Loan Applications'],
+    };
+    const excelBuffer: any = XLSX.write(workbook, {
+      bookType: 'xlsx',
+      type: 'array',
+    });
+    const fileName = `loan_applications_${this.selectedFilter}_${new Date().toISOString().split('T')[0]}.xlsx`;
+    const data: Blob = new Blob([excelBuffer], {
+      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',
+    });
+
+    saveAs(data, fileName);
+  }
 }

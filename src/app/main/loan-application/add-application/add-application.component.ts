@@ -297,7 +297,7 @@ export class AddApplicationComponent implements OnInit {
         icon: 'warning',
         title: 'Validation Error',
         text: 'Please fill all required fields correctly before submitting.',
-        confirmButtonColor: '#3085d6',
+        confirmButtonColor: '#508D4E',
       });
       return;
     }
@@ -307,8 +307,8 @@ export class AddApplicationComponent implements OnInit {
       text: 'Do you want to submit this loan application?',
       icon: 'question',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#508D4E',
+      cancelButtonColor: '#be1010',
       confirmButtonText: 'Yes, submit it',
       cancelButtonText: 'Cancel',
     }).then((result) => {
@@ -336,7 +336,7 @@ export class AddApplicationComponent implements OnInit {
               icon: 'success',
               title: 'Application Submitted',
               text: 'Your loan application has been submitted successfully.',
-              confirmButtonColor: '#3085d6',
+              confirmButtonColor: '#508D4E',
             }).then(() => {
               this.dialogRef.close({
                 success: true,
@@ -357,7 +357,7 @@ export class AddApplicationComponent implements OnInit {
               icon: 'error',
               title: 'Submission Failed',
               text: this.apiError ?? '',
-              confirmButtonColor: '#d33',
+              confirmButtonColor: '#be1010',
             });
           },
         });

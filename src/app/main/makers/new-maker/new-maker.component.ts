@@ -87,7 +87,7 @@ export class NewMakerComponent {
         icon: 'warning',
         title: 'Validation Error',
         text: 'Please fill all required fields correctly',
-        confirmButtonColor: '#3085d6',
+        confirmButtonColor: '#508D4E',
       });
       return;
     }
@@ -97,8 +97,8 @@ export class NewMakerComponent {
       text: 'Do you want to create this maker record?',
       icon: 'question',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
+      confirmButtonColor: '#508D4E',
+      cancelButtonColor: '#be1010',
       confirmButtonText: 'Yes, create it!',
     }).then((result) => {
       if (result.isConfirmed) {
@@ -118,7 +118,7 @@ export class NewMakerComponent {
               icon: 'error',
               title: 'Error',
               text: error.error?.message || 'Failed to create maker',
-              confirmButtonColor: '#d33',
+              confirmButtonColor: '#be1010',
             });
           },
         });

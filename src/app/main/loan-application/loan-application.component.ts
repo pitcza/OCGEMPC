@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
 import { decryptResponse } from '../../utils/crypto.util';
 import { LoanDetailsComponent } from '../loan-details/loan-details.component';
 import { RouterModule, Router, ActivatedRoute } from '@angular/router';
-import * as XLSX from 'xlsx';
+import { Workbook, Column, Cell } from 'exceljs';
 import { saveAs } from 'file-saver';
 
 interface PersonalInfo {
@@ -541,20 +541,72 @@ export class LoanApplicationComponent implements OnInit {
       'Status': applicant.status,
     }));
 
-    const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(exportData);
-    const workbook: XLSX.WorkBook = {
-      Sheets: { 'Loan Applications': worksheet },
-      SheetNames: ['Loan Applications'],
-    };
-    const excelBuffer: any = XLSX.write(workbook, {
-      bookType: 'xlsx',
-      type: 'array',
-    });
-    const fileName = `loan_applications_${this.selectedFilter}_${new Date().toISOString().split('T')[0]}.xlsx`;
-    const data: Blob = new Blob([excelBuffer], {
-      type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8',
+    const workbook = new Workbook();
+    const worksheet = workbook.addWorksheet('Loan Applications');
+
+    // Title row
+    const titleRow = worksheet.addRow(['LOAN APPLICATIONS']);
+    worksheet.mergeCells(1, 1, 1, Object.keys(exportData[0]).length);
+
+    titleRow.font = { size: 20, bold: true, color: { argb: 'FFFFFF' } }; // White text
+    titleRow.alignment = { horizontal: 'center', vertical: 'middle' };
+    titleRow.height = 30;
+
+    // Apply green background
+    titleRow.eachCell((cell) => {
+      cell.fill = {
+        type: 'pattern',
+        pattern: 'solid',
+        fgColor: { argb: '508D4E' }, // Green background
+      };
     });
 
-    saveAs(data, fileName);
+    // Header row
+    const headerRow = worksheet.addRow(Object.keys(exportData[0]));
+    headerRow.font = { bold: true };
+    headerRow.alignment = { horizontal: 'center', vertical: 'middle' };
+    headerRow.height = 20;
+
+    // Data rows
+    exportData.forEach(row => worksheet.addRow(Object.values(row)));
+
+    // Auto column widths
+    worksheet.columns.forEach((col) => {
+      const column = col as Column | undefined;
+      if (!column) return;
+
+      let maxLength = 15;
+      column.eachCell({ includeEmpty: true }, (cell: Cell) => {
+        const cellLength = cell.value ? cell.value.toString().length : 0;
+        if (cellLength > maxLength) {
+          maxLength = cellLength;
+        }
+      });
+      column.width = maxLength + 4;
+    });
+
+    // Align headers & data
+    worksheet.eachRow((row, rowNumber) => {
+      row.eachCell((cell: Cell) => {
+        if (rowNumber === 1) return; // Skip title
+        if (rowNumber === 2) {
+          cell.font = { bold: true };
+          cell.alignment = { horizontal: 'center', vertical: 'middle' };
+        } else {
+          cell.alignment = { vertical: 'middle' };
+        }
+      });
+    });
+
+    // Save file
+    workbook.xlsx.writeBuffer().then((buffer) => {
+      const fileName = `loan_applications_${this.selectedFilter}_${new Date()
+        .toISOString()
+        .split('T')[0]}.xlsx`;
+      const blob = new Blob([buffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      saveAs(blob, fileName);
+    });
   }
 }

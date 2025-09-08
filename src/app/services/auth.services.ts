@@ -17,16 +17,29 @@ export class AuthService {
     return this.cookieService.get('refreshToken');
   }
 
+  // setAccessToken(token: string) {
+  //   this.cookieService.set('accessToken', token);
+  // }
+
+  // setRefreshToken(token: string) {
+  //   this.cookieService.set('refreshToken', token);
+  // }
+
+  // setRoleName(role: string) {
+  //   this.cookieService.set('roleName', role);
+  // }
+
   setAccessToken(token: string) {
-    this.cookieService.set('accessToken', token);
+    // undefined for "expires at end of session"
+    this.cookieService.set('accessToken', token, undefined, '/ocgempc');
   }
 
   setRefreshToken(token: string) {
-    this.cookieService.set('refreshToken', token);
+    this.cookieService.set('refreshToken', token, undefined, '/ocgempc');
   }
 
   setRoleName(role: string) {
-    this.cookieService.set('roleName', role);
+    this.cookieService.set('roleName', role, undefined, '/ocgempc');
   }
 
   getUserRole(): string | null {
@@ -67,8 +80,18 @@ export class AuthService {
     );
   }
 
+  // logout() {
+  //   this.cookieService.deleteAll();
+  //   window.location.href = '/login'; // or show modal
+  // }
+
   logout() {
-    this.cookieService.deleteAll();
-    window.location.href = '/login'; // or show modal
+    this.cookieService.deleteAll('/ocgempc'); // delete cookies under the correct path
+    window.location.href = '/ocgempc/login';  // redirect correctly
+  }
+
+  isLoggedIn(): boolean {
+    // treat user as logged in if there’s an access token cookie
+    return !!this.getAccessToken();
   }
 }

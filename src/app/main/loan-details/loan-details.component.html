@@ -18,7 +18,7 @@
           </div>
           <div class="detail-row">
             <span class="detail-label">Amount:</span>
-            <span class="detail-value">{{ loanDetails?.applied_amount | currency }}</span>
+            <span class="detail-value">{{ loanDetails?.applied_amount | currency:'PHP':'symbol':'1.2-2' }}</span>
           </div>
           <div class="detail-row">
             <span class="detail-label">Term:</span>
@@ -82,7 +82,7 @@
             </div>
             <div class="detail-row">
               <span class="detail-label">Salary:</span>
-              <span class="detail-value">{{ makerDetails?.salary | currency }}</span>
+              <span class="detail-value">{{ makerDetails?.salary | currency:'PHP':'symbol':'1.2-2' }}</span>
             </div>
           </div>
         </div>
@@ -122,7 +122,7 @@
             </div>
             <div class="detail-row">
               <span class="detail-label">Salary:</span>
-              <span class="detail-value">{{ comakerDetails.co_salary | currency }}</span>
+              <span class="detail-value">{{ comakerDetails.co_salary | currency:'PHP':'symbol':'1.2-2' }}</span>
             </div>
           </div>
         </div>
@@ -148,10 +148,10 @@
               <tr *ngFor="let item of amortizationSchedule">
                 <td>{{ item.installment_no }}</td>
                 <td>{{ formatDate(item.due_date) }}</td>
-                <td>{{ item.principal | currency }}</td>
-                <td>{{ item.interest | currency }}</td>
-                <td>{{ item.total_payment | currency }}</td>
-                <td>{{ item.remaining_balance | currency }}</td>
+                <td>{{ item.principal | currency:'PHP':'symbol':'1.2-2' }}</td>
+                <td>{{ item.interest | currency:'PHP':'symbol':'1.2-2' }}</td>
+                <td>{{ item.total_payment | currency:'PHP':'symbol':'1.2-2' }}</td>
+                <td>{{ item.remaining_balance | currency:'PHP':'symbol':'1.2-2' }}</td>
                 <td>
                   <span class="status-badge" [ngClass]="getStatusClass(item.status)">
                     {{ item.status || 'unpaid' }}

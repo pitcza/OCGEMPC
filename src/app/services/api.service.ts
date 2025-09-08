@@ -6,14 +6,12 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class ApiService {
-
-  private baseUrl = 'http://localhost:3000/api';
-  // private baseUrl = 'https://ocgempc-api-k4aq.onrender.com/api';
-
+  private baseUrl = `http://${window.location.hostname}:3300/api`;
+  // private baseUrl = 'http://localhost:4000/api';
+  
   constructor(private http: HttpClient) { }
 
   getData(): Observable<{ message: string }> {
     return this.http.get<{ message: string }>(`${this.baseUrl}/data`);
   }
-
 }

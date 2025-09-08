@@ -1,8 +1,9 @@
 
 <h2 class="title">Activity Log</h2>
 <div class="card">
-  <div class="table-wrapper">
-    <table mat-table [dataSource]="dataSource" class="table-content">
+  <div class="table-content">
+    <div class="table-wrapper">
+    <table mat-table [dataSource]="paginatedData" class="table-content">
 
       <ng-container matColumnDef="timestamp">
         <th mat-header-cell *matHeaderCellDef> Timestamp </th>
@@ -32,5 +33,47 @@
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
+  </div>
+  <div class="pagination-container">
+      <div class="items-per-page">
+        <label for="itemsPerPage">Show:</label>
+        <select
+          id="itemsPerPage"
+          [(ngModel)]="itemsPerPage"
+          (change)="onItemsPerPageChange()"
+        >
+          <option *ngFor="let option of [5, 10, 25, 50]" [value]="option">
+            {{ option }}
+          </option>
+        </select>
+        <span>entries</span>
+      </div>
+
+      <div class="pagination-info">
+        Showing {{ startIndex + 1 }} to {{ endIndex }} of
+        {{ totalItems }} entries
+      </div>
+
+      <div class="pagination">
+        <button (click)="goToPreviousPage()" [disabled]="currentPage === 1">
+          <i class="bx bx-chevron-left"></i>
+        </button>
+
+        <button
+          *ngFor="let page of totalPagesArray"
+          (click)="goToPage(page)"
+          [class.active]="page === currentPage"
+        >
+          {{ page }}
+        </button>
+
+        <button
+          (click)="goToNextPage()"
+          [disabled]="currentPage === totalPages"
+        >
+          <i class="bx bx-chevron-right"></i>
+        </button>
+      </div>
+    </div>
   </div>
 </div>

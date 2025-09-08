@@ -58,6 +58,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
           const monthName = date.toLocaleString('default', { month: 'long' });
           this.loanApplicationsByMonth[monthName] = item.count;
         });
+        this.createBarChart();
       });
 
     this.dashboardApi.getLoanStatusOverview().subscribe((val: any) => {
@@ -88,6 +89,7 @@ export class DashboardComponent implements OnInit, AfterViewInit {
       }
 
       this.loanStatusOverview = statusObj;
+      this.createPieChart();
     });
 
     this.dashboardApi.getRecentPayments().subscribe((val) => {

@@ -34,53 +34,69 @@ export interface ActivityLog {
 
 
 export class ActivityLogComponent implements OnInit {
-    displayedColumns: string[] = ['timestamp', 'who', 'role', 'action', 'details'];
-    dataSource: ActivityLog[] = [];
-    loading = true;
-    error: string | null = null;
+  displayedColumns: string[] = ['timestamp', 'who', 'role', 'action', 'details'];
+  dataSource: ActivityLog[] = [];      // all data
+  paginatedData: ActivityLog[] = [];   // visible data
 
-    constructor(private http: HttpClient) { }
+  loading = true;
+  error: string | null = null;
 
-    private encryptionKey = environment.encryptionKey;
-    private decryptApiResponse<T>() {
-    return map((res: { encrypted: string }) => decryptResponse(res.encrypted, this.encryptionKey) as T);
+  // Pagination state
+  itemsPerPage = 10;
+  currentPage = 1;
+  totalItems = 0;
+  totalPages = 0;
+  startIndex = 0;
+  endIndex = 0;
+  totalPagesArray: number[] = [];
+
+  constructor(private http: HttpClient) {}
+
+  private encryptionKey = environment.encryptionKey;
+  private decryptApiResponse<T>() {
+    return map((res: { encrypted: string }) =>
+      decryptResponse(res.encrypted, this.encryptionKey) as T
+    );
   }
-
 
   ngOnInit(): void {
     this.getStaffLogs().subscribe({
       next: (logs: StaffLog[]) => {
-        this.dataSource = logs.map(log => (
-          {
+        this.dataSource = logs.map(log => ({
           timestamp: this.formatDate(log.createdAt),
           who: log.user
             ? `${log.user.first_name} ${log.user.last_name}`
             : `User #${log.user_id}`,
-          role: log.user?.roles[0].role_name ? (log.user.roles[0].role_name as any) : 'N/A',
+          role: log.user?.roles?.[0]?.role_name ?? 'N/A',
           action: this.formatAction(log.action),
-          details: log.description || this.generateDetails(log)
+          details: log.description || this.generateDetails(log),
         }));
+
+        this.totalItems = this.dataSource.length;
+        this.updatePagination();
         this.loading = false;
       },
-      error: err => {
+      error: () => {
         this.error = 'Failed to load activity logs.';
         this.loading = false;
-      }
+      },
     });
   }
 
-   private formatDate(dateStr: string): string {
+  private formatDate(dateStr: string): string {
     const date = new Date(dateStr);
-    // Format as 'YYYY-MM-DD hh:mm AM/PM'
     const options: Intl.DateTimeFormatOptions = {
-      year: 'numeric', month: '2-digit', day: '2-digit',
-      hour: '2-digit', minute: '2-digit', hour12: true
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
     };
     return date.toLocaleString(undefined, options);
   }
 
   private formatAction(action: string): string {
-    // Capitalize and remove underscores if any
     return action.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
   }
 
@@ -110,11 +126,45 @@ export class ActivityLogComponent implements OnInit {
   }
 
   getStaffLogs(): Observable<StaffLog[]> {
-  return this.http.get<{ encrypted: string }>(`${environment.baseUrl}/api/staffLogs`)
-    .pipe(
-      this.decryptApiResponse<StaffLog[]>()
-    );
-}
-}
+    return this.http
+      .get<{ encrypted: string }>(`${environment.baseUrl}/api/staffLogs`)
+      .pipe(this.decryptApiResponse<StaffLog[]>());
+  }
 
+  // --- Pagination Helpers ---
+  updatePagination(): void {
+    this.totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+    this.totalPagesArray = Array.from({ length: this.totalPages }, (_, i) => i + 1);
 
+    this.startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    this.endIndex = Math.min(this.startIndex + this.itemsPerPage, this.totalItems);
+
+    this.paginatedData = this.dataSource.slice(this.startIndex, this.endIndex);
+  }
+
+  onItemsPerPageChange(): void {
+    this.currentPage = 1;
+    this.updatePagination();
+  }
+
+  goToPage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePagination();
+    }
+  }
+
+  goToPreviousPage(): void {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.updatePagination();
+    }
+  }
+
+  goToNextPage(): void {
+    if (this.currentPage < this.totalPages) {
+      this.currentPage++;
+      this.updatePagination();
+    }
+  }
+}

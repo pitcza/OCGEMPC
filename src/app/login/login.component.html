@@ -1,6 +1,6 @@
 <div class="login-wrapper">
   <div class="login-container">
-    <img src="../../assets/logo/COOP_LOGO_GREEN.png" alt="App Logo" class="logo" />
+    <img src="assets/logo/COOP_LOGO_GREEN.png" alt="App Logo" class="logo" />
 
     <h2 class="title">Admin Login</h2>
 
@@ -16,7 +16,7 @@
               <path d="M22 6l-10 7L2 6"></path>
             </svg>
           </span>
-          <input type="email" formControlName="email" placeholder="Email Address" class="form-input" />
+          <input type="email" formControlName="email" placeholder="Email Address" class="form-input" name="email"/>
         </div>
         <div class="error" *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched">
           {{ getEmailError() }}

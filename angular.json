@@ -41,24 +41,30 @@
               "node_modules/sweetalert2/src/sweetalert2.scss"
             ],
             "scripts": [],
+            "allowedCommonJsDependencies": [
+              "crypto-js",
+              "file-saver",
+              "exceljs"
+            ],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
               "entry": "src/server.ts"
-            }
+            },
+            "baseHref": "/ocgempc/"
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "1MB",
-                  "maximumError": "1.5MB"
+                  "maximumWarning": "3MB",
+                  "maximumError": "5MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "8kB",
-                  "maximumError": "12kB"
+                  "maximumWarning": "12kB",
+                  "maximumError": "16kB"
                 }
               ],
               "outputHashing": "all"

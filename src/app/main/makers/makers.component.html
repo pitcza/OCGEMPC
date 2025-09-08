@@ -33,6 +33,7 @@
       <table>
         <thead>
           <tr>
+            <th>Date Created</th>
             <th>Full name</th>
             <th>Address</th>
             <th>Contact No.</th>
@@ -46,6 +47,7 @@
             </td>
           </tr>
           <tr *ngFor="let user of pagedUsers" (click)="viewDetails(user)">
+            <td>{{ formatDate(user.createdAt) }}</td>
             <td>{{ getFullName(user) }}</td>
             <td>{{ user.address }}</td>
             <td>{{ user.phone_num }}</td>

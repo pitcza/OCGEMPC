@@ -22,6 +22,7 @@ interface CoMakerUser {
   co_years_coop: string;
   co_share_amount: GLfloat;
   co_saving_amount: GLfloat;
+  createdAt?: string;
   // Add other fields as needed
 }
 @Component({
@@ -155,5 +156,15 @@ export class CoMakersComponent implements OnInit {
   }
   getFullName(user: any): string {
     return [user.co_first_name, user.co_last_name].filter(Boolean).join(' ');
+  }
+
+  formatDate(dateString: string | undefined): string {
+    if (!dateString) return '';
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric'
+    };
+    return new Date(dateString).toLocaleDateString('en-PH', options);
   }
 }

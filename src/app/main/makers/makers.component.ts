@@ -27,6 +27,7 @@ interface MakerUser {
   years_coop: string;
   share_amount: GLfloat;
   saving_amount: GLfloat;
+  createdAt?: string;
   // Add other fields as needed
 }
 @Component({
@@ -301,4 +302,14 @@ export class MakersComponent implements OnInit {
       }
     });
   }
+
+  formatDate(dateString: string | undefined): string {
+    if (!dateString) return '';
+    const options: Intl.DateTimeFormatOptions = {
+      year: 'numeric',
+      month: 'short',
+      day: 'numeric',
+    };
+    return new Date(dateString).toLocaleDateString('en-PH', options);
+  } 
 }

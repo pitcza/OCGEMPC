@@ -168,9 +168,9 @@ export class MakersComponent implements OnInit {
   }
 
   getLatestRelevantLoan(user: any): any | null {
-    if (!user.loan_applications || user.loan_applications.length === 0)
+    if (!user.applications || user.applications.length === 0)
       return null;
-    const sortedLoans = [...user.loan_applications].sort(
+    const sortedLoans = [...user.applications].sort(
       (a, b) =>
         new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
     );
@@ -246,12 +246,12 @@ export class MakersComponent implements OnInit {
     if (!user.loan_amortizations || user.loan_amortizations.length === 0)
       return false;
 
-    if (!user.loan_applications || user.loan_applications.length === 0)
+    if (!user.applications || user.applications.length === 0)
       return false;
 
     // Create a Set of loan IDs where the loan is NOT completed
     const activeLoanIds = new Set(
-      user.loan_applications
+      user.applications
         .filter(
           (loan: any) =>
             loan.loan_status && loan.loan_status.toLowerCase() !== 'completed'
@@ -267,7 +267,7 @@ export class MakersComponent implements OnInit {
 
   getLoanStatusMessage(user: any): string {
     const hasLoanApps =
-      user.loan_applications && user.loan_applications.length > 0;
+      user.applications && user.applications.length > 0;
     const hasActiveLoan = this.getLatestRelevantLoan(user) !== null;
     const hasAmortization = this.hasSchedule(user);
 

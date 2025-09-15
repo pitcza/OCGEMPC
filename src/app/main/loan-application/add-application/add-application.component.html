@@ -26,7 +26,7 @@
                 </button>
               </div>
 
-              <!-- Selected Maker Preview (shown when maker is selected) -->
+              <!-- Selected Maker Preview -->
               <div class="selected-preview" *ngIf="selectedMaker">
                 <div class="preview-header">
                   <h4>Selected Maker</h4>
@@ -54,7 +54,7 @@
                 </div>
               </div>
 
-              <!-- Maker Selection Dropdown (shown when no maker is selected) -->
+              <!-- Maker Selection Dropdown -->
               <div class="select-container" *ngIf="!selectedMaker">
                 <div class="search-wrapper">
                   <input
@@ -92,75 +92,80 @@
           </div>
 
           <!-- Comaker Selection -->
-        <div class="input-row">
-        <div class="input-group">
-            <div class="section-header">
-            <h3>Select Comaker</h3>
-            <button type="button" class="add-button" (click)="openNewComakerDialog()">
-                <span>+ Add New Comaker</span>
-            </button>
-            </div>
-            
-            <!-- Selected Comaker Preview (shown when comaker is selected) -->
-            <div class="selected-preview" *ngIf="selectedComaker">
-            <div class="preview-header">
-                <h4>Selected Comaker</h4>
-                <button type="button" class="clear-button" (click)="clearComakerSelection()">
-                Change Comaker
-                </button>
-            </div>
-            <div class="preview-content">
-                <p>
-                <strong>Name:</strong> {{ selectedComaker.co_first_name }}
-                {{ selectedComaker.co_middle_name }}
-                {{ selectedComaker.co_last_name }} {{ selectedComaker.co_ext_name }}
-                </p>
-                <p><strong>Address:</strong> {{ selectedComaker.co_address }}</p>
-                <p><strong>Contact:</strong> {{ selectedComaker.co_phone_num }}</p>
-                <p>
-                <strong>Position:</strong> {{ selectedComaker.co_position }} ({{
-                    selectedComaker.co_dept
-                }})
-                </p>
-            </div>
-            </div>
-            
-            <!-- Comaker Selection Dropdown (shown when no comaker is selected) -->
-            <div class="select-container" *ngIf="!selectedComaker">
-            <div class="search-wrapper">
-                <input
-                type="text"
-                placeholder="Search comakers..."
-                class="search-input"
-                [(ngModel)]="comakerSearchTerm"
-                (input)="filterComakers()"
-                name="comakerSearch"
-                [ngModelOptions]="{ standalone: true }"
-                />
-                <span class="search-icon">🔍</span>
-            </div>
-            <div class="select-options" #modalBody>
-                <div *ngIf="filteredComakers.length === 0" class="no-results">
-                No comaker found.
+          <div class="input-row">
+            <div class="input-group">
+              <div class="section-header">
+                <h3>Select Comaker</h3>
+              </div>
+
+              <!-- Selected Comaker Preview -->
+              <div class="selected-preview" *ngIf="selectedComaker">
+                <div class="preview-header">
+                  <h4>Selected Comaker</h4>
+                  <button
+                    type="button"
+                    class="clear-button"
+                    (click)="clearComakerSelection()"
+                  >
+                    Change Comaker
+                  </button>
                 </div>
-                <div
-                *ngFor="let comaker of filteredComakers"
-                class="select-option"
-                (click)="onComakerSelect(comaker)"
-                >
-                <div class="option-content">
-                    <span class="option-name"
-                    >{{ comaker.co_first_name }} {{ comaker.co_last_name }}</span
-                    >
-                    <span class="option-details"
-                    >{{ comaker.co_position }} • {{ comaker.co_dept }}</span
-                    >
+                <div class="preview-content">
+                  <p>
+                    <strong>Name:</strong> {{ selectedComaker.first_name }}
+                    {{ selectedComaker.middle_name }}
+                    {{ selectedComaker.last_name }}
+                    {{ selectedComaker.ext_name }}
+                  </p>
+                  <p><strong>Address:</strong> {{ selectedComaker.address }}</p>
+                  <p><strong>Contact:</strong> {{ selectedComaker.phone_num }}</p>
+                  <p>
+                    <strong>Position:</strong> {{ selectedComaker.position }} ({{
+                      selectedComaker.dept
+                    }})
+                  </p>
                 </div>
+              </div>
+
+              <!-- Comaker Selection Dropdown -->
+              <div class="select-container" *ngIf="!selectedComaker">
+                <div class="search-wrapper">
+                  <input
+                    type="text"
+                    placeholder="Search comakers..."
+                    class="search-input"
+                    [(ngModel)]="comakerSearchTerm"
+                    (input)="filterComakers()"
+                    name="comakerSearch"
+                    [ngModelOptions]="{ standalone: true }"
+                  />
+                  <span class="search-icon">🔍</span>
                 </div>
+                <div class="select-options" #modalBody>
+                  <div
+                    *ngIf="filteredComakers.length === 0"
+                    class="no-results"
+                  >
+                    No comaker found.
+                  </div>
+                  <div
+                    *ngFor="let comaker of filteredComakers"
+                    class="select-option"
+                    (click)="onComakerSelect(comaker)"
+                  >
+                    <div class="option-content">
+                      <span class="option-name"
+                        >{{ comaker.first_name }} {{ comaker.last_name }}</span
+                      >
+                      <span class="option-details"
+                        >{{ comaker.position }} • {{ comaker.dept }}</span
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            </div>
-        </div>
-        </div>
+          </div>
 
           <!-- Loan Details -->
           <div class="section-group">
@@ -169,7 +174,7 @@
               <div class="input-group">
                 <label class="label">Type of Loan</label>
                 <select class="text-field" formControlName="loan_type">
-                  <option value="" disabled selected>Select Type</option>
+                  <option value="" disabled>Select Type</option>
                   <option value="Educational">Educational</option>
                   <option value="Livelihood">Livelihood</option>
                   <option value="Medical">Medical</option>
@@ -183,7 +188,7 @@
                   type="number"
                   class="text-field"
                   formControlName="applied_amount"
-                  placeholder="ex. 60,000"
+                  placeholder="ex. 60000"
                 />
               </div>
             </div>
@@ -255,7 +260,7 @@
             </div>
           </div>
 
-          <!-- Navigation Buttons -->
+          <!-- Buttons -->
           <div class="buttons">
             <div class="left">
               <button type="button" class="cancel-btn" (click)="closeModal()">

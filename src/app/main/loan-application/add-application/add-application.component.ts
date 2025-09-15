@@ -1,15 +1,12 @@
-import { Component, ElementRef, Inject, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoanApplicationService } from './loan-application.service';
-import { Observable } from 'rxjs';
-import { Comaker, Maker } from '../../../models/models';
+import { Maker } from '../../../models/models';
 import { MakerService } from '../../makers/makers.service';
-import { ComakerService } from '../../comakers/comakers.service';
 import { decryptResponse } from '../../../utils/crypto.util';
 import { environment } from '../../../../environments/environment';
 import { NewMakerComponent } from '../../makers/new-maker/new-maker.component';
-import { NewCoMakerComponent } from '../../comakers/new-comaker/new-comaker.component';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -25,21 +22,21 @@ export class AddApplicationComponent implements OnInit {
   apiError: string | null = null;
 
   makers: Maker[] = [];
-  comakers: Comaker[] = [];
   filteredMakers: Maker[] = [];
-  filteredComakers: Comaker[] = [];
+  filteredComakers: Maker[] = [];
 
   selectedMaker: Maker | null = null;
-  selectedComaker: Comaker | null = null;
+  selectedComaker: Maker | null = null;
   makerSearchTerm = '';
   comakerSearchTerm = '';
+
+  private encryptionKey = environment.encryptionKey;
 
   constructor(
     private dialogRef: MatDialogRef<AddApplicationComponent>,
     private fb: FormBuilder,
     private loanService: LoanApplicationService,
     private makerService: MakerService,
-    private comakerService: ComakerService,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: { preSelectedMaker?: Maker }
   ) {}
@@ -47,7 +44,6 @@ export class AddApplicationComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.loadMakers();
-    this.loadComakers();
 
     if (this.data?.preSelectedMaker) {
       this.onMakerSelect(this.data.preSelectedMaker);
@@ -57,7 +53,7 @@ export class AddApplicationComponent implements OnInit {
   initializeForm(): void {
     this.loanForm = this.fb.group({
       maker_id: ['', Validators.required],
-      co_maker_id: ['', Validators.required],
+      co_maker_id: [null],
       loan_type: ['', Validators.required],
       applied_amount: ['', [Validators.required, Validators.min(1000)]],
       loan_term: ['', [Validators.required, Validators.min(1)]],
@@ -72,8 +68,6 @@ export class AddApplicationComponent implements OnInit {
     });
   }
 
-  private encryptionKey = environment.encryptionKey;
-
   loadMakers(): void {
     this.makerService.getAllMakers().subscribe({
       next: (response: any) => {
@@ -84,6 +78,7 @@ export class AddApplicationComponent implements OnInit {
           );
           this.makers = decrypted;
           this.filteredMakers = [...decrypted];
+          this.filteredComakers = [...decrypted];
         } catch (e) {
           console.error('Decryption failed:', e);
           this.apiError = 'Failed to decrypt makers. Please contact support.';
@@ -96,84 +91,24 @@ export class AddApplicationComponent implements OnInit {
     });
   }
 
-  loadComakers(): void {
-    this.comakerService.getAllComakers().subscribe({
-      next: (response: any) => {
-        try {
-          const decrypted = decryptResponse(
-            response.encrypted,
-            this.encryptionKey
-          );
-          this.comakers = decrypted;
-          this.filteredComakers = [...decrypted];
-        } catch (e) {
-          console.error('Decryption failed:', e);
-          this.apiError = 'Failed to decrypt comakers. Please contact support.';
-        }
-      },
-      error: (err) => {
-        console.error('Failed to load comakers:', err);
-        this.apiError = 'Failed to load comakers. Please try again.';
-      },
-    });
-  }
-
   filterMakers(): void {
-    if (!this.makerSearchTerm) {
-      this.filteredMakers = [...this.makers];
-      return;
-    }
-
     const term = this.makerSearchTerm.toLowerCase().trim();
-
-    this.filteredMakers = this.makers.filter((maker) => {
-      // Check if maker exists and has the required properties
-      if (!maker) return false;
-
-      const fullName = `${maker.first_name || ''} ${
-        maker.last_name || ''
-      }`.toLowerCase();
-      const position = maker.position?.toLowerCase() || '';
-      const dept = maker.dept?.toLowerCase() || '';
-
-      return (
-        (maker.first_name && maker.first_name.toLowerCase().includes(term)) ||
-        (maker.last_name && maker.last_name.toLowerCase().includes(term)) ||
-        fullName.includes(term) ||
-        position.includes(term) ||
-        dept.includes(term)
-      );
-    });
+    this.filteredMakers = this.makers.filter((m) =>
+      `${m.first_name} ${m.last_name}`.toLowerCase().includes(term) ||
+      m.position?.toLowerCase().includes(term) ||
+      m.dept?.toLowerCase().includes(term)
+    );
   }
 
   filterComakers(): void {
-    if (!this.comakerSearchTerm) {
-      this.filteredComakers = [...this.comakers];
-      return;
-    }
-
     const term = this.comakerSearchTerm.toLowerCase().trim();
-
-    this.filteredComakers = this.comakers.filter((comaker) => {
-      // Check if comaker exists and has the required properties
-      if (!comaker) return false;
-
-      const fullName = `${comaker.co_first_name || ''} ${
-        comaker.co_last_name || ''
-      }`.toLowerCase();
-      const position = comaker.co_position?.toLowerCase() || '';
-      const dept = comaker.co_dept?.toLowerCase() || '';
-
-      return (
-        (comaker.co_first_name &&
-          comaker.co_first_name.toLowerCase().includes(term)) ||
-        (comaker.co_last_name &&
-          comaker.co_last_name.toLowerCase().includes(term)) ||
-        fullName.includes(term) ||
-        position.includes(term) ||
-        dept.includes(term)
+    this.filteredComakers = this.makers
+      .filter((m) => m.id !== this.selectedMaker?.id) // exclude selected Maker
+      .filter((m) =>
+        `${m.first_name} ${m.last_name}`.toLowerCase().includes(term) ||
+        m.position?.toLowerCase().includes(term) ||
+        m.dept?.toLowerCase().includes(term)
       );
-    });
   }
 
   scrollToBottom(): void {
@@ -182,7 +117,7 @@ export class AddApplicationComponent implements OnInit {
         this.modalBody.nativeElement.scrollTop =
           this.modalBody.nativeElement.scrollHeight;
       }
-    }, 100); // slight delay to wait for DOM update
+    }, 100);
   }
 
   onMakerSelect(maker: Maker): void {
@@ -193,7 +128,15 @@ export class AddApplicationComponent implements OnInit {
     this.scrollToBottom();
   }
 
-  onComakerSelect(comaker: Comaker): void {
+  onComakerSelect(comaker: Maker): void {
+    if (this.selectedMaker && this.selectedMaker.id === comaker.id) {
+      Swal.fire(
+        'Invalid Selection',
+        'Maker and Co-maker cannot be the same.',
+        'warning'
+      );
+      return;
+    }
     this.selectedComaker = comaker;
     this.loanForm.patchValue({ co_maker_id: comaker.id });
     this.comakerSearchTerm = '';
@@ -219,8 +162,9 @@ export class AddApplicationComponent implements OnInit {
               );
               this.makers = decrypted;
               this.filteredMakers = [...decrypted];
+              this.filteredComakers = [...decrypted];
 
-              // Select the newly added maker (assume it's the last one)
+              // auto-select newly added Maker
               const newMaker = this.makers[this.makers.length - 1];
               this.onMakerSelect(newMaker);
             } catch (e) {
@@ -232,42 +176,6 @@ export class AddApplicationComponent implements OnInit {
           error: (err) => {
             console.error('Failed to load makers:', err);
             this.apiError = 'Failed to load makers. Please try again.';
-          },
-        });
-      }
-    });
-  }
-
-  openNewComakerDialog(): void {
-    const dialogRef = this.dialog.open(NewCoMakerComponent, {
-      width: '800px',
-      disableClose: true,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        this.comakerService.getAllComakers().subscribe({
-          next: (response: any) => {
-            try {
-              const decrypted = decryptResponse(
-                response.encrypted,
-                this.encryptionKey
-              );
-              this.comakers = decrypted;
-              this.filteredComakers = [...decrypted];
-
-              // Select the newly added comaker
-              const newComaker = this.comakers[this.comakers.length - 1];
-              this.onComakerSelect(newComaker);
-            } catch (e) {
-              console.error('Decryption failed:', e);
-              this.apiError =
-                'Failed to decrypt comakers. Please contact support.';
-            }
-          },
-          error: (err) => {
-            console.error('Failed to load comakers:', err);
-            this.apiError = 'Failed to load comakers. Please try again.';
           },
         });
       }
@@ -327,9 +235,17 @@ export class AddApplicationComponent implements OnInit {
           },
         };
 
+        // 🔹 Remove null co_maker_id before sending
+        if (!formValue.co_maker_id) {
+          delete formValue.co_maker_id;
+        }
+
         this.loanService.createLoanApplication(formValue).subscribe({
           next: (res) => {
-            const decrypted = decryptResponse(res.encrypted, this.encryptionKey);
+            const decrypted = decryptResponse(
+              res.encrypted,
+              this.encryptionKey
+            );
             this.isSubmitting = false;
 
             Swal.fire({

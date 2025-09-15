@@ -161,37 +161,29 @@ export class LoanApplicationComponent implements OnInit {
           return {
             id: loan.id,
             personal: {
-              firstName: loan.maker.first_name || '',
-              middleName: loan.maker.middle_name || '',
-              lastName: loan.maker.last_name || '',
-              extName: loan.maker.extension_name || 'N/A',
-              address: loan.maker.address || '',
-              contactNumber: loan.maker.phone_num || '',
-              dob: loan.maker.birthdate || '',
-              age: loan.maker.age,
+              firstName: loan.applicant?.first_name || '',
+              middleName: loan.applicant?.middle_name || '',
+              lastName: loan.applicant?.last_name || '',
+              extName: loan.applicant?.extension_name || 'N/A',
+              address: loan.applicant?.address || '',
+              contactNumber: loan.applicant?.phone_num || '',
+              dob: loan.applicant?.birthdate || '',
+              age: loan.applicant?.age || 0,
             },
             employment: {
-              office: loan.maker.dept || '',
-              position: loan.maker.position || '',
-              salary: loan.maker.salary ? loan.maker.salary.toString() : '0',
-              status: loan.maker.ee_status || '',
+              office: loan.applicant?.dept || '',
+              position: loan.applicant?.position || '',
+              salary: loan.applicant?.salary ? loan.applicant.salary.toString() : '0',
+              status: loan.applicant?.ee_status || '',
             },
             coop: {
-              years: loan.maker.years_coop
-                ? loan.maker.years_coop.toString()
-                : '0',
-              shares: loan.maker.share_amount
-                ? loan.maker.share_amount.toString()
-                : '0',
-              savings: loan.maker.saving_amount
-                ? loan.maker.saving_amount.toString()
-                : '0',
+              years: loan.applicant?.years_coop ? loan.applicant.years_coop.toString() : '0',
+              shares: loan.applicant?.share_amount ? loan.applicant.share_amount.toString() : '0',
+              savings: loan.applicant?.saving_amount ? loan.applicant.saving_amount.toString() : '0',
             },
             loan: {
               type: loan.loan_type || '',
-              amount: loan.applied_amount
-                ? loan.applied_amount.toString()
-                : '0',
+              amount: loan.applied_amount ? loan.applied_amount.toString() : '0',
               term: loan.loan_term || '',
               purpose: loan.loan_purpose || '',
               frequency: loan.repayment_freq || '',
@@ -202,11 +194,9 @@ export class LoanApplicationComponent implements OnInit {
               : [],
             status: this.mapStatus(loan.loan_status),
             declineReason: loan.decline_reason || '',
-            loan_history: loan.maker.loan_applications
-              ? loan.maker.loan_applications.map((app: any) => ({
-                  loanamount_history: app.applied_amount
-                    ? app.applied_amount.toString()
-                    : '0',
+            loan_history: loan.applicant?.loan_applications
+              ? loan.applicant.loan_applications.map((app: any) => ({
+                  loanamount_history: app.applied_amount ? app.applied_amount.toString() : '0',
                   date: app.createdAt || '',
                   status: app.loan_status || '',
                   id: app.id,
@@ -214,6 +204,7 @@ export class LoanApplicationComponent implements OnInit {
               : [],
             requirements_status: requirementsStatus,
           };
+
         });
 
         this.filterApplicants();

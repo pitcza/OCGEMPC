@@ -86,7 +86,7 @@ export class ScheduleComponent implements OnInit {
         this.lastName = decrypted.last_name ?? '';
 
         const amortizations = decrypted.loan_amortizations || [];
-        const loanApplications = decrypted.loan_applications || [];
+        const loanApplications = decrypted.applications || [];
 
         // filter active (not completed) loans
         const activeLoans = loanApplications.filter(

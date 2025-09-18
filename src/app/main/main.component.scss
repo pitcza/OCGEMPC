@@ -24,6 +24,22 @@
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
     transition: var(--main-transition);
 
+    .head-title {
+        display: flex;
+        align-items: center;
+    }
+
+    h2 {
+        font-weight: 400;
+        font-size: 18px;
+        color: #2d2d2d;
+
+        span {
+            color: var(--primary);
+            font-weight: 500;
+        }
+    }
+
     .menu-icon-button { // MENU ICON FOR 1024px MAX WIDTH
         display: none;
         background: none;

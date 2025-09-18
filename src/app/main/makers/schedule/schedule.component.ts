@@ -19,6 +19,18 @@ import { lastValueFrom } from 'rxjs';
 export class ScheduleComponent implements OnInit {
   firstName: string = '';
   lastName: string = '';
+  dept: string = '';
+  loanType: string = '';
+  appliedAmount: string = '';
+  coFirstName: string = '';
+  coLastName: string = '';
+
+  loanAmortizations: { 
+    loanType: string; 
+    approvedLoanAmount: number; 
+    amortizations: any[]; 
+  }[] = [];
+  
   amortizationData: any[] = [];
   loading = true;
   error: string | null = null;
@@ -56,6 +68,7 @@ export class ScheduleComponent implements OnInit {
   private extractLoanAmountFromLoanObj(loanObj: any): number {
     if (!loanObj) return 0;
     const keys = [
+      'applied_amount',
       'loan_amount',
       'approved_loan_amount',
       'approved_amount',
@@ -76,83 +89,54 @@ export class ScheduleComponent implements OnInit {
   fetchAmortizationData(id: string | number): void {
     this.http.get<any>(`${environment.baseUrl}/api/maker/${id}`).subscribe({
       next: (response) => {
-        // decrypted payload from backend
         const decrypted = decryptResponse(response.encrypted, this.encryptionKey);
-
-        // DEBUG: inspect payload in console (open browser devtools -> Console)
-        console.log('[Amortization] decrypted payload:', decrypted);
 
         this.firstName = decrypted.first_name ?? '';
         this.lastName = decrypted.last_name ?? '';
+        this.dept = decrypted.dept ?? '';
 
-        const amortizations = decrypted.loan_amortizations || [];
         const loanApplications = decrypted.applications || [];
-
-        // filter active (not completed) loans
-        const activeLoans = loanApplications.filter(
-          (loan: any) => loan.loan_status !== 'completed'
-        );
-
-        // If active loan exists, extract loan amount robustly
-        if (activeLoans.length > 0) {
-          const amt = this.extractLoanAmountFromLoanObj(activeLoans[0]);
-          this.approvedLoanAmount = amt;
-        }
-
-        // If approvedLoanAmount still 0, try to derive from amortization rows (fallback)
-        if (!this.approvedLoanAmount && amortizations && amortizations.length > 0) {
-          // If amortizations contain principal & remaining_balance, derive original:
-          const first = amortizations[0];
-          const principalVal = this.toNumber(first.principal);
-          const remainingBalanceVal = this.toNumber(first.remaining_balance);
-          if (principalVal || remainingBalanceVal) {
-            this.approvedLoanAmount = principalVal + remainingBalanceVal;
-            console.warn('[Amortization] fallback computed approvedLoanAmount:', this.approvedLoanAmount);
+        if (loanApplications.length > 0) {
+          const firstLoan = loanApplications[0];
+          if (firstLoan.coMakers && firstLoan.coMakers.length > 0) {
+            this.coFirstName = firstLoan.coMakers[0].first_name ?? '';
+            this.coLastName = firstLoan.coMakers[0].last_name ?? '';
           }
         }
+        this.loanAmortizations = []; // reset
 
-        // filter amortizations linked to active loans (careful with types)
-        const activeLoanIds = activeLoans.map((l: any) => String(l.id));
-        const filteredAmortizations = amortizations.filter(
-          (amort: any) => activeLoanIds.length === 0 || activeLoanIds.includes(String(amort.loan_id))
-        );
+        loanApplications
+        .filter((loan: any) => loan.loan_status?.toLowerCase() === 'approved')
+        .forEach((loan: any) => {
+          this.approvedLoanAmount = this.extractLoanAmountFromLoanObj(loan);
+          const amortizations = (loan.loan_amortizations || []).map((item: any, idx: number) => {
+            const principalAmortization = this.toNumber(item.principal);
+            const monthlyInterest = this.toNumber(item.interest);
+            const totalAmortization = this.toNumber(item.total_payment);
+            const biMonthlyAmortization = totalAmortization / 2;
+            const monthlyBalance = this.toNumber(item.remaining_balance);
 
-        // sort by installment number (numeric)
-        filteredAmortizations.sort((a: any, b: any) => {
-          return (this.toNumber(a.installment_no) - this.toNumber(b.installment_no));
-        });
+            return {
+              id: item.id,
+              month: this.getScheduleDate(this.data?.approvalDate ?? new Date().toISOString(), idx),
+              principal: monthlyBalance + principalAmortization,
+              principalAmortization,
+              monthlyInterest,
+              totalAmortization,
+              biMonthlyAmortization,
+              monthlyBalance,
+              amountDeducted: totalAmortization,
+              status: item.status,
+              dateDeducted: item.date_deducted ?? '',
+            };
+          });
 
-        // Debug approved loan amount
-        console.log('[Amortization] approvedLoanAmount:', this.approvedLoanAmount);
-
-        // Build amortization rows with running balance
-        let runningBalance = this.approvedLoanAmount;
-
-        this.amortizationData = filteredAmortizations.map((item: any) => {
-          const principalAmortization = this.toNumber(item.principal);
-          const monthlyInterest = this.toNumber(item.interest);
-          const totalAmortization = principalAmortization + monthlyInterest;
-          const biMonthlyAmortization = totalAmortization / 2;
-
-          const principalBeforePayment = runningBalance; // show starting balance for this row
-          runningBalance = +(runningBalance - principalAmortization); // update running balance
-
-          // ensure non-negative final display (avoid -0.00)
-          const monthlyBalanceDisplay = runningBalance < 0.005 ? 0 : runningBalance;
-
-          return {
-            id: item.id,
-            month: this.toNumber(item.installment_no),
-            principal: principalBeforePayment,
-            principalAmortization,
-            monthlyInterest,
-            totalAmortization,
-            biMonthlyAmortization,
-            monthlyBalance: monthlyBalanceDisplay,
-            amountDeducted: item.total_payment ?? totalAmortization,
-            status: item.status,
-            dateDeducted: item.date_deducted ?? '',
-          };
+          // push each loan type + its amortizations
+          this.loanAmortizations.push({
+            loanType: loan.loan_type,
+            approvedLoanAmount: this.extractLoanAmountFromLoanObj(loan),
+            amortizations,
+          });
         });
 
         this.loading = false;
@@ -160,14 +144,23 @@ export class ScheduleComponent implements OnInit {
       error: (err) => {
         console.error('fetchAmortizationData error', err);
         this.loading = false;
-        this.amortizationData = [];
+        this.loanAmortizations = [];
       },
     });
   }
 
   formatMonth(dateStr: string): string {
     const date = new Date(dateStr);
-    return date.toLocaleString('default', { month: 'long', year: 'numeric' });
+    return date.toLocaleString('default', { month: 'short', year: 'numeric' });
+  }
+
+  private getScheduleDate(startDateStr: string, installmentIndex: number): string {
+    const start = new Date(startDateStr);
+    // First payment = +1 month from approval
+    const paymentDate = new Date(start);
+    paymentDate.setMonth(paymentDate.getMonth() + installmentIndex + 1);
+
+    return paymentDate.toLocaleDateString('default', { month: 'short', year: 'numeric' });
   }
 
   closeModal(): void {
@@ -187,7 +180,7 @@ export class ScheduleComponent implements OnInit {
       text: `Do you want to update the status to "${newStatus}"?`,
       icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: '#3085d6',
+      confirmButtonColor: '#508D4E',
       cancelButtonColor: '#d33',
       confirmButtonText: 'Yes, update it!',
       cancelButtonText: 'Cancel',
@@ -207,7 +200,7 @@ export class ScheduleComponent implements OnInit {
                 icon: 'success',
                 title: 'Status Updated',
                 text: `The status has been successfully updated to "${newStatus}".`,
-                confirmButtonColor: '#3085d6',
+                confirmButtonColor: '#508D4E',
               });
             },
             error: (err) => {
@@ -224,8 +217,8 @@ export class ScheduleComponent implements OnInit {
     });
   }
 
-  async exportExcel(): Promise<void> {
-    if (!this.amortizationData || this.amortizationData.length === 0) {
+  async exportSchedule(loan: { loanType: string; approvedLoanAmount: number; amortizations: any[] }): Promise<void> {
+    if (!loan || !loan.amortizations || loan.amortizations.length === 0) {
       Swal.fire('No Data', 'There are no amortization records to export.', 'info');
       return;
     }
@@ -239,14 +232,17 @@ export class ScheduleComponent implements OnInit {
       await wb.xlsx.load(arrayBuffer);
       const ws = wb.worksheets[0];
 
-      const fullName = `${this.firstName} ${this.lastName}`.trim();
-      ws.getCell('D8').value = fullName; // Maker Full Name
-      ws.getCell('D10').value = this.data?.comakerName ?? '';
-      ws.getCell('K8').value = this.approvedLoanAmount; // loan amount
+      const fullName = `${this.lastName}, ${this.firstName}`.trim();
+      const coFullName = `${this.coLastName}, ${this.coFirstName}`.trim();
 
-      const loanTerm =
-        this.data?.loanTerm ??
-        this.amortizationData.length; // fallback: amortization count
+      ws.getCell('D8').value = (fullName).toUpperCase();
+      ws.getCell('D9').value = (this.dept ?? '').toUpperCase();
+      ws.getCell('D10').value = coFullName ? coFullName.toUpperCase() : 'N/A';
+      ws.getCell('D14').value = (loan.loanType ?? '').toUpperCase();
+
+      ws.getCell('K8').value = this.approvedLoanAmount;
+
+      const loanTerm = loan.amortizations.length;
       ws.getCell('E15').value = `${loanTerm}`;
 
       const headerRowIndex = 18;
@@ -264,7 +260,7 @@ export class ScheduleComponent implements OnInit {
         amountDeducted: 11,
       };
 
-      this.amortizationData.forEach((item, idx) => {
+      loan.amortizations.forEach((item, idx) => {
         const r = dataStartRow + idx;
         const row = ws.getRow(r);
 
@@ -277,7 +273,6 @@ export class ScheduleComponent implements OnInit {
         row.getCell(colMap['biMonthlyAmortization']).value = item.biMonthlyAmortization;
         row.getCell(colMap['monthlyBalance']).value = item.monthlyBalance;
         row.getCell(colMap['amountDeducted']).value = item.amountDeducted;
-
         row.commit();
       });
 
@@ -286,10 +281,88 @@ export class ScheduleComponent implements OnInit {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
 
-      saveAs(blob, `Amortization_Schedule_${new Date().toISOString().slice(0, 10)}.xlsx`);
+      const today = new Date().toISOString().slice(0, 10);
+      const makerName = `${this.firstName}_${this.lastName}`.replace(/\s+/g, '_').toUpperCase();
+
+      const fileName = `AMORTIZATION_SCHEDULE_${makerName}_${today}.xlsx`;
+      saveAs(blob, fileName);
     } catch (err) {
       console.error('Export failed:', err);
       Swal.fire('Export Error', 'Failed to generate the amortization report.', 'error');
     }
   }
+
+  async exportLedger(loan: { loanType: string; approvedLoanAmount: number; amortizations: any[] }): Promise<void> {
+    if (!loan || !loan.amortizations || loan.amortizations.length === 0) {
+      Swal.fire('No Data', 'There are no ledger records to export.', 'info');
+      return;
+    }
+
+    try {
+      const arrayBuffer = await lastValueFrom(
+        this.http.get('assets/LEDGER.xlsx', { responseType: 'arraybuffer' })
+      );
+
+      const wb = new Workbook();
+      await wb.xlsx.load(arrayBuffer);
+      const ws = wb.worksheets[0];
+
+      const fullName = `${this.lastName}, ${this.firstName}`.trim();
+      const coFullName = `${this.coLastName}, ${this.coFirstName}`.trim();
+
+      ws.getCell('D7').value = (fullName).toUpperCase();
+      ws.getCell('D8').value = (this.dept ?? '').toUpperCase();
+      ws.getCell('D9').value = coFullName ? coFullName.toUpperCase() : 'N/A';
+      ws.getCell('D13').value = (loan.loanType ?? '').toUpperCase();
+
+      ws.getCell('O7').value = this.approvedLoanAmount;
+
+      const loanTerm = loan.amortizations.length;
+      ws.getCell('E14').value = `${loanTerm}`;
+
+      const headerRowIndex = 17;
+      const dataStartRow = headerRowIndex + 1;
+
+      const colMap: Record<string, number> = {
+        no: 2,
+        month: 3,
+        principal: 4,
+        principalAmortization: 5,
+        monthlyInterest: 6,
+        totalAmortization: 7,
+        biMonthlyAmortization: 8,
+        monthlyBalance: 9
+      };
+
+      loan.amortizations.forEach((item, idx) => {
+        const r = dataStartRow + idx;
+        const row = ws.getRow(r);
+
+        row.getCell(colMap['no']).value = idx + 1;
+        row.getCell(colMap['month']).value = item.month;
+        row.getCell(colMap['principal']).value = item.principal;
+        row.getCell(colMap['principalAmortization']).value = item.principalAmortization;
+        row.getCell(colMap['monthlyInterest']).value = item.monthlyInterest;
+        row.getCell(colMap['totalAmortization']).value = item.totalAmortization;
+        row.getCell(colMap['biMonthlyAmortization']).value = item.biMonthlyAmortization;
+        row.getCell(colMap['monthlyBalance']).value = item.monthlyBalance;
+        row.commit();
+      });
+
+      const buffer = await wb.xlsx.writeBuffer();
+      const blob = new Blob([buffer], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+
+      const today = new Date().toISOString().slice(0, 10);
+      const makerName = `${this.firstName}_${this.lastName}`.replace(/\s+/g, '_').toUpperCase();
+
+      const fileName = `LEDGER_${makerName}_${today}.xlsx`;
+      saveAs(blob, fileName);
+    } catch (err) {
+      console.error('Export failed:', err);
+      Swal.fire('Export Error', 'Failed to generate the ledger report.', 'error');
+    }
+  }
+
 }

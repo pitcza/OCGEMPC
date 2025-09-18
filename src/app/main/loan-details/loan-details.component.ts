@@ -45,8 +45,9 @@ export class LoanDetailsComponent implements OnInit {
         const decrypted = decryptResponse(response.encrypted, this.encryptionKey);
         
         this.loanDetails = decrypted.loan;
-        this.makerDetails = decrypted.loan.maker;
-        this.comakerDetails = decrypted.loan.comakers?.[0] || null;
+        this.makerDetails = decrypted.loan.applicant;
+        this.comakerDetails = decrypted.loan.coMakers?.[0] || null;
+
         this.amortizationSchedule = decrypted.loan.loan_amortizations || [];
         
         // Sort amortization schedule by installment number

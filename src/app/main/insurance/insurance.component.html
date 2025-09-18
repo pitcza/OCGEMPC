@@ -6,7 +6,7 @@
   <div class="table">
     <div class="table-head">
        <button class="btn-download" (click)="downloadReport()">
-          Download Report Sheet
+          Download LLPI Report Sheet
         </button>
       <div class="filters">
         <select id="billingStatement" class="form-select" [(ngModel)]="selectedBillingStatement" (change)="onBillingStatementChange()">
@@ -15,22 +15,15 @@
             {{ bs }}
           </option>
         </select>
-              <div class="table-head">
-        <div class="search-wrapper">
-          <input
-            type="text"
-            placeholder="Search..."
-            [(ngModel)]="searchQuery"
-            (input)="applyFilters()"
-            aria-label="Search users"
-          />
-          <button aria-label="Search">
-            <i class="bx bx-search-alt"></i>
-          </button>
+        <div class="table-head">
+          <div class="search-wrapper">
+            <input type="text" placeholder="Search..." [(ngModel)]="searchQuery" (input)="applyFilters()" aria-label="Search users"/>
+            <button aria-label="Search">
+              <i class="bx bx-search-alt"></i>
+            </button>
+          </div>
         </div>
-    </div>
       </div>
-
     </div>
 
     <div class="table-content">
@@ -68,51 +61,51 @@
     </div>
   </div>
 
-    <!-- Pagination -->
-    <div class="pagination-container">
-      <div class="items-per-page">
-        <label for="itemsPerPage">Show:</label>
-        <select
-          id="itemsPerPage"
-          [(ngModel)]="itemsPerPage"
-          (change)="onItemsPerPageChange()"
-          aria-label="Select number of items per page"
-        >
-          <option *ngFor="let option of [5, 10, 23]" [value]="option">
-            {{ option }}
-          </option>
-        </select>
-        <span>entries</span>
-      </div>
-
-      <div class="pagination-info">
-        Showing {{ startIndex + 1 }} to {{ endIndex }} of {{ totalItems }}
-        entries
-      </div>
-
-      <div class="pagination">
-        <button
-          (click)="goToPreviousPage()"
-          [disabled]="currentPage === 1"
-          aria-label="Previous page"
-        >
-          <i class="bx bx-chevron-left"></i>
-        </button>
-
-        <button
-          *ngFor="let page of totalPages"
-          (click)="goToPage(page)"
-          [class.active]="page === currentPage">
-          {{ page }}
-        </button>
-
-        <button
-          (click)="goToNextPage()"
-          [disabled]="currentPage === totalPages.length"
-          aria-label="Next page"
-        >
-          <i class="bx bx-chevron-right"></i>
-        </button>
-      </div>
+  <!-- Pagination -->
+  <div class="pagination-container">
+    <div class="items-per-page">
+      <label for="itemsPerPage">Show:</label>
+      <select
+        id="itemsPerPage"
+        [(ngModel)]="itemsPerPage"
+        (change)="onItemsPerPageChange()"
+        aria-label="Select number of items per page"
+      >
+        <option *ngFor="let option of [5, 10, 23]" [value]="option">
+          {{ option }}
+        </option>
+      </select>
+      <span>entries</span>
     </div>
+
+    <div class="pagination-info">
+      Showing {{ startIndex + 1 }} to {{ endIndex }} of {{ totalItems }}
+      entries
+    </div>
+
+    <div class="pagination">
+      <button
+        (click)="goToPreviousPage()"
+        [disabled]="currentPage === 1"
+        aria-label="Previous page"
+      >
+        <i class="bx bx-chevron-left"></i>
+      </button>
+
+      <button
+        *ngFor="let page of totalPages"
+        (click)="goToPage(page)"
+        [class.active]="page === currentPage">
+        {{ page }}
+      </button>
+
+      <button
+        (click)="goToNextPage()"
+        [disabled]="currentPage === totalPages.length"
+        aria-label="Next page"
+      >
+        <i class="bx bx-chevron-right"></i>
+      </button>
+    </div>
+  </div>
 </div>

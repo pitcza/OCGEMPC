@@ -72,10 +72,24 @@
   &::-webkit-scrollbar-track {
     background-color: var(--bg-color);
   }
+  .upper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    span { font-weight: 600; }
+    h2 {
+      font-size: 16px;
+      font-weight: 400;
+      text-transform: uppercase;
+    }
+  }
+
   .export-wrapper {
     display: flex;
     justify-content: flex-start;
     margin-bottom: 15px;
+    gap: 10px;
 
     .export-button {
       background-color:  #508D4E;
@@ -92,6 +106,10 @@
         background-color: #2e7d32;
       }
     }
+  }
+
+  .loan-section {
+    margin-bottom: 40px;
   }
 }
 

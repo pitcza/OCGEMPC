@@ -46,7 +46,7 @@ export class DetailsComponent implements OnInit {
         );
         this.makerDetails = decrypted;
 
-        this.historyData = (decrypted.loan_applications || []).map(
+        this.historyData = (decrypted.applications || []).map(
           (loan: any) => ({
             id: loan.id,
             loanAmount: loan.applied_amount,

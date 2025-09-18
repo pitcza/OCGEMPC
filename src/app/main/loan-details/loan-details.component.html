@@ -94,35 +94,35 @@
             <div class="detail-row">
               <span class="detail-label">Name:</span>
               <span class="detail-value">
-                {{ comakerDetails.co_first_name }} 
-                {{ comakerDetails.co_middle_name }} 
-                {{ comakerDetails.co_last_name }}
-                {{ comakerDetails.co_ext_name || '' }}
+                {{ comakerDetails?.first_name }} 
+                {{ comakerDetails?.middle_name }} 
+                {{ comakerDetails?.last_name }}
+                {{ comakerDetails?.ext_name || '' }}
               </span>
             </div>
             <div class="detail-row">
               <span class="detail-label">Address:</span>
-              <span class="detail-value">{{ comakerDetails.co_address }}</span>
+              <span class="detail-value">{{ comakerDetails?.address }}</span>
             </div>
             <div class="detail-row">
               <span class="detail-label">Contact:</span>
-              <span class="detail-value">{{ comakerDetails.co_phone_num }}</span>
+              <span class="detail-value">{{ comakerDetails?.phone_num }}</span>
             </div>
             <div class="detail-row">
               <span class="detail-label">Birthdate:</span>
-              <span class="detail-value">{{ formatDate(comakerDetails.co_birthdate) }}</span>
+              <span class="detail-value">{{ formatDate(comakerDetails?.birthdate) }}</span>
             </div>
             <div class="detail-row">
               <span class="detail-label">Department:</span>
-              <span class="detail-value">{{ comakerDetails.co_dept }}</span>
+              <span class="detail-value">{{ comakerDetails?.dept }}</span>
             </div>
             <div class="detail-row">
               <span class="detail-label">Position:</span>
-              <span class="detail-value">{{ comakerDetails.co_position }}</span>
+              <span class="detail-value">{{ comakerDetails?.position }}</span>
             </div>
             <div class="detail-row">
               <span class="detail-label">Salary:</span>
-              <span class="detail-value">{{ comakerDetails.co_salary | currency:'PHP':'symbol':'1.2-2' }}</span>
+              <span class="detail-value">{{ comakerDetails?.salary | currency:'PHP':'symbol':'1.2-2' }}</span>
             </div>
           </div>
         </div>

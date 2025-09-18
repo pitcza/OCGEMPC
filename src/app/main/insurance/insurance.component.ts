@@ -30,6 +30,7 @@ interface InsuranceApi {
     middle_name?: string;
     last_name: string;
     ext_name?: string;
+    birthdate?: string;
     age: string | number;
   };
 }
@@ -71,6 +72,7 @@ export class InsuranceComponent implements OnInit {
   displayedColumns: string[] = [
     'certificateNo',
     'fullName',
+    'birthdate',
     'age',
     'status',
     'effectiveDate',
@@ -270,7 +272,7 @@ mapToTableRow(insurance: InsuranceApi): InsuranceTableRow {
         row.getCell(colMap['middleName']).value = maker?.middle_name ?? '';
 
         // Birthday
-        const bdate = toDate(maker && (maker as any).birthday);
+        const bdate = toDate(maker?.birthdate);
         if (bdate) {
           const c = row.getCell(colMap['birthday']);
           c.value = bdate;

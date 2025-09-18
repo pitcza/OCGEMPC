@@ -28,8 +28,8 @@ interface MakerUser {
   share_amount: GLfloat;
   saving_amount: GLfloat;
   createdAt?: string;
-  // Add other fields as needed
 }
+
 @Component({
   selector: 'app-makers',
   standalone: false,
@@ -309,7 +309,10 @@ export class MakersComponent implements OnInit {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true
     };
-    return new Date(dateString).toLocaleDateString('en-PH', options);
-  } 
+    return new Date(dateString).toLocaleString('en-PH', options);
+  }
 }

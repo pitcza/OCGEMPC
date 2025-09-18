@@ -18,14 +18,21 @@
     </header>
 
     <section class="modal-body">
-      <div class="export-wrapper">
-        <button class="export-button" (click)="exportExcel()">Export</button>
-        <!-- <button class="export-button" (click)="exportToCSV()">Export</button> -->
+      <div class="loan-section" *ngFor="let loan of loanAmortizations">
+      <div class="upper">
+        <div class="maker-name">
+          <h2><span>{{ lastName }}, {{ firstName }}</span>  •  {{ dept }}  •  {{ loan.loanType }} Loan</h2>
+        </div>
+        <div class="export-wrapper">
+          <button class="export-button" (click)="exportSchedule(loan)">Export Amortization Schedule</button>
+          <button class="export-button" (click)="exportLedger(loan)">Export Ledger</button>
+        </div>
       </div>
       <div class="table-wrapper">
         <table>
           <thead>
             <tr>
+              <th scope="col">No.</th>
               <th scope="col">Month</th>
               <th scope="col">Principal</th>
               <th scope="col">Principal Amortization</th>
@@ -38,8 +45,9 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let row of amortizationData">
-              <td>{{ row.month }}</td>
+            <tr *ngFor="let row of loan.amortizations; let i = index">
+              <td>{{ i + 1 }}</td>
+              <td>{{ formatMonth(row.due_date || row.month) }}</td>
               <td>{{ row.principal | number : "1.2-2" }}</td>
               <td>{{ row.principalAmortization | number : "1.2-2" }}</td>
               <td>{{ row.monthlyInterest | number : "1.2-2" }}</td>
@@ -48,11 +56,7 @@
               <td>{{ row.monthlyBalance | number : "1.2-2" }}</td>
               <td>{{ row.amountDeducted | number : "1.2-2" }}</td>
               <td>
-                <select
-                  [(ngModel)]="row.status"
-                  (change)="updateStatus(row, row.status)"
-                  class="status-select"
-                >
+                <select [(ngModel)]="row.status" (change)="updateStatus(row, row.status)" class="status-select">
                   <option value="unpaid">Unpaid</option>
                   <option value="partially paid">Partially Paid</option>
                   <option value="fully paid">Fully Paid</option>
@@ -61,6 +65,7 @@
             </tr>
           </tbody>
         </table>
+      </div>
       </div>
     </section>
   </div>

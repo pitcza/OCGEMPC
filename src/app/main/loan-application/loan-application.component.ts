@@ -194,8 +194,8 @@ export class LoanApplicationComponent implements OnInit {
               : [],
             status: this.mapStatus(loan.loan_status),
             declineReason: loan.decline_reason || '',
-            loan_history: loan.applicant?.loan_applications
-              ? loan.applicant.loan_applications.map((app: any) => ({
+            loan_history: loan.applicant?.applications
+              ? loan.applicant.applications.map((app: any) => ({
                   loanamount_history: app.applied_amount ? app.applied_amount.toString() : '0',
                   date: app.createdAt || '',
                   status: app.loan_status || '',

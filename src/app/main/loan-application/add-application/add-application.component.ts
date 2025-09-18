@@ -266,16 +266,37 @@ export class AddApplicationComponent implements OnInit {
           },
           error: (err) => {
             this.isSubmitting = false;
-            this.apiError =
-              err?.error?.message || 'Submission failed. Please try again.';
 
-            Swal.fire({
-              icon: 'error',
-              title: 'Submission Failed',
-              text: this.apiError ?? '',
-              confirmButtonColor: '#be1010',
-            });
-          },
+            let backendMessage = 'Submission failed. Please try again.';
+
+            try {
+              if (err?.error?.encrypted) {
+                const decryptedError = decryptResponse(
+                  err.error.encrypted,
+                  this.encryptionKey
+                );
+                backendMessage = decryptedError.message || decryptedError || backendMessage;
+              }
+            } catch (e) {
+              console.error('Failed to decrypt error:', e);
+            }
+
+            if (backendMessage.includes('already have an active')) {
+              Swal.fire({
+                icon: 'warning',
+                title: 'Duplicate Loan Detected',
+                text: backendMessage,
+                confirmButtonColor: '#be1010',
+              });
+            } else {
+              Swal.fire({
+                icon: 'error',
+                title: 'Submission Failed',
+                text: backendMessage,
+                confirmButtonColor: '#be1010',
+              });
+            }
+          }
         });
       }
     });

@@ -129,6 +129,7 @@
               padding: 12px;
               border-bottom: 1px solid #ddd;
               text-align: center;
+              text-transform: capitalize;
             }
 
             &:first-child td {
@@ -154,10 +155,6 @@
             font-size: 14px;
             cursor: pointer;
             transition: background-color 0.3s ease;
-
-            &.green-action {
-              background-color: #508D4E;
-            }
 
             &.red-action {
               background-color: #be1010;
@@ -282,8 +279,6 @@
   }
 }
 
-
-
 .action {
   padding: 6px 12px;
   margin: 0 4px;
@@ -293,7 +288,43 @@
   font-size: 14px;
   cursor: pointer;
   transition: background-color 0.3s ease;
-            &.green-action {
-              background-color: #508D4E;
-            }
-          }
+
+  &.green-action {
+    background-color: #508D4E;
+  }
+}
+
+td {
+  overflow: visible;
+  position: relative;
+}
+
+.tooltiptext {
+  font-family: 'Poppins';
+  position: absolute;
+  top: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  visibility: hidden;
+  color: white;
+  background: #333;
+  padding: 5px 10px;
+  font-size: 13px;
+  border-radius: 4px;
+  transition: opacity 0.3s, visibility 0.3s, top 0.3s;
+  z-index: 999;
+  box-shadow: var(--main-shadow);
+  white-space: nowrap;
+}
+
+td:hover .tooltiptext {
+  opacity: 0.8;
+  visibility: visible;
+  top: calc(100% + 5px);
+}
+
+.table-content,
+tbody {
+  overflow: visible !important;
+}

@@ -245,7 +245,7 @@ export class ScheduleComponent implements OnInit {
       ws.getCell('D10').value = coFullName ? coFullName.toUpperCase() : 'N/A';
       ws.getCell('D14').value = (loan.loanType ?? '').toUpperCase();
 
-      ws.getCell('K8').value = this.approvedLoanAmount;
+      ws.getCell('K8').value = loan.approvedLoanAmount;
       ws.getCell('K10').value = loan.grossPremium;
 
       const loanTerm = loan.amortizations.length;
@@ -321,7 +321,7 @@ export class ScheduleComponent implements OnInit {
       ws.getCell('D9').value = coFullName ? coFullName.toUpperCase() : 'N/A';
       ws.getCell('D13').value = (loan.loanType ?? '').toUpperCase();
 
-      ws.getCell('O7').value = this.approvedLoanAmount;
+      ws.getCell('O7').value = loan.approvedLoanAmount;
       ws.getCell('O8').value = loan.grossPremium;
 
       const loanTerm = loan.amortizations.length;

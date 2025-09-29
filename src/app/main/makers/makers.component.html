@@ -47,10 +47,10 @@
             </td>
           </tr>
           <tr *ngFor="let user of pagedUsers" (click)="viewDetails(user)">
-            <td>{{ formatDate(user.createdAt) }}</td>
-            <td>{{ getFullName(user) }}</td>
-            <td>{{ user.address }}</td>
-            <td>{{ user.phone_num }}</td>
+            <td>{{ formatDate(user.createdAt) }} <span class="tooltiptext"> Click to view Maker Information <br> and Loan History </span></td>
+            <td>{{ getFullName(user) }} <span class="tooltiptext"> Click to view Maker Information <br> and Loan History </span></td>
+            <td>{{ user.address }} <span class="tooltiptext"> Click to view Maker Information <br> and Loan History </span></td>
+            <td>{{ user.phone_num }} <span class="tooltiptext"> Click to view Maker Information <br> and Loan History </span></td>
             <td class="actions">
               <ng-container *ngIf="hasSchedule(user)">
                 <button

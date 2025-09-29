@@ -267,9 +267,9 @@ mapToTableRow(insurance: InsuranceApi): InsuranceTableRow {
 
         row.getCell(colMap['no']).value = idx + 1;
         row.getCell(colMap['certificateNo']).value = item.certificateNo ?? '';
-        row.getCell(colMap['surname']).value = maker?.last_name ?? '';
-        row.getCell(colMap['firstName']).value = maker?.first_name ?? '';
-        row.getCell(colMap['middleName']).value = maker?.middle_name ?? '';
+        row.getCell(colMap['surname']).value = maker?.last_name?.toUpperCase() ?? '';
+        row.getCell(colMap['firstName']).value = maker?.first_name?.toUpperCase() ?? '';
+        row.getCell(colMap['middleName']).value = maker?.middle_name?.toUpperCase() ?? '';
 
         // Birthday
         const bdate = toDate(maker?.birthdate);

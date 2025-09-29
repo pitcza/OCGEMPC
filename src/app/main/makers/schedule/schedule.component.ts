@@ -25,9 +25,12 @@ export class ScheduleComponent implements OnInit {
   coFirstName: string = '';
   coLastName: string = '';
 
+  grossPremium: number = 0;
+
   loanAmortizations: { 
     loanType: string; 
     approvedLoanAmount: number; 
+    grossPremium: number;
     amortizations: any[]; 
   }[] = [];
   
@@ -109,6 +112,7 @@ export class ScheduleComponent implements OnInit {
         .filter((loan: any) => loan.loan_status?.toLowerCase() === 'approved')
         .forEach((loan: any) => {
           this.approvedLoanAmount = this.extractLoanAmountFromLoanObj(loan);
+          this.grossPremium = this.toNumber(loan.loan_insurance?.gross_premium);
           const amortizations = (loan.loan_amortizations || []).map((item: any, idx: number) => {
             const principalAmortization = this.toNumber(item.principal);
             const monthlyInterest = this.toNumber(item.interest);
@@ -135,6 +139,7 @@ export class ScheduleComponent implements OnInit {
           this.loanAmortizations.push({
             loanType: loan.loan_type,
             approvedLoanAmount: this.extractLoanAmountFromLoanObj(loan),
+            grossPremium: this.toNumber(loan.loan_insurance?.gross_premium),
             amortizations,
           });
         });
@@ -217,7 +222,7 @@ export class ScheduleComponent implements OnInit {
     });
   }
 
-  async exportSchedule(loan: { loanType: string; approvedLoanAmount: number; amortizations: any[] }): Promise<void> {
+  async exportSchedule(loan: { loanType: string; approvedLoanAmount: number; amortizations: any[]; grossPremium: number; }): Promise<void> {
     if (!loan || !loan.amortizations || loan.amortizations.length === 0) {
       Swal.fire('No Data', 'There are no amortization records to export.', 'info');
       return;
@@ -241,6 +246,7 @@ export class ScheduleComponent implements OnInit {
       ws.getCell('D14').value = (loan.loanType ?? '').toUpperCase();
 
       ws.getCell('K8').value = this.approvedLoanAmount;
+      ws.getCell('K10').value = loan.grossPremium;
 
       const loanTerm = loan.amortizations.length;
       ws.getCell('E15').value = `${loanTerm}`;
@@ -292,7 +298,7 @@ export class ScheduleComponent implements OnInit {
     }
   }
 
-  async exportLedger(loan: { loanType: string; approvedLoanAmount: number; amortizations: any[] }): Promise<void> {
+  async exportLedger(loan: { loanType: string; approvedLoanAmount: number; amortizations: any[]; grossPremium: number; }): Promise<void> {
     if (!loan || !loan.amortizations || loan.amortizations.length === 0) {
       Swal.fire('No Data', 'There are no ledger records to export.', 'info');
       return;
@@ -316,6 +322,7 @@ export class ScheduleComponent implements OnInit {
       ws.getCell('D13').value = (loan.loanType ?? '').toUpperCase();
 
       ws.getCell('O7').value = this.approvedLoanAmount;
+      ws.getCell('O8').value = loan.grossPremium;
 
       const loanTerm = loan.amortizations.length;
       ws.getCell('E14').value = `${loanTerm}`;
